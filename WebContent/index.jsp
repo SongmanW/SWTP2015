@@ -1,48 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="java.util.*"%>
+<%@ page import="java.text.*"%>
 <%@ page import="issuetracking.*"%>
 
-<%!
-private static final DBManager DBManager1 = DBManager.getInstance();
-
-private static final String PAGE_INDEX="http://localhost:8080/ITS_1/index.jsp";
-private static final String PAGE_TICKETVIEW="http://localhost:8080/ITS_1/ticketview.jsp";
-private static final String PAGE_LOGOUT="http://localhost:8080/ITS_1/logout.jsp"; 
-
-private static final String ACTION_ADD = "add";
-private static final String FIELD_TITLE = "title";
-private static final String FIELD_DESCRIPTION = "description";
-
-public static String setString(String str, int max) {
-    String str2 = str.length() > max ? str.substring(0, max) : str;
-    return str2;
-};  
-%>
-<%
-	Cookie[] cookies=request.getCookies(); 
-
-//Wenn der Nutzer angemeldet ist wird er zu index.jsp geleitet
-if(!DBManager1.checkLogin(Cookies.getValue(cookies,"user"),Cookies.getValue(cookies,"password"))){	
-		response.sendRedirect("login.jsp");
-
-}
-
-//Map<Integer, Ticket> tickets = new HashMap<Integer, Ticket>();
-Map<String, String> errorMsgs = new HashMap<String, String>();
-DBManager1.loadTickets();
-Ticket t = new Ticket();
-t.setId(DBManager1.getNextId());
-t.setTitle(request.getParameter(FIELD_TITLE));
-t.setDescription(request.getParameter(FIELD_DESCRIPTION)); 
-if (ACTION_ADD.equals(request.getParameter("action"))) {
-	errorMsgs=t.validate(); 
-
-}
-if(errorMsgs.isEmpty()&&ACTION_ADD.equals(request.getParameter("action"))){
-	DBManager1.saveTicket(t);
-DBManager1.loadTickets();	
- 
+<% 
+DBManager DBManager1 = DBManager.getInstance();
+// Wenn der Nutzer nicht angemeldet ist wird er zu login.jsp geleitet
+if (!DBManager1.checkLogin((String) request.getSession()
+		.getAttribute("user"), (String) request.getSession()
+		.getAttribute("password"))) {
+	request.getRequestDispatcher("login.jsp").forward(request,
+			response);
 }
 %>
 
@@ -66,18 +37,37 @@ th {
 }
 </style>
 </head>
+
 <body>
 
-	User:<%=Cookies.getValue(cookies,"user")%>
-	<a href=<%=PAGE_LOGOUT %>> logout </a>
-	<h1>New Ticket</h1>  
-	<form action="index.jsp" method="post">
-		<input type="hidden" name="action" value="<%=ACTION_ADD%>" /> Title:<input
-			name="<%=FIELD_TITLE%>" type="text" />
-		<%=(errorMsgs.get(FIELD_TITLE) != null) ? errorMsgs.get(FIELD_TITLE) : ""%><br />
-		Description:<input name="<%=FIELD_DESCRIPTION%>" type="text" />
-		<%=(errorMsgs.get(FIELD_DESCRIPTION) != null) ? errorMsgs.get(FIELD_DESCRIPTION) : ""%><br />
-		<input type="submit" />
+	User:
+	<a
+		href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
+		${sessionScope.user}</a>
+	<a href="Controller?action=logout"> logout </a>
+
+	<h1>New Ticket</h1>
+	<form action="Controller" method="post">
+		<input type="hidden" name="action" value="addTicket" /> 
+		Title:<input name="title" type="text" /> ${errorMsgs.title}<br /> 
+		Description:<input name="description" type="text" /> ${errorMsgs.description}<br /> 
+		<input type="hidden" name="date" value="${date1}" /> 
+		<input type="hidden" name="author" value="${sessionScope.user}" /> 
+		Responsible user:<select name="responsible_user">
+		<c:forEach items="${users}" var="user1">
+			<option value="${user1.userid}">${user1.userid}</option>
+		</c:forEach>
+		</select> ${errorMsgs.responsible_user}<br /> Type:<select name="type">
+			<option value="bug">bug</option>
+			<option value="feature">feature</option>
+		</select> ${errorMsgs.type}<br /> State:<select name="state">
+			<option value="open">open</option>
+			<option value="closed">closed</option>
+			<option value="in progress">in progress</option>
+			<option value="test">test</option>
+		</select> ${errorMsgs.state}<br /> Estimated time:<input name="estimated_time"
+			type="text" />(only for features) ${errorMsgs.estimated_time}<br />
+		<input type="submit" value="add ticket">
 	</form>
 
 	<h1>Tickets</h1>
@@ -85,29 +75,73 @@ th {
 	<table>
 		<col width="30">
 		<col width="100">
+		<col width="30">
 		<col width="200">
 		<tr>
 			<th>ID</th>
 			<th>Title</th>
+			<th>Type</th>
 			<th>Description</th>
 		</tr>
+		<c:forEach items="${tickets}" var="ticket1">
+			<tr>
 
-<%
-List<Ticket> tickets=DBManager1.getTickets();
-for(Ticket t1 : tickets) {
-%>
-		<tr>
-			<td><%=t1.getId() %></td>
-			<td><a href=<%=PAGE_TICKETVIEW + "?ticket_id="+t1.getId() %>>
-					<%=t1.getTitle() %>
-			</a></td>
-			<td><%=setString(t1.getDescription(),25)%><%=(t1.getDescription().length()>25) ? "..." : ""%></td>
-		</tr>
-<%
-}
-%>
+				<td>${ticket1.id}</td>
+				<td><a
+					href=${"Controller?action=preparePage&pageName=ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+						${ticket1.title} </a></td>
+				<td>${ticket1.type}</td>
+				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
+				</td>
+			</tr>
+			<option value="${user1.userid}">${user1.userid}</option>
+		</c:forEach>
 	</table>
 
 
+
+	<h1>Session attributes:</h1>
+	<%
+		for (Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {     
+		    String attribName = (String) e.nextElement();
+		    Object attribValue = session.getAttribute(attribName);
+	%>
+	<BR><%=attribName%>
+	-
+	<%=attribValue%>
+
+	<%
+		}
+	%>
+	<%
+		Cookie[] cookies=request.getCookies();
+	%>
+
+	<h1>Request-Cookies</h1>
+	<%
+		for(Cookie c1 : cookies) {
+	%>
+	<%=c1.getName()%>=
+	<%=c1.getValue()%>
+	<br />
+
+	<%
+		};
+	%>
+	<h1>Parameters</h1>
+	<%
+		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ) {     
+		    String attribName = e.nextElement();
+		    String[] attribValues = request.getParameterValues(attribName);
+		    String allValues="";
+		    for(String s:attribValues){
+		    	allValues=allValues+" "+s;
+		    }
+	%>
+	<%=attribName%>=
+	<%=allValues%><br />
+	<%
+		};
+	%>
 </body>
 </html>
