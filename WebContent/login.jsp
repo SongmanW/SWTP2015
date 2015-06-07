@@ -38,46 +38,50 @@ if (DBManager1.checkLogin((String)request.getSession().getAttribute("user"),
 	
 	<a href="Controller?action=preparePage&pageName=users.jsp"> Edit Users (Adminpage)</a>
 
-	<h1>Session attributes:</h1>
-<%
-  for (Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {     
+<!-- development -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+
+<b>Session attributes:</b><br>
+<% 
+for (Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {     
     String attribName = (String) e.nextElement();
     Object attribValue = session.getAttribute(attribName);
-%>
-<BR><%= attribName %> - <%= attribValue %>
-
-<%
+	%>
+	<%= attribName %> = <%= attribValue %><br>
+	<%
 }
 %>
-<%
-Cookie[] cookies=request.getCookies(); 
-%>	
-	
-<h1>Request-Cookies</h1>
-	<%
-		for(Cookie c1 : cookies) {
-	%>
-	<%=c1.getName()%>=
-	<%=c1.getValue()%>
-	<br />
 
-	<%
-		};
+<b>Parameters:</b>  <br>
+<%
+for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ) {     
+	String attribName = e.nextElement();
+	String[] attribValues = request.getParameterValues(attribName);
+	String allValues="";
+	for(String s:attribValues){
+		allValues=allValues+" "+s;
+	}
 	%>
-	<h1>Parameters</h1>
+	<%=attribName%> = <%=allValues%><br />
 	<%
-		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ) {     
-		    String attribName = e.nextElement();
-		    String[] attribValues = request.getParameterValues(attribName);
-		    String allValues="";
-		    for(String s:attribValues){
-		    	allValues=allValues+" "+s;
-		    }
-	%>
-	<%=attribName%>= <%=allValues%><br />
-	<%
-		};
-	%>
+};
+%>
+		
+<b>Cookies (Request):</b><br>
+<%
+Cookie[] cookies=request.getCookies();
+if(cookies!=null)
+	for(Cookie c1 : cookies) {
+		%>
+		<%=c1.getName()%> = <%=c1.getValue()%><br />
+		<%
+	};
+%>
 
 </body>
 </html>

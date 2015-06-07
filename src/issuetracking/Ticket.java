@@ -89,7 +89,13 @@ abstract public class Ticket {
 		this.state = state;
 	}
 
+	public String getEstimated_time() {
+		return "";
+	}
 
+	public void setEstimated_time(String estimated_time) {
+	}
+	
 	public Map<String, String> validate() {
 		Map<String, String> errorMsg = new HashMap<String, String>();
 		if (title == null || title.trim().equals(""))
