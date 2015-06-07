@@ -20,6 +20,40 @@ DBManager DBManager1 = DBManager.getInstance();
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<script>
+window.onload = function(){
+	//prepare "Type"-inputfield and display
+	if('${t1.type}' == "feature"){
+		setchecked('type_selection',"feature");
+	    document.getElementById('estimated_time_display_span').style.display = "inline";
+	    document.getElementById('estimated_time_change_span').style.display = "inline"}
+	else  {document.getElementById('estimated_time_display_span').style.display = "none";
+	document.getElementById('estimated_time_change_span').style.display = "none";}
+	if('${t1.type}' == "bug"){
+		setchecked('type_selection',"bug");;
+	}
+	//prepare "Responsible User"-inputfield
+	setchecked('responsible_user_selection',"${t1.responsible_user}");
+	//prepare "State"-inputfield
+	setchecked('state_selection',"${t1.state}");
+};
+function showSpan(elem){
+   if(elem.value == "feature")
+      document.getElementById('estimated_time_change_span').style.display = "inline";
+   else document.getElementById('estimated_time_change_span').style.display = "none";
+}
+function setchecked(selectid,valuewert)
+{
+  optionen=document.getElementById(selectid).options;
+  for(i=0;i<optionen.length;i++)
+  {
+    if(optionen[i].value==valuewert)
+	{
+	  optionen[i].setAttribute('selected','selected');
+	}
+  }
+}
+</script>
 </head>
 <body>
 
@@ -33,47 +67,50 @@ DBManager DBManager1 = DBManager.getInstance();
 
 
 	<h1>The ticket:</h1>
-	ID=${t1.id}<br> 
-	Title=${t1.title}<br> 
-	Description=${t1.description}<br> 
-	Date=${t1.date}<br> 
-	Author=${t1.author}<br>
-	Responsible User=${t1.responsible_user}<br>
-	Type=${t1.type}<br> 
-	State=${t1.state}<br> 
-	Estimated_Time= (to do....)
+	ID:${t1.id}<br> 
+	Title:${t1.title}<br> 
+	Description:<br>
+	<pre style="display:inline">${t1.description}</pre><br> 
+	Date:${t1.date}<br> 
+	Author:${t1.author}<br>
+	Responsible User:${t1.responsible_user}<br>
+	Type:${t1.type}<br> 
+	State:${t1.state}<br>
+	<span id="estimated_time_display_span">
+	Estimated_Time:${t1.estimated_time}</span><br>
 
 
 	<h1>Change the ticket</h1>
 	<form action="Controller" method="post">
 		<input type="hidden" name="ticket_id" value="${t1.id}" /> 
 		<input type="hidden" name="action" value="changeTicket" /> 
-		Title:<input name="title" type="text" /> ${errorMsgs.title}<br /> 
-		Description:<input name="description" type="text" /> ${errorMsgs.description}<br /> 
+		Title:<input name="title" type="text" value="${t1.title}">${errorMsgs.title}<br> 
+		Description:<br>
+		<textarea name="description" cols="80" rows="7" wrap="off" style="overflow-y: auto; overflow-x: auto;font-size:70%">${t1.description}</textarea> ${errorMsgs.description}<br /> 
 		<input type="hidden" name="date" value="${date1}" /> ${errorMsgs.date} 
 		<input type="hidden" name="author" value="${sessionScope.user}" />
 		Responsible user:
-		<select name="responsible_user">
+		<select name="responsible_user" id="responsible_user_selection">
 			<c:forEach items="${users}" var="user1">
 				<option value="${user1.userid}">${user1.userid}</option>
 			</c:forEach>
 		</select> ${errorMsgs.responsible_user}<br /> 
 		Type:
-		<select name="type">
+		<select name="type" onchange="showSpan(this)" id="type_selection">
 			<option value="bug">bug</option>
 			<option value="feature">feature</option>
 		</select> ${errorMsgs.type}<br /> 
 		State:
-		<select name="state">
+		<select name="state"  id="state_selection">
 			<option value="open">open</option>
 			<option value="closed">closed</option>
 			<option value="in progress">in progress</option>
 			<option value="test">test</option>
 		</select><br> 
-		Estimated time:<input name="estimated_time" type="text" />(onlyfor features) ${errorMsgs.estimated_time}<br /> 
+		<span id="estimated_time_change_span" style="display: none;">
+		Estimated time:<input name="estimated_time" value="${t1.estimated_time}" type="text" />hours  ${errorMsgs.estimated_time}</span><br /> 
 		<input type="submit" value="change the ticket">
 	</form>
-
 
 	<form action="Controller" method="post">
 		<input type="hidden" name="ticket_id" value="${t1.id}" /> 
@@ -81,32 +118,50 @@ DBManager DBManager1 = DBManager.getInstance();
 		<input type="submit" value="delete the ticket">
 	</form>
 	
-	<h1>Request-Cookies</h1>
-	<%
-	Cookie[] cookies=request.getCookies(); 
-		for(Cookie c1 : cookies) {
-	%>
-	<%=c1.getName()%>=
-	<%=c1.getValue()%>
-	<br />
+<!-- development -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
 
-	<%
-		};
+<b>Session attributes:</b><br>
+<% 
+for (Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {     
+    String attribName = (String) e.nextElement();
+    Object attribValue = session.getAttribute(attribName);
 	%>
-	<h1>Parameters</h1>
+	<%= attribName %> = <%= attribValue %><br>
 	<%
-		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ) {     
-		    String attribName = e.nextElement();
-		    String[] attribValues = request.getParameterValues(attribName);
-		    String allValues="";
-		    for(String s:attribValues){
-		    	allValues=allValues+" "+s;
-		    }
+}
+%>
+
+<b>Parameters:</b>  <br>
+<%
+for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ) {     
+	String attribName = e.nextElement();
+	String[] attribValues = request.getParameterValues(attribName);
+	String allValues="";
+	for(String s:attribValues){
+		allValues=allValues+" "+s;
+	}
 	%>
-	<%=attribName%>=
-	<%=allValues%><br />
+	<%=attribName%> = <%=allValues%><br />
 	<%
-		};
-	%>
+};
+%>
+		
+<b>Cookies (Request):</b><br>
+<%
+Cookie[] cookies=request.getCookies();
+if(cookies!=null)
+	for(Cookie c1 : cookies) {
+		%>
+		<%=c1.getName()%> = <%=c1.getValue()%><br />
+		<%
+	};
+%>
+
 </body>
 </html>

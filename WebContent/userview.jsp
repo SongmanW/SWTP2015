@@ -31,31 +31,50 @@
 		<input type="submit" value="delete the user">
 	</form>
 
-<h1>Request-Cookies</h1>
-	<%
-	Cookie[] cookies=request.getCookies(); 
-		for(Cookie c1 : cookies) {
-	%>
-	<%=c1.getName()%>=
-	<%=c1.getValue()%>
-	<br />
+<!-- development -->
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
 
-	<%
-		};
+<b>Session attributes:</b><br>
+<% 
+for (Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {     
+    String attribName = (String) e.nextElement();
+    Object attribValue = session.getAttribute(attribName);
 	%>
-	<h1>Parameters</h1>
+	<%= attribName %> = <%= attribValue %><br>
 	<%
-		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ) {     
-		    String attribName = e.nextElement();
-		    String[] attribValues = request.getParameterValues(attribName);
-		    String allValues="";
-		    for(String s:attribValues){
-		    	allValues=allValues+" "+s;
-		    }
+}
+%>
+
+<b>Parameters:</b>  <br>
+<%
+for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ) {     
+	String attribName = e.nextElement();
+	String[] attribValues = request.getParameterValues(attribName);
+	String allValues="";
+	for(String s:attribValues){
+		allValues=allValues+" "+s;
+	}
 	%>
-	<%=attribName%>= <%=allValues%><br />
+	<%=attribName%> = <%=allValues%><br />
 	<%
-		};
-	%>
+};
+%>
+		
+<b>Cookies (Request):</b><br>
+<%
+Cookie[] cookies=request.getCookies();
+if(cookies!=null)
+	for(Cookie c1 : cookies) {
+		%>
+		<%=c1.getName()%> = <%=c1.getValue()%><br />
+		<%
+	};
+%>
+
 </body>
 </html>

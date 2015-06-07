@@ -18,22 +18,22 @@ public class TicketFeature extends Ticket {
 	public Map<String, String> validate() {
 		Map<String, String> errorMsg = new HashMap<String, String>();
 		if (title == null || title.trim().equals(""))
-			errorMsg.put("title", "Titel darf nicht leer sein!");
+			errorMsg.put("title", "This field should not be empty!");
 		if (description == null || description.trim().equals(""))
-			errorMsg.put("description", "Beschreibung darf nicht leer sein!");
+			errorMsg.put("description", "This field should not be empty!");
 		if (author == null || author.trim().equals(""))
-			errorMsg.put("author", "Author darf nicht leer sein!");
+			errorMsg.put("author", "This field should not be empty!");
 		if (!DBManager1.containsUser(author))
-			errorMsg.put("author", "Der Autor existiert nicht!");
+			errorMsg.put("author", "The user does not exist!");
 		if (responsible_user == null || responsible_user.trim().equals(""))
 			errorMsg.put("responsible_user",
-					"Responsible user darf nicht leer sein!");
+					"This field should not be empty!");
 		if (!DBManager1.containsUser(responsible_user))
-			errorMsg.put("responsible_user", "Der verantwortliche Nutzer existiert nicht!");
+			errorMsg.put("responsible_user", "The user does not exist!");
 		if (type == null || type.trim().equals(""))
-			errorMsg.put("type", "type darf nicht leer sein!");
+			errorMsg.put("type", "This field should not be empty!!");
 		if (state == null || state.trim().equals(""))
-			errorMsg.put("state", "state darf nicht leer sein!");
+			errorMsg.put("state", "This field should not be empty!!");
 		if (estimated_time == null || estimated_time.trim().equals(""))
 			errorMsg.put("estimated_time",
 					"estimated_time darf nicht leer sein!");
