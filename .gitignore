@@ -2,6 +2,11 @@
 build
 !.gitignore
 
+
+
+# But not these files
+!.gitignore
+=======
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -45,3 +50,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+>>>>>>> 8ee43c52c1cc552459106708bf49c61c0b37946b
