@@ -80,7 +80,7 @@ th {
 		<input type="submit" value="add ticket">
 	</form>
 
-	<h1>Tickets</h1>
+	<h1>Open Tickets</h1>
 
 	<table>
 		<col width="30">
@@ -93,7 +93,7 @@ th {
 			<th>Type</th>
 			<th>Description</th>
 		</tr>
-		<c:forEach items="${tickets}" var="ticket1">
+		<c:forEach items="${tickets_open}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
@@ -105,7 +105,87 @@ th {
 			</tr>
 		</c:forEach>
 	</table>
-
+	<br>
+	
+	<h1>Tickets In Progress</h1>
+	
+	<table>
+		<col width="30">
+		<col width="100">
+		<col width="30">
+		<col width="200">
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+		<c:forEach items="${tickets_inprogress}" var="ticket1">
+			<tr>
+				<td>${ticket1.id}</td>
+				<td><a
+					href=${"Controller?action=preparePage&pageName=ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+						${ticket1.title} </a></td>
+				<td>${ticket1.type}</td>
+				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+	<br>
+	
+	<h1>Tickets In Testing</h1>
+	
+	<table>
+		<col width="30">
+		<col width="100">
+		<col width="30">
+		<col width="200">
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+		<c:forEach items="${tickets_test}" var="ticket1">
+			<tr>
+				<td>${ticket1.id}</td>
+				<td><a
+					href=${"Controller?action=preparePage&pageName=ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+						${ticket1.title} </a></td>
+				<td>${ticket1.type}</td>
+				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+	<br>
+	
+	<h1>Closed Tickets</h1>
+	
+	<table>
+		<col width="30">
+		<col width="100">
+		<col width="30">
+		<col width="200">
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+		<c:forEach items="${tickets_closed}" var="ticket1">
+			<tr>
+				<td>${ticket1.id}</td>
+				<td><a
+					href=${"Controller?action=preparePage&pageName=ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+						${ticket1.title} </a></td>
+				<td>${ticket1.type}</td>
+				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
 
 
 <!-- development -->

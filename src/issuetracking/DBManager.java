@@ -102,6 +102,17 @@ public class DBManager {
 		loadTickets();
 		return ticketsMap.get(i);
 	}
+	
+	public List<Ticket> getTicketsByState(String state) {
+		loadTickets();
+		List<Ticket> tickets = new LinkedList<Ticket>();
+		for(Ticket t : ticketsMap.values()){
+			if(t.getState().equals(state)){
+				tickets.add(t);
+			}
+		}
+		return tickets;
+	}
 
 	public void saveTicket(Ticket t1) {
 		try {

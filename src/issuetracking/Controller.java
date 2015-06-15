@@ -69,8 +69,11 @@ public class Controller extends HttpServlet {
 
 		if (pageName.endsWith("index.jsp")) {
 			request.setAttribute("users", DBManager1.getUsers());
-			request.setAttribute("tickets", DBManager1.getTickets());
-
+			request.setAttribute("tickets_open", DBManager1.getTicketsByState("open"));
+			request.setAttribute("tickets_closed", DBManager1.getTicketsByState("closed"));
+			request.setAttribute("tickets_inprogress", DBManager1.getTicketsByState("in_progress"));
+			request.setAttribute("tickets_test", DBManager1.getTicketsByState("test"));
+			
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 			String date1 = ft.format(dNow);
