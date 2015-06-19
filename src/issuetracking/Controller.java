@@ -79,6 +79,8 @@ public class Controller extends HttpServlet {
 			String date1 = ft.format(dNow);
 			request.setAttribute("date1", date1);
 
+			DBManager1.loadComponents();
+			request.setAttribute("compids", DBManager1.getComponents());
 		}
 
 		if (pageName.endsWith("ticketview.jsp")) {
@@ -93,6 +95,11 @@ public class Controller extends HttpServlet {
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 			String date1 = ft.format(dNow);
 			request.setAttribute("date1", date1);
+			
+			DBManager1.loadComponents();
+			request.setAttribute("ticket_compids", DBManager1.getComponentsByTicket(
+					Integer.parseInt(request.getParameter("ticket_id"))));
+			request.setAttribute("compids", DBManager1.getComponents());
 		}
 
 		if(pageName.endsWith("users.jsp")){
@@ -110,6 +117,16 @@ public class Controller extends HttpServlet {
 		}
 		if (pageName.endsWith("login.jsp")) {
 
+		}
+		
+		if(pageName.endsWith("components.jsp")){
+			request.setAttribute("users", DBManager1.getUsers());
+			request.setAttribute("components", DBManager1.getComponents());
+		}
+		
+		if(pageName.endsWith("componentview.jsp")){
+			Component c1 = DBManager1.getComponentById(request.getParameter("compid"));
+			request.setAttribute("c1", c1);
 		}
 		
 		

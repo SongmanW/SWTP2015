@@ -14,6 +14,7 @@ public class DeleteTicketAction implements Action {
 
 		Ticket t1 = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
 		DBManager1.deleteTicket(t1);
+		DBManager1.removeTCRelation(t1);
 		return "index.jsp";
 	}
 }

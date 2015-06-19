@@ -1,11 +1,16 @@
 package action;
 
+import issuetracking.Component;
 import issuetracking.DBManager;
 import issuetracking.TicketBug;
 import issuetracking.TicketFeature;
 
-import java.text.*;
-import java.util.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +21,7 @@ public class AddTicketAction implements Action{
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
+		Component tempcomp;
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		if (request.getParameter("type").equals("bug")) {
 			TicketBug tbug = new TicketBug();
@@ -39,6 +45,10 @@ public class AddTicketAction implements Action{
 			
 			if (errorMsgs.isEmpty()) {
 				DBManager1.saveTicket(tbug);
+				for(String compid: request.getParameterValues("compid")){
+					tempcomp = DBManager1.getComponentById(compid);
+					DBManager1.saveTCRelation(tbug, tempcomp);
+				}
 			}
 		} else
 		if (request.getParameter("type").equals("feature")) {
@@ -66,6 +76,10 @@ public class AddTicketAction implements Action{
 			errorMsgs = tfeature.validate();
 			if (errorMsgs.isEmpty()) {
 				DBManager1.saveTicket(tfeature);
+				for(String compid: request.getParameterValues("compid")){
+					tempcomp = DBManager1.getComponentById(compid);
+					DBManager1.saveTCRelation(tfeature, tempcomp);
+				}
 			}
 
 		}else{
