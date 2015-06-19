@@ -78,7 +78,10 @@ function setchecked(selectid,valuewert)
 	State:${t1.state}<br>
 	<span id="estimated_time_display_span">
 	Estimated_Time:${t1.estimated_time}</span><br>
-
+	Components: <br>
+	<c:forEach items="${ticket_compids}" var="compid1">
+			${compid1.compid}<br>
+	</c:forEach>
 
 	<h1>Change the ticket</h1>
 	<form action="Controller" method="post">
@@ -109,6 +112,11 @@ function setchecked(selectid,valuewert)
 		</select><br> 
 		<span id="estimated_time_change_span" style="display: none;">
 		Estimated time:<input name="estimated_time" value="${t1.estimated_time}" type="text" />hours  ${errorMsgs.estimated_time}</span><br /> 
+		Components <a href="Controller?action=preparePage&pageName=components.jsp">(addComponents)</a>:<br>
+		<c:forEach items="${compids}" var="compid1">
+			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
+			<br>
+		</c:forEach>
 		<input type="submit" value="change the ticket">
 	</form>
 

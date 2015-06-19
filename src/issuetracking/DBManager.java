@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class DBManager {
 
@@ -15,6 +19,9 @@ public class DBManager {
 
 	private static Map<Integer, Ticket> ticketsMap = new HashMap<Integer, Ticket>();
 	private static Map<String, User> usersMap = new HashMap<String, User>();
+	private static Map<String, Component> componentsMap = new HashMap<String, Component>();
+	private static Map<String, List<Integer>> tcRelationMap = new HashMap<String, List<Integer>>();
+	
 
 	private DBManager() {
 	}
@@ -389,5 +396,242 @@ public class DBManager {
 		return false;
 	};
 
+	public void loadComponents(){
+		componentsMap.clear();
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet myRs = myStmt.executeQuery("select * from components order by compid");
+			// 4. Process results
+			while (myRs.next()) {
+				Component c1 = new Component();
+				c1.setCompid(myRs.getString("compid"));
+				c1.setDescription(myRs.getString("description"));
+				componentsMap.put(c1.getCompid(), c1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public List<Component> getComponents(){
+		loadComponents();
+		List<Component> components = new LinkedList<Component>(componentsMap.values());
+		return components;
+	}
+	
+	public Component getComponentById(String compid){
+		loadComponents();
+		return componentsMap.get(compid);
+	}
+	
+	public void saveComponent(String compid, String description){
+		try {
+			// Einfügen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "insert into components " + " (compid, description)"
+					+ " values('" + compid + "', '" + description + "');";
+
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadComponents();
+	}
+	
+	public void updateComponent(Component c){
+		try {
+			// Updaten
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "update components " + "set description='" + c.getDescription()
+					+ "' " + "where compid='" + c.getCompid() + "';";
+
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadComponents();
+	}
+	
+	public void deleteComponent(Component c){
+		try {
+			// Löschen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from components " + "where compid = '"
+					+ c.getCompid() + "' ;";
+
+			myStmt.executeUpdate(sql);		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadComponents();
+		
+		removeTCRelation(c);
+	}
+	
+	public void loadTCRelation(){
+		tcRelationMap.clear();
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet myRs = myStmt.executeQuery("select * from tcrelation order by tid");
+			// 4. Process results
+			String compidinput;
+			int tidinput;
+			while (myRs.next()) {
+				compidinput = myRs.getString("compid");
+				tidinput = myRs.getInt("tid");
+				if(!tcRelationMap.containsKey(compidinput)){
+					tcRelationMap.put(compidinput, new LinkedList<Integer>());
+				}
+				tcRelationMap.get(compidinput).add(tidinput);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Component> getComponentsByTicket(int tid){
+		loadTCRelation();
+		List<Component> list = new LinkedList<Component>();
+		for(String cid : tcRelationMap.keySet()){
+			if(tcRelationMap.get(cid).contains(tid)) list.add(getComponentById(cid));
+		}
+		return list;
+	}
+	
+	public List<Ticket> getTicketsByComponent(String compid){
+		loadTCRelation();
+		List<Ticket> list = new LinkedList<Ticket>();
+		for(Integer tid : tcRelationMap.get(compid)){
+			list.add(getTicketById(tid));
+		}
+		return list;
+	}
+	
+	
+	
+	public void saveTCRelation(Ticket t1, Component c){
+		try {
+			// Einfügen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "insert into tcrelation " + " (tid, compid)"
+					+ " values('" + t1.getId() + "', '" + c.getCompid() + "');";
+
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadTCRelation();
+	}
+	
+	public void updateTCRelation(Ticket t1, List<Component> clist){
+		removeTCRelation(t1);
+		for(Component c : clist){
+			saveTCRelation(t1, c);
+		}
+	}
+	
+	
+	
+	public void removeTCRelation(Ticket t1, Component c){
+		try {
+			// Löschen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from tcrelation " + "where compid = '"
+					+ c.getCompid() + "' and tid = '" + t1.getId() + "' ;";
+
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadTCRelation();
+		
+	}
+	
+	public void removeTCRelation(Component c){
+		try {
+			// Löschen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from tcrelation " + "where compid = '"
+					+ c.getCompid() + "';";
+
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadTCRelation();
+	}
+	
+	public void removeTCRelation(Ticket t1){
+		try {
+			// Löschen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from tcrelation " + "where tid = '"
+					+ t1.getId() + "';";
+
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadTCRelation();
+				
+	}
 
 }

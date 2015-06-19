@@ -29,6 +29,12 @@ public interface Action {
 			return new ChangeUserAction();
 		case "preparePage":
 			return new PreparePageAction();
+		case "addComponent":
+			return new AddComponentAction();
+		case "changeComponent":
+			return new ChangeComponentAction();
+		case "deleteComponent":
+			return new DeleteComponentAction();
 		default:
 			throw new IllegalArgumentException("Invalid Action: " + actionName);
 		}

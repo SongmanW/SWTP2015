@@ -49,7 +49,7 @@ th {
 
 	User:
 	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
-		${sessionScope.user}</a>
+		${sessionScope.user}</a> &nbsp;
 	<a href="Controller?action=logout"> logout </a>
 
 	<h1>New Ticket</h1>
@@ -77,6 +77,11 @@ th {
 		<span id="estimated_time_change_span" style="display: none;">
 			Estimated time:<input name="estimated_time" type="text" />${errorMsgs.estimated_time}
 		</span><br />
+		Components <a href="Controller?action=preparePage&pageName=components.jsp">(addComponents)</a>:<br>
+		<c:forEach items="${compids}" var="compid1">
+			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
+			<br>
+		</c:forEach>
 		<input type="submit" value="add ticket">
 	</form>
 
