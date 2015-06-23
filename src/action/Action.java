@@ -35,6 +35,12 @@ public interface Action {
 			return new ChangeComponentAction();
 		case "deleteComponent":
 			return new DeleteComponentAction();
+		case "addComment":
+			return new AddCommentAction();
+		case "deleteComment":
+			return new DeleteCommentAction();
+		case "changeComment":
+			return new ChangeCommentAction();
 		default:
 			throw new IllegalArgumentException("Invalid Action: " + actionName);
 		}

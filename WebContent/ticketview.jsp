@@ -58,8 +58,7 @@ function setchecked(selectid,valuewert)
 <body>
 
 	User:
-	<a
-		href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
+	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
 		${sessionScope.user}</a> &nbsp;
 	<a href="Controller?action=logout"> logout </a> &nbsp;
 	<a href="Controller?action=preparePage&pageName=index.jsp"> back to
@@ -82,6 +81,23 @@ function setchecked(selectid,valuewert)
 	<c:forEach items="${ticket_compids}" var="compid1">
 			${compid1.compid}<br>
 	</c:forEach>
+
+	<h1>Comments:</h1>
+	<c:forEach items="${ticket_comments}" var="comment1">
+	        comment from:${comment1.author}  &nbsp;&nbsp;&nbsp; posted at:${comment1.dateAsString} &nbsp;&nbsp;&nbsp;${comment1.author == sessionScope.user ? '<a href="Controller?action=preparePage&pageName=commentview.jsp&comment_id='.concat(comment1.cid).concat('"> bearbeiten </a>') : ''}<br>
+			${comment1.message} <br> <br>
+	</c:forEach>
+
+	<h1>New Comment</h1>
+		<form action="Controller" method="post">
+		<input type="hidden" name="action" value="addComment" /> 
+		<input type="hidden" name="ticket_id" value="${t1.id}" />
+		<input type="hidden" name="date" value="${date2}" /> 
+		<input type="hidden" name="author" value="${sessionScope.user}" /> 
+		Message:<br><textarea name="message" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.message}<br /> 
+		<input type="submit" value="add comment">
+	</form>
+
 
 	<h1>Change the ticket</h1>
 	<form action="Controller" method="post">

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,7 +22,7 @@ public class DBManager {
 	private static Map<String, User> usersMap = new HashMap<String, User>();
 	private static Map<String, Component> componentsMap = new HashMap<String, Component>();
 	private static Map<String, List<Integer>> tcRelationMap = new HashMap<String, List<Integer>>();
-	
+	private static Map<Integer, Comment> commentsMap = new HashMap<Integer, Comment>();
 
 	private DBManager() {
 	}
@@ -33,10 +34,21 @@ public class DBManager {
 		return DBManager.DBManager1;
 	}
 
-	public int getNextId() {
+	public int getNextTicketId() {
+		loadTickets();
 		int i = 1;
 		for (; i < 10000; i++) {
 			if (!ticketsMap.keySet().contains(i))
+				break;
+		}
+		return i;
+	}
+	
+	public int getNextCommentId() {
+		loadComments();
+		int i = 1;
+		for (; i < 10000; i++) {
+			if (!commentsMap.keySet().contains(i))
 				break;
 		}
 		return i;
@@ -634,4 +646,115 @@ public class DBManager {
 				
 	}
 
+
+
+
+
+
+
+public void loadComments(){
+	commentsMap.clear();
+	try {
+		// Holen
+		// 1. get conn
+		Connection myConn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/issuetracking_db",
+				"glassfishadmin", "chucknorris42");
+		// 2. create statement
+		Statement myStmt = myConn.createStatement();
+		// 3. execute sql query
+		ResultSet myRs = myStmt.executeQuery("select * from comments order by cid");
+		// 4. Process results
+		while (myRs.next()) {
+	
+			java.util.Date date= null;
+			Timestamp timestamp = myRs.getTimestamp("creation_date");
+			if (timestamp != null)
+			    date = new java.util.Date(timestamp.getTime());
+			
+			Comment c1 = new Comment(myRs.getInt("cid"), myRs.getInt("tid"), date, myRs.getString("author"), myRs.getString("message"));
+			commentsMap.put(c1.getCid(), c1);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+		}
+
+	}
+
+public void saveComment(Comment comment1){
+	try {
+		// Einfügen
+		// 1. get conn
+		Connection myConn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/issuetracking_db",
+				"glassfishadmin", "chucknorris42");
+		// 2. create statement
+		Statement myStmt = myConn.createStatement();
+		// 3. Execute SQL query
+		
+		String sql = "insert into comments " + " (cid ,tid, creation_date, author, message)"
+				+ " values(" + comment1.cid + ", " + comment1.tid + ", '" + comment1.getDateAsStringForDatabase() + "', '" + comment1.getAuthor() + "', '" + comment1.message + "');";
+
+		myStmt.executeUpdate(sql);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	loadComments();
+}
+
+public void deleteComment(Comment c){
+	try {
+		// Löschen
+		// 1. get conn
+		Connection myConn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/issuetracking_db",
+				"glassfishadmin", "chucknorris42");
+		// 2. create statement
+		Statement myStmt = myConn.createStatement();
+		// 3. Execute SQL query
+		String sql = "delete from comments " + "where cid = "
+				+ c.getCid() + " ;";
+
+		myStmt.executeUpdate(sql);		
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	loadComments();
+}
+
+public void updateComment(Comment c){
+	try {
+		// Updaten
+		// 1. get conn
+		Connection myConn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/issuetracking_db",
+				"glassfishadmin", "chucknorris42");
+		// 2. create statement
+		Statement myStmt = myConn.createStatement();
+		// 3. Execute SQL query
+		String sql = "update comments " + "set message='" + c.getMessage()
+				+ "' " + "where cid='" + c.getCid() + "';";
+
+		myStmt.executeUpdate(sql);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	loadComments();
+}
+
+	public List<Comment> getCommentsByTicket(int tid) {
+		loadComments();
+		List<Comment> list = new LinkedList<Comment>();
+		for (int cidkey : commentsMap.keySet()) {
+			if (commentsMap.get(cidkey).getTid() == tid){
+				list.add(commentsMap.get(cidkey));
+				}
+		}
+		return list;
+	}
+	
+	public Comment getCommentById(int comment_id){
+		loadComponents();
+		return commentsMap.get(comment_id);
+	}
 }
