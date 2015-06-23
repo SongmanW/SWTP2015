@@ -84,8 +84,7 @@ public class Controller extends HttpServlet {
 		}
 
 		if (pageName.endsWith("ticketview.jsp")) {
-			Ticket t2 = DBManager1.getTicketById(Integer.parseInt(request
-					.getParameter("ticket_id")));
+			Ticket t2 = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
 			request.setAttribute("t1", t2);
 
 			DBManager1.loadUsers();
@@ -100,6 +99,20 @@ public class Controller extends HttpServlet {
 			request.setAttribute("ticket_compids", DBManager1.getComponentsByTicket(
 					Integer.parseInt(request.getParameter("ticket_id"))));
 			request.setAttribute("compids", DBManager1.getComponents());
+			
+			DBManager1.loadComments();
+			request.setAttribute("ticket_comments", DBManager1.getCommentsByTicket(
+					Integer.parseInt(request.getParameter("ticket_id"))));
+
+			SimpleDateFormat ft2 = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
+			String date2 = ft2.format(dNow);
+			request.setAttribute("date2", date2);
+			
+			
+			for(Comment com1 : DBManager1.getCommentsByTicket(
+					Integer.parseInt(request.getParameter("ticket_id")))) {
+			}
+			
 		}
 
 		if(pageName.endsWith("users.jsp")){
@@ -128,7 +141,11 @@ public class Controller extends HttpServlet {
 			Component c1 = DBManager1.getComponentById(request.getParameter("compid"));
 			request.setAttribute("c1", c1);
 		}
-		
+		if(pageName.endsWith("commentview.jsp")){
+			Comment comment1 = DBManager1.getCommentById(Integer.parseInt(request.getParameter("comment_id"))); 
+			request.setAttribute("c1", comment1);
+		}
+	
 		
 	}
 
