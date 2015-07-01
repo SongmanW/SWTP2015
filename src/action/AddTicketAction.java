@@ -25,7 +25,7 @@ public class AddTicketAction implements Action{
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		if (request.getParameter("type").equals("bug")) {
 			TicketBug tbug = new TicketBug();
-			tbug.setId(DBManager1.getNextId());
+			tbug.setId(DBManager1.getNextTicketId());
 			tbug.setTitle(request.getParameter("title"));
 			tbug.setDescription(request.getParameter("description"));
 			String dateString = request.getParameter("date");
@@ -54,7 +54,7 @@ public class AddTicketAction implements Action{
 		if (request.getParameter("type").equals("feature")) {
 			TicketFeature tfeature = new TicketFeature();
 
-			tfeature.setId(DBManager1.getNextId());
+			tfeature.setId(DBManager1.getNextTicketId());
 			tfeature.setTitle(request.getParameter("title"));
 			tfeature.setDescription(request.getParameter("description"));
 			String dateString = request.getParameter("date");
