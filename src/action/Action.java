@@ -41,6 +41,8 @@ public interface Action {
 			return new DeleteCommentAction();
 		case "changeComment":
 			return new ChangeCommentAction();
+		case "addSprint":
+			return new AddSprintAction();
 		default:
 			throw new IllegalArgumentException("Invalid Action: " + actionName);
 		}

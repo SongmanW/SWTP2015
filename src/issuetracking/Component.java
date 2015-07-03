@@ -7,8 +7,13 @@ public class Component {
 	protected String compid;
 	protected String description;
 	
-	public Component() {
+	public Component(String compid, String description) {
+		this.compid = compid;
+		this.description = description;
 	}
+	
+//	public Component() {
+//	}
 
 	public String getCompid() {
 		return compid;

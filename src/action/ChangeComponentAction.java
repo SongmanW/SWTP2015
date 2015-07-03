@@ -20,10 +20,7 @@ public class ChangeComponentAction implements Action {
 		Component comp1 = DBManager1.getComponentById(request.getParameter("comp_id"));
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		
-		Component comp2 = new Component();
-		comp2.setCompid(comp1.getCompid());
-		comp2.setDescription(request.getParameter("description"));
-		
+		Component comp2 = new Component(comp1.getCompid(),request.getParameter("description"));
 		errorMsgs = comp2.validate();
 		if(errorMsgs.isEmpty()){
 			DBManager1.updateComponent(comp2);
