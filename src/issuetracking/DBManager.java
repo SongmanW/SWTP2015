@@ -23,6 +23,7 @@ public class DBManager {
 	private static Map<String, Component> componentsMap = new HashMap<String, Component>();
 	private static Map<String, List<Integer>> tcRelationMap = new HashMap<String, List<Integer>>();
 	private static Map<Integer, Comment> commentsMap = new HashMap<Integer, Comment>();
+	private static Map<Integer, Sprint> sprintsMap = new HashMap<Integer, Sprint>(); 
 
 	private DBManager() {
 	}
@@ -39,6 +40,16 @@ public class DBManager {
 		int i = 1;
 		for (; i < 10000; i++) {
 			if (!ticketsMap.keySet().contains(i))
+				break;
+		}
+		return i;
+	}
+	
+	public int getNextSprintId() {
+		loadSprints();
+		int i = 1;
+		for (; i < 10000; i++) {
+			if (!sprintsMap.keySet().contains(i))
 				break;
 		}
 		return i;
@@ -77,34 +88,22 @@ public class DBManager {
 							);
 			// 4. Process results
 			while (resultBugs.next()) {
-				TicketBug t1 = new TicketBug();
-				t1.setId(resultBugs.getInt("id"));
-				t1.setTitle(resultBugs.getString("title"));
-				t1.setDescription(resultBugs.getString("description"));
-				Date aDate = resultBugs.getDate("creation_date");
-				t1.setDate(aDate);
-				t1.setAuthor(resultBugs.getString("author"));
-				t1.setResponsible_user(resultBugs.getString("responsible_user"));
-				t1.setType(resultBugs.getString("type"));
-				t1.setState(resultBugs.getString("state"));
+				TicketBug t1 = new TicketBug(resultBugs.getInt("id"), resultBugs.getInt("sprintid"),resultBugs.getString("title")
+						, resultBugs.getString("description"),  resultBugs.getDate("creation_date"), resultBugs.getString("author")
+						, resultBugs.getString("responsible_user"),resultBugs.getString("type") ,resultBugs.getString("state")
+						);
 				ticketsMap.put(t1.getId(), t1);
 			}
 			while (resultFeatures.next()) {
-				TicketFeature t1 = new TicketFeature();
-				t1.setId(resultFeatures.getInt("id"));
-				t1.setTitle(resultFeatures.getString("title"));
-				t1.setDescription(resultFeatures.getString("description"));
-				Date aDate = resultFeatures.getDate("creation_date");
-				t1.setDate(aDate);
-				t1.setAuthor(resultFeatures.getString("author"));
-				t1.setResponsible_user(resultFeatures
-						.getString("responsible_user"));
-				t1.setType(resultFeatures.getString("type"));
-				t1.setState(resultFeatures.getString("state"));
-
-				t1.setEstimated_time(resultFeatures.getString("estimated_time"));
+			
+			
+				TicketFeature t1 = new TicketFeature(resultFeatures.getInt("id"), resultFeatures.getInt("sprintid"),resultFeatures.getString("title")
+						, resultFeatures.getString("description"),  resultFeatures.getDate("creation_date"), resultFeatures.getString("author")
+						, resultFeatures.getString("responsible_user"),resultFeatures.getString("type") ,resultFeatures.getString("state")
+						, resultFeatures.getString("estimated_time")
+						);
 				ticketsMap.put(t1.getId(), t1);
-
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,15 +121,39 @@ public class DBManager {
 		return ticketsMap.get(i);
 	}
 	
-	public List<Ticket> getTicketsByState(String state) {
+	public List<Ticket> getTicketsByState(String state, int sprintid) {
 		loadTickets();
-		List<Ticket> tickets = new LinkedList<Ticket>();
+		List<Ticket> ticketsBySprintid = new LinkedList<Ticket>();
+		List<Ticket> ticketsByBoth = new LinkedList<Ticket>();
+		
+		//when sprintid is -2, return tickets of all sprints (for alltickets.jsp)
+		if(sprintid!=-2){
 		for(Ticket t : ticketsMap.values()){
-			if(t.getState().equals(state)){
-				tickets.add(t);
+			if(t.getSprintid()==sprintid){
+				ticketsBySprintid.add(t);
 			}
+		}}
+		else 
+		for(Ticket t : ticketsMap.values()){
+			ticketsBySprintid.add(t);
 		}
-		return tickets;
+		
+		
+		
+		if(!state.equals("beliebig")){
+		for(Ticket t : ticketsBySprintid){
+			if(t.getState().equals(state)){
+				ticketsByBoth.add(t);
+			}}
+		}
+		else 
+			for(Ticket t : ticketsBySprintid){
+				ticketsByBoth.add(t);
+			}
+		
+		
+		
+		return ticketsByBoth;
 	}
 
 	public void saveTicket(Ticket t1) {
@@ -146,8 +169,9 @@ public class DBManager {
 			
 			
 			String sql = "insert into tickets "
-					+ " (id, title, description, creation_date, author, responsible_user, type, state)"
+					+ " (id, sprintid, title, description, creation_date, author, responsible_user, type, state)"
 					+ " values("+ t1.getId()+ ", "
+					+ "'"+ t1.getSprintid()+ "', "
 					+ "'"+ t1.getTitle()+ "', "
 					+ "'"+ t1.getDescription()+ "' ,"
 					+ "'"+ t1.getDateAsString()+ "', "
@@ -277,9 +301,8 @@ public class DBManager {
 			ResultSet myRs = myStmt.executeQuery("select * from users order by userid");
 			// 4. Process results
 			while (myRs.next()) {
-				User u1 = new User();
-				u1.setUserid(myRs.getString("userid"));
-				u1.setPassword(myRs.getString("password"));
+				User u1 = new User(myRs.getString("userid"),myRs.getString("password"));
+				
 				usersMap.put(u1.getUserid(), u1);
 			}
 		} catch (Exception e) {
@@ -422,9 +445,8 @@ public class DBManager {
 			ResultSet myRs = myStmt.executeQuery("select * from components order by compid");
 			// 4. Process results
 			while (myRs.next()) {
-				Component c1 = new Component();
-				c1.setCompid(myRs.getString("compid"));
-				c1.setDescription(myRs.getString("description"));
+				Component c1 = new Component(myRs.getString("compid"), myRs.getString("description"));
+				
 				componentsMap.put(c1.getCompid(), c1);
 			}
 		} catch (Exception e) {
@@ -536,6 +558,7 @@ public class DBManager {
 	}
 	
 	public List<Component> getComponentsByTicket(int tid){
+		loadComponents();
 		loadTCRelation();
 		List<Component> list = new LinkedList<Component>();
 		for(String cid : tcRelationMap.keySet()){
@@ -754,7 +777,71 @@ public void updateComment(Comment c){
 	}
 	
 	public Comment getCommentById(int comment_id){
-		loadComponents();
+		loadComments();
 		return commentsMap.get(comment_id);
 	}
+
+
+////////////////////////////////////////////////////////////////////
+
+public void loadSprints() {
+	sprintsMap.clear();
+
+	try {
+		// Holen
+		// 1. get conn
+		Connection myConn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/issuetracking_db",
+				"glassfishadmin", "chucknorris42");
+		// 2. create statement
+		Statement myStmt = myConn.createStatement();
+		// 3. execute sql query
+		ResultSet myRs = myStmt.executeQuery("select * from sprints order by sprintid");
+		// 4. Process results
+		while (myRs.next()) {
+			java.util.Date date1= null;
+			Timestamp timestamp1 = myRs.getTimestamp("start_date");
+			if (timestamp1 != null)
+			    date1 = new java.util.Date(timestamp1.getTime());
+			java.util.Date date2= null;
+			Timestamp timestamp2 = myRs.getTimestamp("end_date");
+			if (timestamp2 != null)
+			    date2 = new java.util.Date(timestamp2.getTime());
+			
+			Sprint s1 = new Sprint(myRs.getInt("sprintid"),myRs.getString("title"), date1, date2, myRs.getBoolean("active"));;
+			sprintsMap.put(s1.getSprintid(), s1);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+};
+
+
+public List<Sprint> getSprints() {
+	loadSprints();
+	List<Sprint> sprints = new LinkedList<Sprint>(sprintsMap.values());
+	return sprints;
+}
+
+public void saveSprint(Sprint sprint1){
+	try {
+		// Einfügen
+		// 1. get conn
+		Connection myConn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/issuetracking_db",
+				"glassfishadmin", "chucknorris42");
+		// 2. create statement
+		Statement myStmt = myConn.createStatement();
+		// 3. Execute SQL query
+		
+		String sql = "insert into sprints " + " (sprintid ,title, start_date, end_date, active)"
+				+ " values(" + sprint1.sprintid + ", '" + sprint1.title + "', '" + sprint1.getStartDateAsStringForDatabase() + "', '" + sprint1.getEndDateAsStringForDatabase() + "', '" + (sprint1.active ? "1" : "0") + "');";
+		myStmt.executeUpdate(sql);
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	loadSprints();
+}
+
 }

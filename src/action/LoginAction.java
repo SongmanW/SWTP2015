@@ -26,7 +26,7 @@ public class LoginAction implements Action {
 				request.getSession().setAttribute("user", useridinput);
 				request.getSession().setAttribute("password", passwordinput);
 
-				return "index.jsp";
+				return "sprints.jsp";
 			} else {
 				errorMsgs.put("useridinput", "Wrong username or password");
 			}

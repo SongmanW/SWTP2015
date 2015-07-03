@@ -34,13 +34,9 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		
-		
 		String action = request.getParameter("action");
-
 		Action aktion = Action.actionFactory(action);
-		
+
 		if (aktion != null) {
 			String result = aktion.execute(request, response);
 			if (result != null) {
@@ -69,17 +65,32 @@ public class Controller extends HttpServlet {
 
 		if (pageName.endsWith("index.jsp")) {
 			request.setAttribute("users", DBManager1.getUsers());
-			request.setAttribute("tickets_open", DBManager1.getTicketsByState("open"));
-			request.setAttribute("tickets_closed", DBManager1.getTicketsByState("closed"));
-			request.setAttribute("tickets_inprogress", DBManager1.getTicketsByState("in_progress"));
-			request.setAttribute("tickets_test", DBManager1.getTicketsByState("test"));
+			request.setAttribute("tickets_open", DBManager1.getTicketsByState("open",-2));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_closed", DBManager1.getTicketsByState("closed",-2));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_inprogress", DBManager1.getTicketsByState("in_progress",-2));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_test", DBManager1.getTicketsByState("test",-2));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("thissprintsid","-2");
 			
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 			String date1 = ft.format(dNow);
 			request.setAttribute("date1", date1);
 
-			DBManager1.loadComponents();
+			request.setAttribute("compids", DBManager1.getComponents());
+		}
+		
+		if (pageName.endsWith("sprintstickets.jsp")) {
+			request.setAttribute("users", DBManager1.getUsers());
+			request.setAttribute("tickets_open", DBManager1.getTicketsByState("open",Integer.parseInt(request.getParameter("sprintid"))));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_closed", DBManager1.getTicketsByState("closed",Integer.parseInt(request.getParameter("sprintid"))));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_inprogress", DBManager1.getTicketsByState("in_progress",Integer.parseInt(request.getParameter("sprintid"))));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_test", DBManager1.getTicketsByState("test",Integer.parseInt(request.getParameter("sprintid"))));//,Integer.parseInt(request.getParameter("sprintid"))));
+			
+			Date dNow = new Date();
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			String date1 = ft.format(dNow);
+			request.setAttribute("date1", date1);
+
 			request.setAttribute("compids", DBManager1.getComponents());
 		}
 
@@ -87,7 +98,6 @@ public class Controller extends HttpServlet {
 			Ticket t2 = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
 			request.setAttribute("t1", t2);
 
-			DBManager1.loadUsers();
 			request.setAttribute("users", DBManager1.getUsers());
 
 			Date dNow = new Date();
@@ -95,12 +105,10 @@ public class Controller extends HttpServlet {
 			String date1 = ft.format(dNow);
 			request.setAttribute("date1", date1);
 			
-			DBManager1.loadComponents();
 			request.setAttribute("ticket_compids", DBManager1.getComponentsByTicket(
 					Integer.parseInt(request.getParameter("ticket_id"))));
 			request.setAttribute("compids", DBManager1.getComponents());
 			
-			DBManager1.loadComments();
 			request.setAttribute("ticket_comments", DBManager1.getCommentsByTicket(
 					Integer.parseInt(request.getParameter("ticket_id"))));
 
@@ -146,6 +154,11 @@ public class Controller extends HttpServlet {
 			request.setAttribute("c1", comment1);
 		}
 	
+		if(pageName.endsWith("sprints.jsp")){	
+			request.setAttribute("sprints", DBManager1.getSprints());
+			request.setAttribute("nosprinttickets",DBManager1.getTicketsByState("beliebig", -1));
+		
+		}
 		
 	}
 

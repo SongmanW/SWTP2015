@@ -7,6 +7,9 @@ abstract public class Ticket {
 	protected static final DBManager DBManager1 = DBManager.getInstance();
 	
 	protected int id;
+
+	
+	protected int sprintid;
 	protected String title;
 	protected String description;
 	protected Date date;
@@ -15,9 +18,25 @@ abstract public class Ticket {
 	protected String type;
 	protected String state;
 
-	public Ticket() {
+	
 
+	public Ticket(int id, int sprintid, String title, String description,
+			Date date, String author, String responsible_user, String type,
+			String state) {
+		this.id = id;
+		this.sprintid = sprintid;
+		this.title = title;
+		this.description = description;
+		this.date = date;
+		this.author = author;
+		this.responsible_user = responsible_user;
+		this.type = type;
+		this.state = state;
 	}
+//	public Ticket() {
+//	}
+	
+	
 
 	public int getId() {
 		return id;
@@ -26,7 +45,16 @@ abstract public class Ticket {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public int getSprintid() {
+		return sprintid;
+	}
 
+	public void setSprintid(int sprintid) {
+		this.sprintid = sprintid;
+	}
+
+	
 	public String getTitle() {
 		return title;
 	}

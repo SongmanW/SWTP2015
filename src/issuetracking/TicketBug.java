@@ -1,10 +1,17 @@
 package issuetracking;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TicketBug extends Ticket {
 
+	public TicketBug(int id, int sprintid, String title, String description,
+		Date date, String author, String responsible_user, String type,
+		String state) {
+	super(id, sprintid, title, description, date, author, responsible_user,
+			type, state);
+}
 	public Map<String, String> validate() {
 		Map<String, String> errorMsg = new HashMap<String, String>();
 		if (title == null || title.trim().equals(""))

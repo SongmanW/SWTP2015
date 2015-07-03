@@ -1,0 +1,125 @@
+Aufgabenstellung
+. Tickets
+.. Bilder zu Tickets hochladen: Datum, Uhrzeit und hochladenden Anwender speichern, 
+Zielort des Hochladens über eigene Seite konfigurieren
+.. Selbst zu definierende Tickets 
+(bitte immer mit ungefährer Zeitschätzung und idealerweise innerhalb der nächsten Tage per E-Mail einreichen)
+Vorlage:
+1 Sprint anlegen
+- Administratoren können per Menü einen Sprint anlegen.
+
+- Ein Sprint besitzt eine eindeutige Nummer, ein Start- und ein End-Datum.
+
+- Ein Sprint besteht aus einer Menge von offenen Tickets, dabei sollen unterhalb
+ der Eingabefelder für Nummer, Start- und End-Datum eine Liste von Checkboxen für 
+alle offenen Tickets dargestellt werden, die beim Anlegen eines Sprints direkt 
+mit ausgewählt werden können.
+Weitere Geschäftsprozesse:
+(Vorbedingung: Es darf immer nur einen parallel aktiven Sprint geben.)
+
+- Administratoren können einen Sprint starten.
+
+- Anwender können Tickets eines laufenden Sprints bearbeiten 
+(Zustand von "Offen" über "in Arbeit" in "Geschlossen" ändern, Kommentare hinzufügen, Bilder hochladen).
+
+- Administratoren können Tickets zu einem Sprint hinzufügen.
+
+- Administratoren können Tickets aus einem Sprint entfernen.
+
+- Administratoren können sich eine Ticket-Statistik (Tickets pro Zustand) für den laufenden Sprint
+ anzeigen lassen.
+- Administratoren können Sprints beenden, 
+falls alle Tickets des Sprints "Geschlossen" sind.
+
+
+
+
+Stand soweit: Ich hab das, was erledigt ist, mit "erledigt" markiert.
+Ich hab ansonsten noch Kleinigkeiten gemacht:
+-Konstruktoren für die 3 Ticketklassen und Component, welche im Controller genutzt werden. Das war vorher recht unübersichtlich.
+-Loadbefehle die im Controller standen in die DBManagerMethoden verschoben.
+
+Wenn man in index.jsp ein Ticket erzeugt hat es erstmal die sprintID -1 zugewiesen. Es taucht dann  in sprints.jsp beim sprinterstellen mit einer checkbox auf,sodass man sie zum neuen sprint hinzufügen kann. 
+Beim Erstellen eines Sprints kann man zwar die Tickets anklicken, aber in der AddSprintAction brauchts dafür noch die Methode DBManager.AddTicketToSprint() [ticket 9 unseres Sprints?].
+Wenn jemand sie erstellt hat muss da nur noch der Methodenaufruf eingetragen werden.
+
+--------------------------------------------------------------------------------------------------
+Tickets für SWTP:
+
+Ticket 1: erledigt
+Titel: Sprintübersicht erstellen
+Beschreibung: Eine .jsp erstelle, die das Formular zur Erstellung
+ eines neuen Spirnt, den jetzt aktuellen Sprint und eine Übersicht über alle Sprints,  anzeigt
+abgeschätzte Dauer: 0.5h    
+
+Ticket 2: erledigt
+Titel: Ticketübersicht für Sprint
+Beschreibung: Eine .jsp erstellen, die alle Tickets eines einzigen
+ Sprints anzeigt. Diese ist für user ohne Adminrechte.
+abgeschätzte Dauer: 0.5h  
+    
+Ticket 3:
+Titel: Statistikseite
+Beschreibung: Eine .jsp und alle notwendigen Datenbankzugriffe 
+erstellen, um alle Statistikwerte eines Sprints anzuzeigen.
+abgeschätzte Dauer: 2h
+
+Ticket 4:
+Titel: Sprintdetailseite
+Beschreibung: Eine .jsp erstellen, die Details eines Sprints 
+darstellt, und auch bearbeitbar macht. Diese ist für User mit Adminrechte.
+abgeschätzte Dauer: 4h
+
+
+Ticket 5: erledigt
+Titel: DB für Sprints und alle notwendigen Erweiterungen
+Beschreibung: Alle Tabellen der Datenbank erweitern, damit 
+man Sprints integrieren kann. Sprint-Tabelle, Ticket-Sprint-Relation.
+abgeschätzte Dauer: 0.5h  
+     
+Ticket 6: erledigt
+Titel: Sprint-Klasse
+Beschreibung: Eine .java erstellen, die Felder für alle 
+notwendigen Eigenschaften eines Sprints bereit stellt. 
+abgeschätzte Dauer: 0.5h       
+
+Ticket 7: erledigt
+Titel: CreateSprintAction
+Beschreibung: Eine .java erstellen, die die Erstellung eines Sprints in der Datenbank ermöglicht.
+abgeschätzte Dauer: 0.5h      
+
+Ticket 8:
+Titel: DeleteSprintAction
+Beschreibung: Eine .java erstellen, die das Löschen eines Sprints in der
+ Datenbank und alle damit verbundenen Veränderungen (Ticket-Sprint-Relation) ermöglicht.
+abgeschätzte Dauer: 2h
+
+Ticket 9:
+Titel: AddTicketToSprintAction
+Beschreibung: Eine .java erstellen, die das Hinzufügen eines Tickets zu
+ einem Sprint in der Datenbank ermöglicht.
+abgeschätzte Dauer: 0.5h
+
+
+Ticket 10:
+Titel: RemoveTicketFromSprintAction
+Beschreibung: Eine .java erstellen, die das Entfernen von Tickets aus einem
+ Sprint in der Datenbank ermöglicht. Das Ticket nicht löschen.
+abgeschätzte Dauer: 0.5h
+
+Ticket 11:
+Titel: StartSprintAction
+Beschreibung: Eine .java erstellen, die das Starten eines Sprints ermöglicht
+ und damit diesen zum aktiven Sprint macht, sofern es keinen gibt.
+abgeschätzte Dauer: 0.5h
+
+Ticket 12:
+Titel: EndSprintAction
+Beschreibung: Eine .java erstellen, die das Beenden eines Sprints ermöglicht.
+ Aktualisieren des aktiven Sprints nicht vergessen.
+abgeschätzte Dauer: 0.5h
+
+
+
+
+
