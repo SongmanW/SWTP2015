@@ -66,8 +66,9 @@ th {
 		</select> ${errorMsgs.state}<br> 
 		<span id="estimated_time_change_span" style="display: none;">
 			Estimated time:<input name="estimated_time" type="text" />${errorMsgs.estimated_time}
-		</span><br />
-		Components <a href="Controller?action=preparePage&pageName=components.jsp">(addComponents)</a>:<br>
+			<br />
+		</span>
+		Components <a href="Controller?action=preparePage&pageName=components.jsp">(manage Components)</a>:<br>
 		<c:forEach items="${compids}" var="compid1">
 			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
 			<br>
