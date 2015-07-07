@@ -31,7 +31,7 @@ th {
 
 	User:
 	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
-		${sessionScope.user}</a>
+		${sessionScope.user}</a>&nbsp;
 	<a href="Controller?action=logout"> logout </a>&nbsp;
 	<a href="Controller?action=preparePage&pageName=index.jsp"> back to
 		index </a>
@@ -39,7 +39,7 @@ th {
 	<h1>New Component</h1>
 	<form action="Controller" method="post">
 		<input type="hidden" name="action" value="addComponent" /> 
-		Title:<input name="comp_id" type="text" /> ${errorMsgs.title}<br> 
+		Title:<input name="comp_id" type="text" /> ${errorMsgs.id}<br> 
 		Description:<br><textarea name="description" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
 		<input type="submit" value="add component">
 	</form>
