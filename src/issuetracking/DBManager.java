@@ -158,7 +158,7 @@ public class DBManager {
 
 	public void saveTicket(Ticket t1) {
 		try {
-			// Einfügen
+			// Einfuegen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -222,7 +222,7 @@ public class DBManager {
 
 	public void deleteTicket(Ticket t1) {
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -248,7 +248,7 @@ public class DBManager {
 
 	public void deleteFeaturePart(Ticket t1) {
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -268,7 +268,7 @@ public class DBManager {
 
 	public void deleteBugPart(Ticket t1) {
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -324,7 +324,7 @@ public class DBManager {
 	
 	public void registerUser(String userid, String password) {
 		try {
-			// Einfügen
+			// Einfoegen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -388,7 +388,7 @@ public class DBManager {
 
 	public void deleteUser(User u1) {
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -468,7 +468,7 @@ public class DBManager {
 	
 	public void saveComponent(String compid, String description){
 		try {
-			// Einfügen
+			// Einfoegen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -508,7 +508,7 @@ public class DBManager {
 	
 	public void deleteComponent(Component c){
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -580,7 +580,7 @@ public class DBManager {
 	
 	public void saveTCRelation(Ticket t1, Component c){
 		try {
-			// Einfügen
+			// Einfuegen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -609,7 +609,7 @@ public class DBManager {
 	
 	public void removeTCRelation(Ticket t1, Component c){
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -630,7 +630,7 @@ public class DBManager {
 	
 	public void removeTCRelation(Component c){
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -650,7 +650,7 @@ public class DBManager {
 	
 	public void removeTCRelation(Ticket t1){
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -706,7 +706,7 @@ public void loadComments(){
 
 public void saveComment(Comment comment1){
 	try {
-		// Einfügen
+		// Einfuegen
 		// 1. get conn
 		Connection myConn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -727,7 +727,7 @@ public void saveComment(Comment comment1){
 
 public void deleteComment(Comment c){
 	try {
-		// Löschen
+		// Loeschen
 		// 1. get conn
 		Connection myConn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -825,7 +825,7 @@ public List<Sprint> getSprints() {
 
 public void saveSprint(Sprint sprint1){
 	try {
-		// Einfügen
+		// Einfuegen
 		// 1. get conn
 		Connection myConn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/issuetracking_db",
