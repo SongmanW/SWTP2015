@@ -50,8 +50,11 @@ public class ChangeTicketAction implements Action {
 			errorMsgs = tbug.validate();
 			if (errorMsgs.isEmpty()) {
 				DBManager1.updateTicket(tbug);
-				for(String compid: request.getParameterValues("compid")){
-					tcomplist.add(DBManager1.getComponentById(compid));
+				String[] compids = request.getParameterValues("compid");
+				if(compids != null){
+					for(String compid: compids){
+						tcomplist.add(DBManager1.getComponentById(compid));
+					}
 				}
 				DBManager1.updateTCRelation(t1, tcomplist);
 			}
@@ -81,8 +84,11 @@ public class ChangeTicketAction implements Action {
 			errorMsgs = tfeature.validate();
 			if (errorMsgs.isEmpty()) {
 				DBManager1.updateTicket(tfeature);
-				for(String compid: request.getParameterValues("compid")){
-					tcomplist.add(DBManager1.getComponentById(compid));
+				String[] compids = request.getParameterValues("compid");
+				if(compids != null){
+					for(String compid: compids){
+						tcomplist.add(DBManager1.getComponentById(compid));
+					}
 				}
 				DBManager1.updateTCRelation(t1, tcomplist);
 			}

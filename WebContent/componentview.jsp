@@ -11,7 +11,12 @@
 <title>Insert title here</title>
 </head>
 <body>
+	User:
+	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
+		${sessionScope.user}</a>&nbsp;
+	<a href="Controller?action=logout"> logout </a>&nbsp;
 	<a href="Controller?action=preparePage&pageName=components.jsp"> back to componentlist </a>
+	
 	<h1>The component:</h1>
 	ComponentID=${c1.compid}<br> 
 	Description=${c1.description}<br> 
@@ -20,7 +25,8 @@
 	<form action="Controller" method="post">
 		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
 		<input type="hidden" name="action" value="changeComponent" /> 
-		Description:<input name="description" type="text" />${errorMsgs.description}<br />
+		Title: ${c1.compid}<br />
+		Description:<br><textarea name="description" cols="65" rows="5" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
 		<input type="submit" value="change the component">
 	</form>
 
