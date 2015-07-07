@@ -47,10 +47,12 @@ th {
 
 <body>
 
-	User:
+		User:
 	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
-		${sessionScope.user}</a> &nbsp;
-	<a href="Controller?action=logout"> logout </a>
+		${sessionScope.user}</a>
+	<a href="Controller?action=logout"> logout </a>&nbsp;
+	<a href="Controller?action=preparePage&pageName=sprints.jsp"> back to
+		sprints </a>
 
 
 	<h1>Open Tickets</h1>

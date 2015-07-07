@@ -33,8 +33,8 @@ th {
 	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
 		${sessionScope.user}</a>
 	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="Controller?action=preparePage&pageName=index.jsp"> back to
-		index </a>
+	<a href="Controller?action=preparePage&pageName=sprints.jsp"> back to
+		sprints </a>
 
 	<h1>New Component</h1>
 	<form action="Controller" method="post">

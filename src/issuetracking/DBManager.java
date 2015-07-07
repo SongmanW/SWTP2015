@@ -105,11 +105,14 @@ public class DBManager {
 				ticketsMap.put(t1.getId(), t1);
 				
 			}
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	};
-	
+	}
+
 	public List<Ticket> getTickets() {
 		loadTickets();
 		List<Ticket> tickets = new LinkedList<Ticket>(ticketsMap.values());
@@ -189,6 +192,7 @@ public class DBManager {
 						+ tbug.getId() + " " + ");";
 
 				myStmt2.executeUpdate(sql2);
+				try { if( myStmt2 != null ) myStmt2.close(); } catch( Exception ex ) {/* nothing to do*/};
 			}
 
 			if (t1 instanceof TicketFeature) {
@@ -202,8 +206,10 @@ public class DBManager {
 						+ "' " + ");";
 
 				myStmt2.executeUpdate(sql2);
+				try { if( myStmt2 != null ) myStmt2.close(); } catch( Exception ex ) {/* nothing to do*/};
 			}
-
+		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -240,6 +246,11 @@ public class DBManager {
 			if (t1.getType().equals("feature"))
 				deleteFeaturePart(t1);
 
+			// try { if( rs != null ) rs.close(); } catch( Exception ex ) {/* nothing to do*/}
+		    try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/}
+		    try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/}
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -260,7 +271,8 @@ public class DBManager {
 					+ t1.getId() + ";";
 
 			myStmt.executeUpdate(sql);
-
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -280,7 +292,8 @@ public class DBManager {
 					+ ";";
 
 			myStmt.executeUpdate(sql);
-
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -305,6 +318,9 @@ public class DBManager {
 				
 				usersMap.put(u1.getUserid(), u1);
 			}
+			
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -449,6 +465,8 @@ public class DBManager {
 				
 				componentsMap.put(c1.getCompid(), c1);
 			}
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -552,6 +570,8 @@ public class DBManager {
 				tcRelationMap.get(compidinput).add(tidinput);
 				
 			}
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -698,6 +718,8 @@ public void loadComments(){
 			Comment c1 = new Comment(myRs.getInt("cid"), myRs.getInt("tid"), date, myRs.getString("author"), myRs.getString("message"));
 			commentsMap.put(c1.getCid(), c1);
 		}
+		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 	} catch (Exception e) {
 		e.printStackTrace();
 		}
@@ -811,6 +833,8 @@ public void loadSprints() {
 			Sprint s1 = new Sprint(myRs.getInt("sprintid"),myRs.getString("title"), date1, date2, myRs.getBoolean("active"));;
 			sprintsMap.put(s1.getSprintid(), s1);
 		}
+		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
@@ -822,6 +846,13 @@ public List<Sprint> getSprints() {
 	List<Sprint> sprints = new LinkedList<Sprint>(sprintsMap.values());
 	return sprints;
 }
+
+public Sprint getSprintById(int sprintid){
+	loadSprints();
+	Sprint sprint1= sprintsMap.get(sprintid);
+	return sprint1;
+}
+
 
 public void saveSprint(Sprint sprint1){
 	try {
@@ -837,11 +868,54 @@ public void saveSprint(Sprint sprint1){
 		String sql = "insert into sprints " + " (sprintid ,title, start_date, end_date, active)"
 				+ " values(" + sprint1.sprintid + ", '" + sprint1.title + "', '" + sprint1.getStartDateAsStringForDatabase() + "', '" + sprint1.getEndDateAsStringForDatabase() + "', '" + (sprint1.active ? "1" : "0") + "');";
 		myStmt.executeUpdate(sql);
-		
+		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
 	loadSprints();
 }
 
+	public void deleteSprint(Sprint s) {
+		try {
+			List<Ticket> openTs= DBManager1.getTicketsByState("open",s.sprintid);//,Integer.parseInt(request.getParameter("sprintid"))));
+			List<Ticket> in_progressTs= DBManager1.getTicketsByState("in_progress",s.sprintid);//,Integer.parseInt(request.getParameter("sprintid"))));
+			List<Ticket> testTs= DBManager1.getTicketsByState("test",s.sprintid);//,Integer.parseInt(request.getParameter("sprintid"))));
+//			if (!(openTs.isEmpty() && in_progressTs.isEmpty() && testTs.isEmpty()))
+//					 {
+//				System.out.println("Deletion not possible. There are still not closed Tickets which belong to this Sprint");
+//			}else{
+			// Löschen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from sprints " + "where sprintid = '"
+					+ s.getSprintid() + "' ;";
+
+			myStmt.executeUpdate(sql);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadSprints();	
+	}
+	
+		
+	
+	public void updateSprint(Sprint supdate) {
+		loadSprints();
+		Sprint s1 = DBManager1.getSprintById(supdate.getSprintid());
+
+		deleteSprint(s1);
+		saveSprint(supdate);
+		loadSprints();
+
+	}
+	
+	
 }

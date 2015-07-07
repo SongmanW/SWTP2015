@@ -12,6 +12,7 @@ public class Sprint {
 	protected Date end_date;
 	boolean active;
 	
+	
 public Sprint(int sprintid, String title, Date start_date, Date end_date,
 			boolean active) {
 		this.sprintid = sprintid;
