@@ -8,8 +8,9 @@ public class LogoutAction implements Action {
 		public String execute(HttpServletRequest request,
 				HttpServletResponse response) {
 			
-			request.getSession().removeAttribute("user");
-			request.getSession().removeAttribute("password");
-			return "login.jsp";
+                    request.getSession().invalidate();
+			//request.getSession().removeAttribute("user");
+			//request.getSession().removeAttribute("password");
+			return "logout.jsp";
 		}	
 	}

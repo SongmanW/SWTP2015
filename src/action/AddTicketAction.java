@@ -47,9 +47,12 @@ public class AddTicketAction implements Action{
 			
 			if (errorMsgs.isEmpty()) {
 				DBManager1.saveTicket(tbug);
-				for(String compid: request.getParameterValues("compid")){
-					tempcomp = DBManager1.getComponentById(compid);
-					DBManager1.saveTCRelation(tbug, tempcomp);
+				String[] compids = request.getParameterValues("compid");
+				if(compids != null){
+					for(String compid: compids){
+						tempcomp = DBManager1.getComponentById(compid);
+						DBManager1.saveTCRelation(tbug, tempcomp);
+					}
 				}
 			}
 		} else
@@ -79,9 +82,12 @@ public class AddTicketAction implements Action{
 			errorMsgs = tfeature.validate();
 			if (errorMsgs.isEmpty()) {
 				DBManager1.saveTicket(tfeature);
-				for(String compid: request.getParameterValues("compid")){
-					tempcomp = DBManager1.getComponentById(compid);
-					DBManager1.saveTCRelation(tfeature, tempcomp);
+				String[] compids = request.getParameterValues("compid");
+				if(compids != null){
+					for(String compid: compids){
+						tempcomp = DBManager1.getComponentById(compid);
+						DBManager1.saveTCRelation(tfeature, tempcomp);
+					}
 				}
 			}
 

@@ -1,5 +1,9 @@
 package issuetracking;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -161,7 +165,7 @@ public class DBManager {
 
 	public void saveTicket(Ticket t1) {
 		try {
-			// Einfügen
+			// Einfuegen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -228,7 +232,7 @@ public class DBManager {
 
 	public void deleteTicket(Ticket t1) {
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -259,7 +263,7 @@ public class DBManager {
 
 	public void deleteFeaturePart(Ticket t1) {
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -280,7 +284,7 @@ public class DBManager {
 
 	public void deleteBugPart(Ticket t1) {
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -340,7 +344,7 @@ public class DBManager {
 	
 	public void registerUser(String userid, String password) {
 		try {
-			// Einfügen
+			// Einfoegen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -348,15 +352,31 @@ public class DBManager {
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
-			String sql = "insert into users " + " (userid, password)"
-					+ " values('" + userid + "', '" + password + "');";
-
-			myStmt.executeUpdate(sql);
+                        //TODO catch exceptions
+                        String encryptedPassword = encryptPassword(password);
+			String addUserQuery = "insert into USERS " + " (USERID, PASSWORD)"
+					+ " values('" + userid + "', '" + encryptedPassword + "');";
+                        
+			myStmt.executeUpdate(addUserQuery);
+                        
+                        String addGroupQuery = "insert into USERS_GROUPS (GROUPID, USERID) values ('user', '" + userid + "');";
+                        myStmt.executeUpdate(addGroupQuery);
 		} catch (Exception e) {
+                    System.out.println("Exception");
 			e.printStackTrace();
 		}
 		loadUsers();
 	}
+        
+        public static String encryptPassword(String clearText) throws UnsupportedEncodingException, NoSuchAlgorithmException{
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            String text = clearText;
+            md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
+            BigInteger bigInt = new BigInteger(1, digest);
+            String encrypted = bigInt.toString(16);
+            return encrypted;
+        }
 
 	public void updateUser(User u1) {
 		try {
@@ -368,8 +388,8 @@ public class DBManager {
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
-			String sql = "update users " + "set password='" + u1.getPassword()
-					+ "' " + "where userid='" + u1.getUserid() + "';";
+			String sql = "update USERS " + "set PASSWORD='" + encryptPassword(u1.getPassword())
+					+ "' " + "where USERID='" + u1.getUserid() + "';";
 
 			myStmt.executeUpdate(sql);
 		} catch (Exception e) {
@@ -390,7 +410,7 @@ public class DBManager {
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
 			ResultSet myRs = myStmt
-					.executeQuery("select * from users where userid = '"
+					.executeQuery("select * from USERS where USERID = '"
 							+ userid + "' ;");
 
 			if (myRs.next()) {
@@ -404,7 +424,7 @@ public class DBManager {
 
 	public void deleteUser(User u1) {
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -486,7 +506,7 @@ public class DBManager {
 	
 	public void saveComponent(String compid, String description){
 		try {
-			// Einfügen
+			// Einfoegen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -526,7 +546,7 @@ public class DBManager {
 	
 	public void deleteComponent(Component c){
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -600,7 +620,7 @@ public class DBManager {
 	
 	public void saveTCRelation(Ticket t1, Component c){
 		try {
-			// Einfügen
+			// Einfuegen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -629,7 +649,7 @@ public class DBManager {
 	
 	public void removeTCRelation(Ticket t1, Component c){
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -650,7 +670,7 @@ public class DBManager {
 	
 	public void removeTCRelation(Component c){
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -670,7 +690,7 @@ public class DBManager {
 	
 	public void removeTCRelation(Ticket t1){
 		try {
-			// Löschen
+			// Loeschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -728,7 +748,7 @@ public void loadComments(){
 
 public void saveComment(Comment comment1){
 	try {
-		// Einfügen
+		// Einfuegen
 		// 1. get conn
 		Connection myConn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -749,7 +769,7 @@ public void saveComment(Comment comment1){
 
 public void deleteComment(Comment c){
 	try {
-		// Löschen
+		// Loeschen
 		// 1. get conn
 		Connection myConn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -856,7 +876,7 @@ public Sprint getSprintById(int sprintid){
 
 public void saveSprint(Sprint sprint1){
 	try {
-		// Einfügen
+		// Einfuegen
 		// 1. get conn
 		Connection myConn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -915,6 +935,22 @@ public void saveSprint(Sprint sprint1){
 		saveSprint(supdate);
 		loadSprints();
 
+	}
+	
+	public Sprint getActiveSprint() {
+		List<Sprint> sprints = getSprints();
+		Sprint sprint = null;
+		int count = 0;
+		for(Sprint s: sprints){
+			if(s.isActive()){
+				count++;
+				sprint = s;
+			}
+		}
+		if(count == 1){
+			return sprint;
+		}
+		return null;
 	}
 	
 	
