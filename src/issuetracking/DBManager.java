@@ -1,5 +1,9 @@
 package issuetracking;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -332,15 +336,31 @@ public class DBManager {
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
-			String sql = "insert into users " + " (userid, password)"
-					+ " values('" + userid + "', '" + password + "');";
-
-			myStmt.executeUpdate(sql);
+                        //TODO catch exceptions
+                        String encryptedPassword = encryptPassword(password);
+			String addUserQuery = "insert into USERS " + " (USERID, PASSWORD)"
+					+ " values('" + userid + "', '" + encryptedPassword + "');";
+                        
+			myStmt.executeUpdate(addUserQuery);
+                        
+                        String addGroupQuery = "insert into USERS_GROUPS (GROUPID, USERID) values ('user', '" + userid + "');";
+                        myStmt.executeUpdate(addGroupQuery);
 		} catch (Exception e) {
+                    System.out.println("Exception");
 			e.printStackTrace();
 		}
 		loadUsers();
 	}
+        
+        public static String encryptPassword(String clearText) throws UnsupportedEncodingException, NoSuchAlgorithmException{
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            String text = clearText;
+            md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+            byte[] digest = md.digest();
+            BigInteger bigInt = new BigInteger(1, digest);
+            String encrypted = bigInt.toString(16);
+            return encrypted;
+        }
 
 	public void updateUser(User u1) {
 		try {
@@ -352,8 +372,8 @@ public class DBManager {
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
-			String sql = "update users " + "set password='" + u1.getPassword()
-					+ "' " + "where userid='" + u1.getUserid() + "';";
+			String sql = "update USERS " + "set PASSWORD='" + encryptPassword(u1.getPassword())
+					+ "' " + "where USERID='" + u1.getUserid() + "';";
 
 			myStmt.executeUpdate(sql);
 		} catch (Exception e) {
@@ -374,7 +394,7 @@ public class DBManager {
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
 			ResultSet myRs = myStmt
-					.executeQuery("select * from users where userid = '"
+					.executeQuery("select * from USERS where USERID = '"
 							+ userid + "' ;");
 
 			if (myRs.next()) {
