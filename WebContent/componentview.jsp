@@ -1,42 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*"%>
+	pageEncoding="ISO-8859-1"%>
 <%@ page import="issuetracking.*"%>
+<%@ page import="java.util.*"%>
 
-<% 
-DBManager DBManager1 = DBManager.getInstance();
-if (DBManager1.checkLogin((String)request.getSession().getAttribute("user"),
-					(String)request.getSession().getAttribute("password"))) {
-				request.getRequestDispatcher("Controller?action=preparePage&pageName=sprints.jsp").forward(
-						request, response);
-			}
-%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
 </head>
 <body>
-	${sessionScope.test}
-	${regSuccess}
-	<h1>Login</h1> 
+	<a href="Controller?action=preparePage&pageName=components.jsp"> back to componentlist </a>
+	<h1>The component:</h1>
+	ComponentID=${c1.compid}<br> 
+	Description=${c1.description}<br> 
+	
+	<h1>Change the component</h1>
 	<form action="Controller" method="post">
-		<input type="hidden" name="action" value="login"/>
-		Username:<input name="useridinput" type="text"/>${errorMsgsLogin.useridinput}<br />
-		Password:<input name="passwordinput" type="text"/>${errorMsgsLogin.passwordinput}<br />
-		<input type="submit" value="login">
+		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
+		<input type="hidden" name="action" value="changeComponent" /> 
+		Description:<input name="description" type="text" />${errorMsgs.description}<br />
+		<input type="submit" value="change the component">
 	</form>
-	
-	<h1>Register</h1>
+
+
 	<form action="Controller" method="post">
-		<input type="hidden" name="action" value="register"/>
-		Username:<input name="useridinput" type="text"/>${errorMsgsReg.useridinput}<br />
-		Password:<input name="passwordinput" type="text"/>${errorMsgsReg.passwordinput}<br />
-		<input type="submit" value="register"> 
-	</form><br />
-	
-	<a href="Controller?action=preparePage&pageName=users.jsp"> Edit Users (Adminpage)</a>
+		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
+		<input type="hidden" name="action" value="deleteComponent" /> 
+		<input type="submit" value="delete the component">
+	</form>
+
 <!-- development -->
 <br>
 <br>

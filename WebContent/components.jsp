@@ -1,42 +1,70 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="issuetracking.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page import="issuetracking.*" %>
 <%@ page import="java.util.*"%>
-
+<%@ page import="java.text.*"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<style>
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 5px;
+}
+
+th {
+	text-align: left;
+}
+</style>
 </head>
+
 <body>
+
 	User:
 	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
-		${sessionScope.user}</a>&nbsp;
+		${sessionScope.user}</a>
 	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="Controller?action=preparePage&pageName=components.jsp"> back to componentlist </a>
-	
-	<h1>The component:</h1>
-	ComponentID=${c1.compid}<br> 
-	Description=${c1.description}<br> 
-	
-	<h1>Change the component</h1>
+	<a href="Controller?action=preparePage&pageName=sprints.jsp"> back to
+		sprints </a>
+
+	<h1>New Component</h1>
 	<form action="Controller" method="post">
-		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
-		<input type="hidden" name="action" value="changeComponent" /> 
-		Title: ${c1.compid}<br />
-		Description:<br><textarea name="description" cols="65" rows="5" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
-		<input type="submit" value="change the component">
+		<input type="hidden" name="action" value="addComponent" /> 
+		Title:<input name="comp_id" type="text" /> ${errorMsgs.title}<br> 
+		Description:<br><textarea name="description" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
+		<input type="submit" value="add component">
 	</form>
 
+	<h1>Components</h1>
 
-	<form action="Controller" method="post">
-		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
-		<input type="hidden" name="action" value="deleteComponent" /> 
-		<input type="submit" value="delete the component">
-	</form>
-
+	<table>
+		<col width="100">
+		<col width="200">
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+		</tr>
+		<c:forEach items="${components}" var="comp1">
+			<tr>
+				<td><a
+					href=${"Controller?action=preparePage&pageName=componentview.jsp&compid=".concat(comp1.compid)}>
+						${comp1.compid} </a></td>
+				<td>${fn:length(comp1.description) gt 25 ? fn:substring(comp1.description, 0, 25).concat("..."):comp1.description}
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+	<br>
+	
 <!-- development -->
 <br>
 <br>

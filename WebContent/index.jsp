@@ -6,6 +6,20 @@
 <%@ page import="java.text.*"%>
 <%@ page import="issuetracking.*"%>
 
+<% 
+DBManager DBManager1 = DBManager.getInstance();
+// Wenn der Nutzer nicht angemeldet ist wird er zu login.jsp geleitet
+if (!DBManager1.checkLogin((String) request.getSession()
+		.getAttribute("user"), (String) request.getSession()
+		.getAttribute("password"))) {
+	request.getRequestDispatcher("login.jsp").forward(request,
+			response);
+}
+%>
+
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,10 +50,18 @@ th {
 
 <body>
 
+
+
+
+
+
 	User:
 	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
-		${sessionScope.user}</a> &nbsp;
-	<a href="Controller?action=logout"> logout </a>
+		${sessionScope.user}</a>
+	<a href="Controller?action=logout"> logout </a>&nbsp;
+	<a href="Controller?action=preparePage&pageName=sprints.jsp"> back to
+		sprints </a>
+
 
 	<h1>New Ticket</h1>
 	<form action="Controller" method="post">
@@ -66,9 +88,8 @@ th {
 		</select> ${errorMsgs.state}<br> 
 		<span id="estimated_time_change_span" style="display: none;">
 			Estimated time:<input name="estimated_time" type="text" />${errorMsgs.estimated_time}
-			<br />
-		</span>
-		Components <a href="Controller?action=preparePage&pageName=components.jsp">(manage Components)</a>:<br>
+		</span><br />
+		Components <a href="Controller?action=preparePage&pageName=components.jsp">(addComponents)</a>:<br>
 		<c:forEach items="${compids}" var="compid1">
 			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
 			<br>
