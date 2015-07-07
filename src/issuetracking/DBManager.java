@@ -34,6 +34,8 @@ public class DBManager {
 		}
 		return DBManager.DBManager1;
 	}
+	
+/////////////////////////////////////////// ID Methods ////////////////////////////////////////////////////
 
 	public int getNextTicketId() {
 		loadTickets();
@@ -64,6 +66,8 @@ public class DBManager {
 		}
 		return i;
 	}
+
+/////////////////////////////////////////// Ticket Methods ////////////////////////////////////////////////////
 	
 	public void loadTickets() {
 		ticketsMap.clear();
@@ -286,6 +290,8 @@ public class DBManager {
 		}
 	}
 
+/////////////////////////////////////////// User Methods ////////////////////////////////////////////////////
+
 	public void loadUsers() {
 		usersMap.clear();
 
@@ -431,6 +437,8 @@ public class DBManager {
 		return false;
 	};
 
+/////////////////////////////////////////// Component Methods ////////////////////////////////////////////////////
+
 	public void loadComponents(){
 		componentsMap.clear();
 		try {
@@ -527,6 +535,8 @@ public class DBManager {
 		
 		removeTCRelation(c);
 	}
+
+/////////////////////////////////////////// Ticket_Component_Relation Methods ////////////////////////////////////////////////////
 	
 	public void loadTCRelation(){
 		tcRelationMap.clear();
@@ -669,101 +679,97 @@ public class DBManager {
 				
 	}
 
-
-
-
-
-
-
-public void loadComments(){
-	commentsMap.clear();
-	try {
-		// Holen
-		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. execute sql query
-		ResultSet myRs = myStmt.executeQuery("select * from comments order by cid");
-		// 4. Process results
-		while (myRs.next()) {
+/////////////////////////////////////// Comment Methods ////////////////////////////////////////////////////
 	
-			java.util.Date date= null;
-			Timestamp timestamp = myRs.getTimestamp("creation_date");
-			if (timestamp != null)
-			    date = new java.util.Date(timestamp.getTime());
-			
-			Comment c1 = new Comment(myRs.getInt("cid"), myRs.getInt("tid"), date, myRs.getString("author"), myRs.getString("message"));
-			commentsMap.put(c1.getCid(), c1);
-		}
-	} catch (Exception e) {
-		e.printStackTrace();
-		}
-
-	}
-
-public void saveComment(Comment comment1){
-	try {
-		// Einfügen
-		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
+	public void loadComments(){
+		commentsMap.clear();
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet myRs = myStmt.executeQuery("select * from comments order by cid");
+			// 4. Process results
+			while (myRs.next()) {
 		
-		String sql = "insert into comments " + " (cid ,tid, creation_date, author, message)"
-				+ " values(" + comment1.cid + ", " + comment1.tid + ", '" + comment1.getDateAsStringForDatabase() + "', '" + comment1.getAuthor() + "', '" + comment1.message + "');";
-
-		myStmt.executeUpdate(sql);
-	} catch (Exception e) {
-		e.printStackTrace();
+				java.util.Date date= null;
+				Timestamp timestamp = myRs.getTimestamp("creation_date");
+				if (timestamp != null)
+				    date = new java.util.Date(timestamp.getTime());
+				
+				Comment c1 = new Comment(myRs.getInt("cid"), myRs.getInt("tid"), date, myRs.getString("author"), myRs.getString("message"));
+				commentsMap.put(c1.getCid(), c1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			}
+	
+		}
+	
+	public void saveComment(Comment comment1){
+		try {
+			// Einfügen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			
+			String sql = "insert into comments " + " (cid ,tid, creation_date, author, message)"
+					+ " values(" + comment1.cid + ", " + comment1.tid + ", '" + comment1.getDateAsStringForDatabase() + "', '" + comment1.getAuthor() + "', '" + comment1.message + "');";
+	
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadComments();
 	}
-	loadComments();
-}
-
-public void deleteComment(Comment c){
-	try {
-		// Löschen
-		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
-		String sql = "delete from comments " + "where cid = "
-				+ c.getCid() + " ;";
-
-		myStmt.executeUpdate(sql);		
-	} catch (Exception e) {
-		e.printStackTrace();
+	
+	public void deleteComment(Comment c){
+		try {
+			// Löschen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from comments " + "where cid = "
+					+ c.getCid() + " ;";
+	
+			myStmt.executeUpdate(sql);		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadComments();
 	}
-	loadComments();
-}
-
-public void updateComment(Comment c){
-	try {
-		// Updaten
-		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
-		String sql = "update comments " + "set message='" + c.getMessage()
-				+ "' " + "where cid='" + c.getCid() + "';";
-
-		myStmt.executeUpdate(sql);
-	} catch (Exception e) {
-		e.printStackTrace();
+	
+	public void updateComment(Comment c){
+		try {
+			// Updaten
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "update comments " + "set message='" + c.getMessage()
+					+ "' " + "where cid='" + c.getCid() + "';";
+	
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadComments();
 	}
-	loadComments();
-}
 
 	public List<Comment> getCommentsByTicket(int tid) {
 		loadComments();
@@ -782,66 +788,107 @@ public void updateComment(Comment c){
 	}
 
 
-////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////// Sprint Methods ////////////////////////////////////////////////////
 
-public void loadSprints() {
-	sprintsMap.clear();
-
-	try {
-		// Holen
-		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. execute sql query
-		ResultSet myRs = myStmt.executeQuery("select * from sprints order by sprintid");
-		// 4. Process results
-		while (myRs.next()) {
-			java.util.Date date1= null;
-			Timestamp timestamp1 = myRs.getTimestamp("start_date");
-			if (timestamp1 != null)
-			    date1 = new java.util.Date(timestamp1.getTime());
-			java.util.Date date2= null;
-			Timestamp timestamp2 = myRs.getTimestamp("end_date");
-			if (timestamp2 != null)
-			    date2 = new java.util.Date(timestamp2.getTime());
-			
-			Sprint s1 = new Sprint(myRs.getInt("sprintid"),myRs.getString("title"), date1, date2, myRs.getBoolean("active"));;
-			sprintsMap.put(s1.getSprintid(), s1);
+	public void loadSprints() {
+		sprintsMap.clear();
+	
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet myRs = myStmt.executeQuery("select * from sprints order by sprintid");
+			// 4. Process results
+			while (myRs.next()) {
+				java.util.Date date1= null;
+				Timestamp timestamp1 = myRs.getTimestamp("start_date");
+				if (timestamp1 != null)
+				    date1 = new java.util.Date(timestamp1.getTime());
+				java.util.Date date2= null;
+				Timestamp timestamp2 = myRs.getTimestamp("end_date");
+				if (timestamp2 != null)
+				    date2 = new java.util.Date(timestamp2.getTime());
+				
+				Sprint s1 = new Sprint(myRs.getInt("sprintid"),myRs.getString("title"), date1, date2, myRs.getBoolean("active"));;
+				sprintsMap.put(s1.getSprintid(), s1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	} catch (Exception e) {
-		e.printStackTrace();
+	};
+	
+	
+	public List<Sprint> getSprints() {
+		loadSprints();
+		List<Sprint> sprints = new LinkedList<Sprint>(sprintsMap.values());
+		return sprints;
 	}
-};
-
-
-public List<Sprint> getSprints() {
-	loadSprints();
-	List<Sprint> sprints = new LinkedList<Sprint>(sprintsMap.values());
-	return sprints;
-}
-
-public void saveSprint(Sprint sprint1){
-	try {
-		// Einfügen
-		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
-		
-		String sql = "insert into sprints " + " (sprintid ,title, start_date, end_date, active)"
-				+ " values(" + sprint1.sprintid + ", '" + sprint1.title + "', '" + sprint1.getStartDateAsStringForDatabase() + "', '" + sprint1.getEndDateAsStringForDatabase() + "', '" + (sprint1.active ? "1" : "0") + "');";
-		myStmt.executeUpdate(sql);
-		
-	} catch (Exception e) {
-		e.printStackTrace();
+	
+	public void saveSprint(Sprint sprint1){
+		try {
+			// Einfügen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			
+			String sql = "insert into sprints " + " (sprintid ,title, start_date, end_date, active)"
+					+ " values(" + sprint1.sprintid + ", '" + sprint1.title + "', '" + sprint1.getStartDateAsStringForDatabase() + "', '" + sprint1.getEndDateAsStringForDatabase() + "', '" + (sprint1.active ? "1" : "0") + "');";
+			myStmt.executeUpdate(sql);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadSprints();
 	}
-	loadSprints();
-}
+	
+	public Sprint getActiveSprint() {
+		List<Sprint> sprints = getSprints();
+		Sprint sprint = null;
+		int count = 0;
+		for(Sprint s: sprints){
+			if(s.isActive()){
+				count++;
+				sprint = s;
+			}
+		}
+		if(count == 1){
+			return sprint;
+		}
+		return null;
+	}
+	
+	public Sprint getSprintById(int sprintid){
+		loadSprints();
+		return sprintsMap.get(sprintid);
+	}
+	
+	public void updateSprint(Sprint s){
+		String active = s.isActive() ? "1" : "0";
+		try {
+			// Updaten
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "update sprints " + "set active='" + active + "' " + "where sprintid='" + s.getSprintid() + "';";
+	
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadSprints();
+	}
 
 }

@@ -107,13 +107,13 @@ Beschreibung: Eine .java erstellen, die das Entfernen von Tickets aus einem
  Sprint in der Datenbank ermöglicht. Das Ticket nicht löschen.
 abgeschätzte Dauer: 0.5h
 
-Ticket 11:
-Titel: StartSprintAction
+Ticket 11: erledigt
+Titel: StartSprintAction 
 Beschreibung: Eine .java erstellen, die das Starten eines Sprints ermöglicht
  und damit diesen zum aktiven Sprint macht, sofern es keinen gibt.
 abgeschätzte Dauer: 0.5h
 
-Ticket 12:
+Ticket 12: erledigt
 Titel: EndSprintAction
 Beschreibung: Eine .java erstellen, die das Beenden eines Sprints ermöglicht.
  Aktualisieren des aktiven Sprints nicht vergessen.
