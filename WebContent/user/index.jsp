@@ -6,17 +6,6 @@
 <%@ page import="java.text.*"%>
 <%@ page import="issuetracking.*"%>
 
-<% 
-DBManager DBManager1 = DBManager.getInstance();
-// Wenn der Nutzer nicht angemeldet ist wird er zu login.jsp geleitet
-if (!DBManager1.checkLogin((String) request.getSession()
-		.getAttribute("user"), (String) request.getSession()
-		.getAttribute("password"))) {
-	request.getRequestDispatcher("login.jsp").forward(request,
-			response);
-}
-%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
