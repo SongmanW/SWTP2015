@@ -9,9 +9,13 @@ public class User {
 	private String userid;
 	private String password;
 
-	public User() {
-
+	public User(String userid, String password) {
+		this.userid = userid;
+		this.password = password;
 	}
+
+//	public User() {
+//	}
 
 	public String getUserid() {
 		return userid;

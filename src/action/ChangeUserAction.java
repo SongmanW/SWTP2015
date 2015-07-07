@@ -15,10 +15,8 @@ public class ChangeUserAction implements Action {
 	public String execute(HttpServletRequest request,HttpServletResponse response) {
 		User u1 = DBManager1.getUserByUserid(request.getParameter("user_id"));
 		
-		User u1Update = new User();
-		u1Update.setUserid(u1.getUserid());
-		u1Update.setPassword(request.getParameter("passwordinput"));
-
+		User u1Update = new User(u1.getUserid(),request.getParameter("passwordinput"));
+		
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		errorMsgs = User.validateUserChange(request.getParameter("passwordinput"));
 

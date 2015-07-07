@@ -17,12 +17,10 @@ public class AddComponentAction implements Action{
 			HttpServletResponse response) {
 		
 		Map<String, String> errorMsgs = new HashMap<String, String>();
-		Component comp = new Component();
+	
 		String compidinput = request.getParameter("comp_id");
 		String descriptioninput = request.getParameter("description");
-		
-		comp.setCompid(compidinput);
-		comp.setDescription(descriptioninput);
+		Component comp = new Component(compidinput, descriptioninput);
 		
 		errorMsgs = comp.validate();
 		

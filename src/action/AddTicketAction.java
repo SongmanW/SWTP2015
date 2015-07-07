@@ -24,23 +24,25 @@ public class AddTicketAction implements Action{
 		Component tempcomp;
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		if (request.getParameter("type").equals("bug")) {
-			TicketBug tbug = new TicketBug();
-			tbug.setId(DBManager1.getNextTicketId());
-			tbug.setTitle(request.getParameter("title"));
-			tbug.setDescription(request.getParameter("description"));
 			String dateString = request.getParameter("date");
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date date;
+			Date date= new Date();
 			try {
-				date = format.parse(dateString);
-				tbug.setDate(date);
+			date = format.parse(dateString);
+		
+					
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			tbug.setAuthor(request.getParameter("author"));
-			tbug.setResponsible_user(request.getParameter("responsible_user"));
-			tbug.setType(request.getParameter("type"));
-			tbug.setState(request.getParameter("state"));
+
+			TicketBug tbug = new TicketBug(DBManager1.getNextTicketId(), Integer.parseInt(request.getParameter("sprintid"))
+					, request.getParameter("title"), request.getParameter("description"), date
+					, request.getParameter("author"), request.getParameter("responsible_user"), request.getParameter("type")
+					, request.getParameter("state")
+					);
+			
+			
+			
 			errorMsgs = tbug.validate();
 			
 			if (errorMsgs.isEmpty()) {
@@ -55,27 +57,28 @@ public class AddTicketAction implements Action{
 			}
 		} else
 		if (request.getParameter("type").equals("feature")) {
-			TicketFeature tfeature = new TicketFeature();
+			
 
-			tfeature.setId(DBManager1.getNextTicketId());
-			tfeature.setTitle(request.getParameter("title"));
-			tfeature.setDescription(request.getParameter("description"));
+			
 			String dateString = request.getParameter("date");
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date date;
+			Date date= new Date();
 			try {
 			date = format.parse(dateString);
-			tfeature.setDate(date);
+		
+					
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			tfeature.setAuthor(request.getParameter("author"));
-			tfeature.setResponsible_user(request
-					.getParameter("responsible_user"));
-			tfeature.setType(request.getParameter("type"));
-			tfeature.setState(request.getParameter("state"));
-			tfeature.setEstimated_time(request.getParameter("estimated_time"));
 
+			TicketFeature tfeature = new TicketFeature(DBManager1.getNextTicketId(), Integer.parseInt(request.getParameter("sprintid"))
+					, request.getParameter("title"), request.getParameter("description"), date
+					, request.getParameter("author"), request.getParameter("responsible_user"), request.getParameter("type")
+					, request.getParameter("state"), request.getParameter("estimated_time")
+					);
+					
+					
+			
 			errorMsgs = tfeature.validate();
 			if (errorMsgs.isEmpty()) {
 				DBManager1.saveTicket(tfeature);

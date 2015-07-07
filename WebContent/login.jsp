@@ -7,7 +7,7 @@
 DBManager DBManager1 = DBManager.getInstance();
 if (DBManager1.checkLogin((String)request.getSession().getAttribute("user"),
 					(String)request.getSession().getAttribute("password"))) {
-				request.getRequestDispatcher("Controller?action=preparePage&pageName=index.jsp").forward(
+				request.getRequestDispatcher("Controller?action=preparePage&pageName=sprints.jsp").forward(
 						request, response);
 			}
 %>
@@ -37,7 +37,6 @@ if (DBManager1.checkLogin((String)request.getSession().getAttribute("user"),
 	</form><br />
 	
 	<a href="Controller?action=preparePage&pageName=users.jsp"> Edit Users (Adminpage)</a>
-
 <!-- development -->
 <br>
 <br>

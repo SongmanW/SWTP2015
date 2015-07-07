@@ -1,11 +1,25 @@
 package issuetracking;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TicketFeature extends Ticket { 
 
 	private String estimated_time;
+
+	public TicketFeature(int id, int sprintid, String title,
+			String description, Date date, String author,
+			String responsible_user, String type, String state,
+			String estimated_time) {
+		super(id, sprintid, title, description, date, author, responsible_user,
+				type, state);
+		this.estimated_time = estimated_time;
+	}
+//	public TicketFeature() {
+//	}
+	
+	
 
 	public String getEstimated_time() {
 		return estimated_time;
