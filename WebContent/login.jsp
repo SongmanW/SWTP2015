@@ -16,18 +16,21 @@ if (DBManager1.checkLogin((String)request.getSession().getAttribute("user"),
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style>
+
+</style>
 </head>
 <body>
 	${sessionScope.test}
 	${regSuccess}
-	<h1>Login</h1> 
+	<h1>Login</h1>
 	<form action="Controller" method="post">
 		<input type="hidden" name="action" value="login"/>
 		Username:<input name="useridinput" type="text"/>${errorMsgsLogin.useridinput}<br />
 		Password:<input name="passwordinput" type="text"/>${errorMsgsLogin.passwordinput}<br />
 		<input type="submit" value="login">
 	</form>
-	
+
 	<h1>Register</h1>
 	<form action="Controller" method="post">
 		<input type="hidden" name="action" value="register"/>

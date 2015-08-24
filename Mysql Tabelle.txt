@@ -34,6 +34,14 @@ INSERT INTO tickets VALUES (113, 8, "test13", "description2", "2015-05-24", "use
 INSERT INTO tickets VALUES (114, 8, "test14", "description3", "2015-05-24", "user7", "user2", "bug" ,"open");
 INSERT INTO tickets VALUES (115, 9, "test15", "description1", "2015-05-24", "user8", "user1", "feature", "open");
 INSERT INTO tickets VALUES (116, 9, "test26", "description2", "2015-05-24", "user8", "user3", "feature", "closed");
+INSERT INTO tickets VALUES (117, -1, "test44", "description1", "2015-05-24", "user1", "user1", "feature", "open");
+INSERT INTO tickets VALUES (118, -1, "test45", "description1", "2015-05-24", "user1", "user1", "feature", "open");
+INSERT INTO tickets VALUES (119, -1, "test46", "description1", "2015-05-24", "user1", "user1", "feature", "open");
+INSERT INTO tickets VALUES (120, -1, "test47", "description1", "2015-05-24", "user1", "user1", "feature", "open");
+
+
+
+
 SELECT * FROM tickets ORDER BY id;
 
 DROP table ticket_features;
@@ -51,6 +59,10 @@ INSERT INTO ticket_features VALUES (112, "20h");
 INSERT INTO ticket_features VALUES (113, "3h");
 INSERT INTO ticket_features VALUES (115, "20h");
 INSERT INTO ticket_features VALUES (116, "3h");
+INSERT INTO ticket_features VALUES (117, "20h");
+INSERT INTO ticket_features VALUES (118, "3h");
+INSERT INTO ticket_features VALUES (119, "20h");
+INSERT INTO ticket_features VALUES (120, "3h");
 SELECT * FROM ticket_features ORDER BY id;
 
 DROP table ticket_bugs;
@@ -96,6 +108,10 @@ DROP table sprints;
 CREATE TABLE sprints(sprintid INT, title VARCHAR(35), start_date DATE, end_date DATE, active BOOL) engine=innodb;
 INSERT INTO sprints VALUES (8, "sprint1", "2015-05-24", "2015-06-26",0);
 INSERT INTO sprints VALUES (9, "sprint2", "2015-05-10", "2015-06-12",0);
+INSERT INTO sprints VALUES (10, "sprint3", "2015-05-10", "2015-06-12",0);
+INSERT INTO sprints VALUES (11, "sprint4", "2015-05-10", "2015-06-12",0);
+
+
 
 GRANT ALL PRIVILEGES ON issuetracking_db.* TO 'glassfishadmin'@'%' IDENTIFIED BY 'chucknorris42';
 

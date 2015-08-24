@@ -45,11 +45,14 @@ th, td {
 th {
 	text-align: left;
 }
+
+body {
+	BACKGROUND:${pageContext.request.contextPath}/triangular.png;
+}
 </style>
 </head>
 
 <body>
-
 
 
 
