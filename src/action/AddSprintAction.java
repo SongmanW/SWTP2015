@@ -60,7 +60,7 @@ public class AddSprintAction implements Action{
 			
 		}
 		request.setAttribute("errorMsgs", errorMsgs);
-		return "sprints.jsp";
+		return "user/sprints.jsp";
 		
 		
 	}

@@ -18,7 +18,7 @@ public class StartSprintAction implements Action{
 			DBManager1.updateSprint(sprint);
 		}
 		
-		return "sprints.jsp";
+		return "user/sprints.jsp";
 	}
 
 }

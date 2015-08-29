@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 				HttpServletResponse response) {
 			Comment comment1 = DBManager1.getCommentById(Integer.parseInt(request.getParameter("cid")));
 			DBManager1.deleteComment(comment1);
-			return "ticketview.jsp";
+			return "user/ticketview.jsp";
 		}
 
 	}

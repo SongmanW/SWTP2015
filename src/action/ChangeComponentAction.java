@@ -27,7 +27,7 @@ public class ChangeComponentAction implements Action {
 		}
 		
 		request.setAttribute("errorMsgs", errorMsgs);
-		return "componentview.jsp";
+		return "user/componentview.jsp";
 	}
 
 }

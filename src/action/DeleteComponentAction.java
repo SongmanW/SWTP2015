@@ -15,7 +15,7 @@ public class DeleteComponentAction implements Action {
 			HttpServletResponse response) {
 		Component comp = DBManager1.getComponentById(request.getParameter("comp_id"));
 		DBManager1.deleteComponent(comp);
-		return "components.jsp";
+		return "user/components.jsp";
 	}
 
 }

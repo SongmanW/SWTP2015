@@ -32,8 +32,8 @@ public class DeleteUserAction implements Action {
 		if ("deleteUser_from_account".equals(request.getParameter("action"))){
 			request.getSession().removeAttribute("user");
 			request.getSession().removeAttribute("password");
-			return "login.jsp";}
+			return "user/login.jsp";}
 		else
-			return "users.jsp";
+			return "admin/users.jsp";
 	}
 }

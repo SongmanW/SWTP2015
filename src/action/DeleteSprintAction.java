@@ -29,6 +29,6 @@ public class DeleteSprintAction implements Action{
 			}}
 		
 		DBManager1.deleteSprint(sprint1);
-		return "sprints.jsp";}
+		return "user/sprints.jsp";}
 
 }
