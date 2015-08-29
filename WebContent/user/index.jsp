@@ -25,7 +25,7 @@
 	<a href="Controller?action=preparePage&pageName=user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a> &nbsp;
 	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="Controller?action=preparePage&pageName=sprints.jsp"> back to
+	<a href="Controller?action=preparePage&pageName=user/sprints.jsp"> back to
 		sprints </a>
 
 
