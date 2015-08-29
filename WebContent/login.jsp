@@ -3,22 +3,34 @@
 <%@ page import="java.util.*"%>
 <%@ page import="issuetracking.*"%>
 
+<% 
+DBManager DBManager1 = DBManager.getInstance();
+if (DBManager1.checkLogin((String)request.getSession().getAttribute("user"),
+					(String)request.getSession().getAttribute("password"))) {
+				request.getRequestDispatcher("Controller?action=preparePage&pageName=sprints.jsp").forward(
+						request, response);
+			}
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<style>
+
+</style>
 </head>
 <body>
 	${sessionScope.test}
 	${regSuccess}
-	<h1>Login</h1> 
-	<form action="j_security_check" method="post">
+	<h1>Login</h1>
+	<form action="Controller" method="post">
 		<input type="hidden" name="action" value="login"/>
-		Username:<input name="j_username" type="text"/>
-		Password:<input name="j_password" type="text"/>
-		<input type="submit" value="Submit">
+		Username:<input name="useridinput" type="text"/>${errorMsgsLogin.useridinput}<br />
+		Password:<input name="passwordinput" type="text"/>${errorMsgsLogin.passwordinput}<br />
+		<input type="submit" value="login">
 	</form>
-	
+
 	<h1>Register</h1>
 	<form action="Controller" method="post">
 		<input type="hidden" name="action" value="register"/>

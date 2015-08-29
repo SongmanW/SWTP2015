@@ -33,7 +33,7 @@ public class Controller extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+		HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		Action aktion = Action.actionFactory(action);
 
@@ -86,6 +86,8 @@ public class Controller extends HttpServlet {
 			request.setAttribute("tickets_inprogress", DBManager1.getTicketsByState("in_progress",Integer.parseInt(request.getParameter("sprintid"))));//,Integer.parseInt(request.getParameter("sprintid"))));
 			request.setAttribute("tickets_test", DBManager1.getTicketsByState("test",Integer.parseInt(request.getParameter("sprintid"))));//,Integer.parseInt(request.getParameter("sprintid"))));
 			
+		
+			
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 			String date1 = ft.format(dNow);
@@ -94,6 +96,31 @@ public class Controller extends HttpServlet {
 			request.setAttribute("compids", DBManager1.getComponents());
 		}
 
+		if (pageName.endsWith("sprintDetail.jsp")) {
+			request.setAttribute("users", DBManager1.getUsers());
+			request.setAttribute("tickets_open", DBManager1.getTicketsByState("open",Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_closed", DBManager1.getTicketsByState("closed",Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_inprogress", DBManager1.getTicketsByState("in_progress",Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("tickets_test", DBManager1.getTicketsByState("test",Integer.parseInt(request.getParameter("sprintid"))));
+			
+			request.setAttribute("nosprinttickets_open", DBManager1.getTicketsByState("open",-1));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("nosprinttickets_closed", DBManager1.getTicketsByState("closed",-1));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("nosprinttickets_inprogress", DBManager1.getTicketsByState("in_progress",-1));//,Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("nosprinttickets_test", DBManager1.getTicketsByState("test",-1));//,Integer.parseInt(request.getParameter("sprintid"))));
+			
+			request.setAttribute("thissprint",DBManager1.getSprintById(Integer.parseInt(request.getParameter("sprintid"))));
+			
+			Date dNow = new Date();
+			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+			String date1 = ft.format(dNow);
+			request.setAttribute("date1", date1);
+
+			request.setAttribute("compids", DBManager1.getComponents());
+		}
+		
+		
+		
+		
 		if (pageName.endsWith("ticketview.jsp")) {
 			Ticket t2 = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
 			request.setAttribute("t1", t2);

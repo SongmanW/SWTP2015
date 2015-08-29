@@ -15,7 +15,7 @@ public class AddSprintAction implements Action{
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
 		Map<String, String> errorMsgs = new HashMap<String, String>();
-		
+		//build Sprint
 		DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 		Date date1=null;
 		try {
@@ -23,9 +23,8 @@ public class AddSprintAction implements Action{
 					 request.getParameter("m1")  + "."+
 					  request.getParameter("y1") + " "+
 					   "00:00:00";
-			System.out.println(StartDateString);		    
 			date1 = format.parse(StartDateString);
-			System.out.println(date1.toString());
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -44,14 +43,19 @@ public class AddSprintAction implements Action{
 
 		
 		Sprint sprint1 = new Sprint(DBManager1.getNextSprintId(),  request.getParameter("title"), date1,date2, false);
+		
+		//validate and save in DB
 		errorMsgs = sprint1.validate();
 		if(errorMsgs.isEmpty()){
 			DBManager1.saveSprint(sprint1);
+			
+			//checked tickets now belong to the sprint
 			if(request.getParameterValues("tickids")!=null){
+				
 			for(String tickid: request.getParameterValues("tickids")){
 				Ticket temptick = DBManager1.getTicketById(Integer.parseInt(tickid));
-				System.out.println("In addsprintaction:"+tickid);
-			//	DBManager1.FillTicketsSprintfield(temptick, sprintid);
+				temptick.setSprintid(sprint1.getSprintid());
+				DBManager1.updateTicket(temptick);
 			}}
 			
 		}

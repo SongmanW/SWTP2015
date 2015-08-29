@@ -6,6 +6,7 @@
 <%@ page import="java.text.*"%>
 <%@ page import="issuetracking.*"%>
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,47 +38,31 @@ th {
 <body>
 
 	User:
-	<a href=${'Controller?action=preparePage&pageName=user/userpage.jsp&user_id'}>
-		${pageContext.request.userPrincipal.name}</a> &nbsp;
-	<a href="Controller?action=logout"> logout </a>
+	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
+		${sessionScope.user}</a>
+	<a href="Controller?action=logout"> logout </a>&nbsp;
+	<a href="Controller?action=preparePage&pageName=sprints.jsp"> back to
+		sprints </a>
 
-	<h1>New Ticket</h1>
-	<form action="Controller" method="post">
-		<input type="hidden" name="sprintid" value="-1" /><!--${thissprintsid} -->
-		<input type="hidden" name="action" value="addTicket" /> 
-		Title:<input name="title" type="text" /> ${errorMsgs.title}<br> 
-		Description:<br><textarea name="description" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
-		<input type="hidden" name="date" value="${date1}" /> 
-		<input type="hidden" name="author" value="${sessionScope.user}" /> 
-		Responsible user:
-		<select name="responsible_user">
-			<c:forEach items="${users}" var="user1">
-				<option value="${user1.userid}">${user1.userid}</option>
-			</c:forEach>
-		</select> ${errorMsgs.responsible_user}<br> 
-		Type:<select name="type" onchange="showSpan(this)">
-			<option value="bug">bug</option>
-			<option value="feature">feature</option>
-		</select> ${errorMsgs.type}<br> State:<select name="state">
-			<option value="open">open</option>
-			<option value="closed">closed</option>
-			<option value="in_progress">in progress</option>
-			<option value="test">test</option>
-		</select> ${errorMsgs.state}<br> 
-		<span id="estimated_time_change_span" style="display: none;">
-			Estimated time:<input name="estimated_time" type="text" />${errorMsgs.estimated_time}
-		</span><br />
-		Components <a href="Controller?action=preparePage&pageName=user/components.jsp">(addComponents)</a>:<br>
-		<c:forEach items="${compids}" var="compid1">
-			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
-			<br>
-		</c:forEach>
-		<input type="submit" value="add ticket">
-	</form>
 
-	<h1>Open Tickets</h1>
+	<h1>The sprint:</h1>
+	SprintID=${thissprint.sprintid}<br>
+	Title=${thissprint.title} <br>
+	start date=${thissprint.getStartDateAsString()} <br>
+	end date=${thissprint.getEndDateAsString()} <br>
+	active =${thissprint.active ? 'yes' : 'no'}  <br>
+	 
+	
+	
 
-	<table>
+
+
+
+<form action="Controller" method="post"> 		
+		
+		
+<h1>Open Tickets</h1>
+<table>
 		<col width="30">
 		<col width="100">
 		<col width="30">
@@ -89,12 +74,18 @@ th {
 			<th>Description</th>
 			<th>SprintID</th>
 		</tr>
+		<c:forEach items="${nosprinttickets_open}" var="tick1">
+			<input type="checkbox" name="tickids" value="${tick1.id}">${tick1.title}
+			<br>
+		</c:forEach>
+		
+		
 		<c:forEach items="${tickets_open}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
 					href=${"Controller?action=preparePage&pageName=ticketview.jsp&ticket_id=".concat(ticket1.id)}>
-						${ticket1.title} </a></td>
+						${ticket1.title} </a>     remove?<input type="checkbox" name="nownosprinttickids" value="${ticket1.id}"></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
@@ -119,12 +110,18 @@ th {
 			<th>Description</th>
 			<th>SprintID</th>
 		</tr>
+		<c:forEach items="${nosprinttickets_inprogress}" var="tick1">
+			<input type="checkbox" name="tickids" value="${tick1.id}">${tick1.title}
+			<br>
+		</c:forEach>
+		
+		
 		<c:forEach items="${tickets_inprogress}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
 					href=${"Controller?action=preparePage&pageName=ticketview.jsp&ticket_id=".concat(ticket1.id)}>
-						${ticket1.title} </a></td>
+						${ticket1.title} </a>remove?<input type="checkbox" name="nownosprinttickids" value="${ticket1.id}"></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
@@ -148,12 +145,20 @@ th {
 			<th>Description</th>
 			<th>SprintID</th>
 		</tr>
+		
+		<c:forEach items="${nosprinttickets_test}" var="tick1">
+			<input type="checkbox" name="tickids" value="${tick1.id}">${tick1.title}
+			<br>
+		</c:forEach>
+		
+		
+		
 		<c:forEach items="${tickets_test}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
 					href=${"Controller?action=preparePage&pageName=ticketview.jsp&ticket_id=".concat(ticket1.id)}>
-						${ticket1.title} </a></td>
+						${ticket1.title} </a>remove?<input type="checkbox" name="nownosprinttickids" value="${ticket1.id}"></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
@@ -177,12 +182,21 @@ th {
 			<th>Description</th>
 			<th>SprintID</th>
 		</tr>
+		
+		<c:forEach items="${nosprinttickets_closed}" var="tick1">
+			<input type="checkbox" name="tickids" value="${tick1.id}">${tick1.title}
+			<br>
+		</c:forEach>
+		
+		
+		
 		<c:forEach items="${tickets_closed}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
 					href=${"Controller?action=preparePage&pageName=ticketview.jsp&ticket_id=".concat(ticket1.id)}>
-						${ticket1.title} </a></td>
+						${ticket1.title} </a>remove?<input type="checkbox" name="nownosprinttickids" value="${ticket1.id}"></td>
+			</td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
@@ -192,6 +206,30 @@ th {
 	</table>
 
 
+<h1>Change the sprint</h1>
+	
+		<input type="hidden" name="action" value="changeSprint" /> 
+		<input type="hidden" name="sprintid" value="${thissprint.sprintid}" />
+		Title:<input name="title" type="text" value="${thissprint.title}"/><br />
+		Start:
+		Year:<input name="Year1" type="text" value="${thissprint.getStartDateAsString().substring(6,10)}"/><br />
+		Month:<input name="Month1" type="text" value="${thissprint.getStartDateAsString().substring(3,5)}"/><br />
+		Day:<input name="Day1" type="text" value="${thissprint.getStartDateAsString().substring(0,2)}"/><br />
+		End: 
+		Year:<input name="Year2" type="text" value="${thissprint.getEndDateAsString().substring(6,10)}"/><br />
+		Month:<input name="Month2" type="text" value="${thissprint.getEndDateAsString().substring(3,5)}"/><br />
+		Day:<input name="Day2" type="text" value="${thissprint.getEndDateAsString().substring(0,2)}"/><br />
+		<input type="submit" value="change the sprint">
+	</form>
+
+	<form action="Controller" method="post">
+		<input type="hidden" name="sprintid" value="${thissprint.getSprintid()}" />    
+		<input type="hidden" name="action" value="deleteSprint" /> 
+		<input type="submit" value="delete the sprint">
+	</form>
+	
+	
+	
 <!-- development -->
 <br>
 <br>

@@ -1,0 +1,16 @@
+2 Geplant (Abgabe bis 31.08.15):
+
+. Abschlussarbeiten
+.. Bilder zu Tickets hochladen: Datum, Uhrzeit und hochladenden Anwender speichern, Zielort des Hochladens über eigene Seite konfigurieren
+.. Statistikseite
+.. StartSprintAction
+.. EndSprintAction
+.. Userliste sichern: Controller nicht mehr direkt referenzieren, sondern über abgesicherte URL aufrufen
+. Dokumentation
+.. Entwicklerdokumentation
+.. Anwenderdokumentation 
+.. Technologie- und Arbeitsweise-Fazit über das Semester hinweg
+.. Quelltexte und alle o.g. Dokumente in einem Archiv
+
+
+

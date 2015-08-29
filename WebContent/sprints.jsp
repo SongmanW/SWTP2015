@@ -32,13 +32,12 @@ th {
 	User:
 	<a href=${'Controller?action=preparePage&pageName=user/userpage.jsp&user_id='.concat(sessionScope.user)}>
 		${sessionScope.user}</a>
-	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="Controller?action=preparePage&pageName=index.jsp"> back to
-		index </a>
+	<a href="Controller?action=logout"> logout </a>
 
 	<h1>New Sprint</h1>
 	<form action="Controller" method="post">
 		<input type="hidden" name="action" value="addSprint" /> 
+		<input type="hidden" name="sprintid" value="${thissprint.sprintid}" /> 
 		Title:<input name="title" type="text" /> ${errorMsgs.title}<br> 
 		Start of Sprint:<br>
 		Year<input name="y1" type="text" value="2015" /> ${errorMsgs.title}<br>
@@ -52,7 +51,7 @@ th {
 		
 	Tickets without sprint :<br>
 		<c:forEach items="${nosprinttickets}" var="tick1">
-			<input type="checkbox" name="tickids" value="${tick1.id}">${tick1.title}
+			<input type="checkbox" name="tickids" value="${tick1.id}">${tick1.title}${tick1.id}
 			<br>
 		</c:forEach>
 		<input type="submit" value="add sprint">
@@ -76,7 +75,7 @@ th {
 		<c:forEach items="${sprints}" var="sprint1">
 			<tr>
 				<td><a     
-					href=${"Controller?action=preparePage&pageName=user/sprintview.jsp&sprintid=".concat(sprint1.getSprintid())}>
+					href=${"Controller?action=preparePage&pageName=sprintDetail.jsp&sprintid=".concat(sprint1.getSprintid())}>
 						${sprint1.title} </a></td>
 					<td><a     
 					href=${"Controller?action=preparePage&pageName=user/sprintstickets.jsp&sprintid=".concat(sprint1.getSprintid())}>
