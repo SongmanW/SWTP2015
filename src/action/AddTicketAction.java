@@ -37,7 +37,7 @@ public class AddTicketAction implements Action{
 
 			TicketBug tbug = new TicketBug(DBManager1.getNextTicketId(), Integer.parseInt(request.getParameter("sprintid"))
 					, request.getParameter("title"), request.getParameter("description"), date
-					, request.getParameter("author"), request.getParameter("responsible_user"), request.getParameter("type")
+					, request.getUserPrincipal().getName(), request.getParameter("responsible_user"), request.getParameter("type")
 					, request.getParameter("state")
 					);
 			
@@ -73,7 +73,7 @@ public class AddTicketAction implements Action{
 
 			TicketFeature tfeature = new TicketFeature(DBManager1.getNextTicketId(), Integer.parseInt(request.getParameter("sprintid"))
 					, request.getParameter("title"), request.getParameter("description"), date
-					, request.getParameter("author"), request.getParameter("responsible_user"), request.getParameter("type")
+					, request.getUserPrincipal().getName(), request.getParameter("responsible_user"), request.getParameter("type")
 					, request.getParameter("state"), request.getParameter("estimated_time")
 					);
 					
