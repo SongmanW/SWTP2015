@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -17,9 +18,8 @@ import java.util.Map;
 
 public class DBManager {
 
-	public static void main(String[] args) {
-	}
-
+    
+    
 	private static DBManager DBManager1;
 
 	private static Map<Integer, Ticket> ticketsMap = new HashMap<Integer, Ticket>();
@@ -28,16 +28,23 @@ public class DBManager {
 	private static Map<String, List<Integer>> tcRelationMap = new HashMap<String, List<Integer>>();
 	private static Map<Integer, Comment> commentsMap = new HashMap<Integer, Comment>();
 	private static Map<Integer, Sprint> sprintsMap = new HashMap<Integer, Sprint>(); 
-
-	private DBManager() {
-	}
-
+        
+        public DBManager() {
+        }
+        
 	public static DBManager getInstance() {
 		if (DBManager.DBManager1 == null) {
 			DBManager.DBManager1 = new DBManager();
 		}
 		return DBManager.DBManager1;
 	}
+        
+        private Connection getConnection() throws SQLException{
+            			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+                                return myConn;
+        }
 
 	public int getNextTicketId() {
 		loadTickets();
@@ -74,9 +81,7 @@ public class DBManager {
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+                    Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			Statement myStmt2 = myConn.createStatement();
@@ -167,9 +172,7 @@ public class DBManager {
 		try {
 			// Einfuegen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -234,9 +237,7 @@ public class DBManager {
 		try {
 			// Loeschen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -265,9 +266,7 @@ public class DBManager {
 		try {
 			// Loeschen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -286,9 +285,7 @@ public class DBManager {
 		try {
 			// Loeschen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -309,9 +306,7 @@ public class DBManager {
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -346,9 +341,7 @@ public class DBManager {
 		try {
 			// Einfoegen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -382,9 +375,7 @@ public class DBManager {
 		try {
 			// Updaten
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -403,9 +394,7 @@ public class DBManager {
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -426,9 +415,7 @@ public class DBManager {
 		try {
 			// Loeschen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -472,9 +459,7 @@ public class DBManager {
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -508,9 +493,7 @@ public class DBManager {
 		try {
 			// Einfoegen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -528,9 +511,7 @@ public class DBManager {
 		try {
 			// Updaten
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -548,9 +529,7 @@ public class DBManager {
 		try {
 			// Loeschen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -571,9 +550,7 @@ public class DBManager {
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -622,9 +599,7 @@ public class DBManager {
 		try {
 			// Einfuegen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -651,9 +626,7 @@ public class DBManager {
 		try {
 			// Loeschen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -672,9 +645,7 @@ public class DBManager {
 		try {
 			// Loeschen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -692,9 +663,7 @@ public class DBManager {
 		try {
 			// Loeschen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -720,9 +689,7 @@ public void loadComments(){
 	try {
 		// Holen
 		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
+		Connection myConn = getConnection();
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. execute sql query
@@ -750,9 +717,7 @@ public void saveComment(Comment comment1){
 	try {
 		// Einfuegen
 		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
+		Connection myConn = getConnection();
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. Execute SQL query
@@ -771,9 +736,7 @@ public void deleteComment(Comment c){
 	try {
 		// Loeschen
 		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
+		Connection myConn = getConnection();
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. Execute SQL query
@@ -791,9 +754,7 @@ public void updateComment(Comment c){
 	try {
 		// Updaten
 		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
+		Connection myConn = getConnection();
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. Execute SQL query
@@ -832,9 +793,7 @@ public void loadSprints() {
 	try {
 		// Holen
 		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
+		Connection myConn = getConnection();
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. execute sql query
@@ -878,9 +837,7 @@ public void saveSprint(Sprint sprint1){
 	try {
 		// Einfuegen
 		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
+		Connection myConn = getConnection();
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. Execute SQL query
@@ -905,11 +862,9 @@ public void saveSprint(Sprint sprint1){
 //					 {
 //				System.out.println("Deletion not possible. There are still not closed Tickets which belong to this Sprint");
 //			}else{
-			// Löschen
+			// Lï¿½schen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
