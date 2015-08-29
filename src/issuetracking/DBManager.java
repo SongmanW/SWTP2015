@@ -302,10 +302,10 @@ public class DBManager {
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
-			ResultSet myRs = myStmt.executeQuery("select * from users order by userid");
+			ResultSet myRs = myStmt.executeQuery("select * from USERS order by USERID");
 			// 4. Process results
 			while (myRs.next()) {
-				User u1 = new User(myRs.getString("userid"),myRs.getString("password"));
+				User u1 = new User(myRs.getString("USERID"),myRs.getString("PASSWORD"));
 				
 				usersMap.put(u1.getUserid(), u1);
 			}
@@ -416,7 +416,7 @@ public class DBManager {
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
-			String sql = "delete from users " + "where userid = '"
+			String sql = "delete from USERS " + "where USERID = '"
 					+ u1.getUserid() + "' ;";
 
 			myStmt.executeUpdate(sql);
@@ -426,7 +426,7 @@ public class DBManager {
 		loadUsers();
 	}
 	
-	public boolean checkLogin(String userid, String password) {
+	/*public boolean checkLogin(String userid, String password) {
 		try {
 			// Holen
 			// 1. get conn
@@ -449,7 +449,7 @@ public class DBManager {
 			e.printStackTrace();
 		}
 		return false;
-	};
+	};*/
 
 	public void loadComponents(){
 		componentsMap.clear();
