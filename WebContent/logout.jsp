@@ -10,7 +10,7 @@
 </head>
 <body>
 
-LOGOUT
+    You was logged out. If you want to relogin proceed to the <a href="login.jsp">Login Page</a>.
 
 </body>
 </html>
