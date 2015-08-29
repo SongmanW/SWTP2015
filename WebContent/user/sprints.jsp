@@ -30,8 +30,8 @@ th {
 <body>
 
 	User:
-	<a href=${'Controller?action=preparePage&pageName=user/userpage.jsp&user_id='.concat(sessionScope.user)}>
-		${sessionScope.user}</a>
+        <a href="Controller?action=preparePage&pageName=user/userpage.jsp">
+		${pageContext.request.userPrincipal.name}</a>
 	<a href="Controller?action=logout"> logout </a>
 
 	<h1>New Sprint</h1>
@@ -75,7 +75,7 @@ th {
 		<c:forEach items="${sprints}" var="sprint1">
 			<tr>
 				<td><a     
-					href=${"Controller?action=preparePage&pageName=sprintDetail.jsp&sprintid=".concat(sprint1.getSprintid())}>
+					href=${"Controller?action=preparePage&pageName=user/sprintDetail.jsp&sprintid=".concat(sprint1.getSprintid())}>
 						${sprint1.title} </a></td>
 					<td><a     
 					href=${"Controller?action=preparePage&pageName=user/sprintstickets.jsp&sprintid=".concat(sprint1.getSprintid())}>

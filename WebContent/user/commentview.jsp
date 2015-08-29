@@ -12,8 +12,8 @@
 </head>
 <body>
 	User:
-	<a href=${'Controller?action=preparePage&pageName=user/userpage.jsp&user_id='.concat(sessionScope.user)}>
-		${sessionScope.user}</a> &nbsp;
+        <a href="Controller?action=preparePage&pageName=user/userpage.jsp">
+		${pageContext.request.userPrincipal.name}</a>
 	<a href="Controller?action=logout"> logout </a> &nbsp;
 	<a href=${"Controller?action=preparePage&pageName=user/ticketview.jsp&ticket_id=".concat(c1.tid)}> back to the ticket </a>
 	&nbsp;&nbsp;<a href="Controller?action=preparePage&pageName=user/index.jsp"> back to index </a>
