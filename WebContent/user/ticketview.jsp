@@ -4,16 +4,6 @@
 <%@ page import="issuetracking.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.text.*"%>
-
-<% 
-DBManager DBManager1 = DBManager.getInstance();
-	if (!DBManager1.checkLogin((String) request.getSession()
-					.getAttribute("user"), (String) request.getSession()
-					.getAttribute("password"))) {
-				request.getRequestDispatcher("login.jsp").forward(request,
-						response);
-			}
-%>
 	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -128,7 +118,7 @@ function setchecked(selectid,valuewert)
 		</select><br> 
 		<span id="estimated_time_change_span" style="display: none;">
 		Estimated time:<input name="estimated_time" value="${t1.estimated_time}" type="text" />hours  ${errorMsgs.estimated_time}</span><br /> 
-		Components <a href="Controller?action=preparePage&pageName=components.jsp">(addComponents)</a>:<br>
+		Components <a href="Controller?action=preparePage&pageName=user/components.jsp">(addComponents)</a>:<br>
 		<c:forEach items="${compids}" var="compid1">
 			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
 			<br>

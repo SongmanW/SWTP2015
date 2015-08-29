@@ -14,8 +14,8 @@ public interface Action {
 			return new DeleteTicketAction();
 		case "changeTicket":
 			return new ChangeTicketAction();
-		case "login":
-			return new LoginAction();
+		/*case "login":
+			return new LoginAction();*/
 		case "logout":
 			return new LogoutAction();
 		case "register":
