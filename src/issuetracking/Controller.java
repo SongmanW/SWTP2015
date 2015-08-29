@@ -133,7 +133,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("u1", u1);
 		}
 		if (pageName.endsWith("userpage.jsp")) {
-			User u1 = DBManager1.getUserByUserid(request.getParameter("user_id"));
+			User u1 = DBManager1.getUserByUserid(request.getParameter(request.getUserPrincipal().getName().toString()));
 			request.setAttribute("u1", u1);
 		}
 		if (pageName.endsWith("login.jsp")) {
