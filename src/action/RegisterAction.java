@@ -30,6 +30,6 @@ public class RegisterAction implements Action {
 		if ("register".equals(request.getParameter("action")))
 			return "login.jsp";
 		else
-			return "users.jsp";
+			return "admin/users.jsp";
 	}
 }

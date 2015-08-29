@@ -26,7 +26,7 @@ th {
 </style>
 </head>
 <body>
-	<a href="Controller?action=preparePage&pageName=login.jsp"> back to login </a>
+	<a href="login.jsp"> back to login </a>
 	
  	${regSuccess}
 	<h1>Register</h1>
@@ -49,7 +49,7 @@ th {
 		<c:forEach items="${users}" var="user1">
 			<tr>
 			<td>
-				<a href=${"Controller?action=preparePage&pageName=userview.jsp&user_id=".concat(user1.userid)}>
+				<a href=${"Controller?action=preparePage&pageName=user/userview.jsp&user_id=".concat(user1.userid)}>
 				${user1.userid}</a>
 			</td>
 			<td>${user1.password}</td>

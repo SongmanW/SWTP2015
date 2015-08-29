@@ -11,7 +11,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="Controller?action=preparePage&pageName=index.jsp"> back to index </a>
+	<a href="Controller?action=preparePage&pageName=user/index.jsp"> back to index </a>
 	<h1>Your data:</h1>
 	UserID=${u1.userid}<br> 
 	Password=${u1.password} <br> 

@@ -27,7 +27,7 @@
 		<input type="submit" value="register"> 
 	</form><br />
 	
-	<a href="Controller?action=preparePage&pageName=users.jsp"> Edit Users (Adminpage)</a>
+	<a href="Controller?action=preparePage&pageName=admin/users.jsp"> Edit Users (Adminpage)</a>
 <!-- development -->
 <br>
 <br>
