@@ -26,7 +26,7 @@ import javax.sql.DataSource;
 @LocalBean
 public class DBManager {
     
-    @Resource(name = "jdbc/issuetracking/Datasource")
+    @Resource(mappedName = "jdbc/issuetracking/Datasource")
     private DataSource ds;
     
     @PersistenceContext(unitName="SWTP2015PU")
