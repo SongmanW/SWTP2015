@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ChangeCommentAction implements Action {
 		
-		private static final DBManager DBManager1 = DBManager.getInstance();
 
 		@Override
 		public String execute(HttpServletRequest request,
 				HttpServletResponse response) {
+                        DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 			Comment comment1 = DBManager1.getCommentById(Integer.parseInt(request.getParameter("comment_id")));
 			Map<String, String> errorMsgs = new HashMap<String, String>();
 			

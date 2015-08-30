@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DeleteUserAction implements Action {
 
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
+                DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		User u1 = DBManager1.getUserByUserid(request.getParameter("user_id"));
 
 		List<Ticket> tickets = DBManager1.getTickets();

@@ -19,12 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ChangeSprintAction implements Action{
 
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
 		
+                DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		
 		Sprint sprint1 = DBManager1.getSprintById(Integer.parseInt(request.getParameter("sprintid")));
 		Map<String, String> errorMsgs = new HashMap<String, String>();

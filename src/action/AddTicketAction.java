@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AddTicketAction implements Action{
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
+                DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Component tempcomp;
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		if (request.getParameter("type").equals("bug")) {

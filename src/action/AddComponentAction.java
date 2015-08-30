@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AddComponentAction implements Action{
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
 		
+                DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 	
 		String compidinput = request.getParameter("comp_id");

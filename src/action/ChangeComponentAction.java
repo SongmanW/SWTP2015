@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ChangeComponentAction implements Action {
 	
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
+                DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Component comp1 = DBManager1.getComponentById(request.getParameter("comp_id"));
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		

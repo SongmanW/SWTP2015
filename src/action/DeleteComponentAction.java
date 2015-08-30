@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DeleteComponentAction implements Action {
 	
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
+                DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Component comp = DBManager1.getComponentById(request.getParameter("comp_id"));
 		DBManager1.deleteComponent(comp);
 		return "user/components.jsp";

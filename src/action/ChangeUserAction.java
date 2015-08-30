@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class ChangeUserAction implements Action {
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request,HttpServletResponse response) {
+                DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		User u1 = DBManager1.getUserByUserid(request.getParameter("user_id"));
 		
 		User u1Update = new User(u1.getUserid(),request.getParameter("passwordinput"));

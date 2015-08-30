@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RegisterAction implements Action {
 
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request,HttpServletResponse response) {
+                DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		String regSuccess = null;
