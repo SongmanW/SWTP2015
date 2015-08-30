@@ -1,11 +1,19 @@
 package issuetracking;
 
+import java.io.Serializable;
 import java.text.*;
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-abstract public class Ticket {
-	protected static final DBManager DBManager1 = DBManager.getInstance();
+@Entity
+@Table(name="tickets")
+public class Ticket implements Serializable {
+        public static final String BUG = "bug";
+        public static final String FEATURE = "feature";
 	
+        @Id
 	protected int id;
 
 	
@@ -17,13 +25,15 @@ abstract public class Ticket {
 	protected String responsible_user;
 	protected String type;
 	protected String state;
+        
+        private String estimated_time;
 
-	
+        public Ticket() {
+        }
 
-	public Ticket(int id, int sprintid, String title, String description,
+	public Ticket(int sprintid, String title, String description,
 			Date date, String author, String responsible_user, String type,
 			String state) {
-		this.id = id;
 		this.sprintid = sprintid;
 		this.title = title;
 		this.description = description;
@@ -33,10 +43,6 @@ abstract public class Ticket {
 		this.type = type;
 		this.state = state;
 	}
-//	public Ticket() {
-//	}
-	
-	
 
 	public int getId() {
 		return id;
@@ -118,13 +124,14 @@ abstract public class Ticket {
 	}
 
 	public String getEstimated_time() {
-		return "";
+		return estimated_time;
 	}
 
 	public void setEstimated_time(String estimated_time) {
+            this.estimated_time = estimated_time;
 	}
 	
-	public Map<String, String> validate() {
+	public Map<String, String> validate(DBManager DBManager1) {
 		Map<String, String> errorMsg = new HashMap<String, String>();
 		if (title == null || title.trim().equals(""))
 			errorMsg.put("title", "This field should not be empty!");
@@ -143,6 +150,12 @@ abstract public class Ticket {
 			errorMsg.put("type", "This field should not be empty!!");
 		if (state == null || state.trim().equals(""))
 			errorMsg.put("state", "This field should not be empty!!");
+                
+                if(FEATURE.equals(type)){
+                    if (estimated_time == null || estimated_time.trim().equals(""))
+			errorMsg.put("estimated_time",
+					"estimated_time darf nicht leer sein!");
+                }
 
 		return errorMsg;
 	}

@@ -2,8 +2,7 @@ package action;
 
 import issuetracking.Component;
 import issuetracking.DBManager;
-import issuetracking.TicketBug;
-import issuetracking.TicketFeature;
+import issuetracking.Ticket;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -23,7 +22,8 @@ public class AddTicketAction implements Action{
                 DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Component tempcomp;
 		Map<String, String> errorMsgs = new HashMap<String, String>();
-		if (request.getParameter("type").equals("bug")) {
+		String type = request.getParameter("type");
+		if (Ticket.BUG.equals(type) || Ticket.FEATURE.equals(type)) {
 			String dateString = request.getParameter("date");
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Date date= new Date();
@@ -35,63 +35,29 @@ public class AddTicketAction implements Action{
 				e.printStackTrace();
 			}
 
-			TicketBug tbug = new TicketBug(DBManager1.getNextTicketId(), Integer.parseInt(request.getParameter("sprintid"))
+			Ticket ticket = new Ticket(Integer.parseInt(request.getParameter("sprintid"))
 					, request.getParameter("title"), request.getParameter("description"), date
 					, request.getUserPrincipal().getName(), request.getParameter("responsible_user"), request.getParameter("type")
 					, request.getParameter("state")
 					);
+                        ticket.setId(DBManager1.getNextTicketId());
+                        ticket.setEstimated_time(request.getParameter("estimated_time"));
 			
 			
 			
-			errorMsgs = tbug.validate();
+			errorMsgs = ticket.validate(DBManager1);
 			
 			if (errorMsgs.isEmpty()) {
-				DBManager1.saveTicket(tbug);
+				DBManager1.saveTicket(ticket);
 				String[] compids = request.getParameterValues("compid");
 				if(compids != null){
 					for(String compid: compids){
 						tempcomp = DBManager1.getComponentById(compid);
-						DBManager1.saveTCRelation(tbug, tempcomp);
+						DBManager1.saveTCRelation(ticket, tempcomp);
 					}
 				}
 			}
-		} else
-		if (request.getParameter("type").equals("feature")) {
-			
-
-			
-			String dateString = request.getParameter("date");
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date date= new Date();
-			try {
-			date = format.parse(dateString);
-		
-					
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
-			TicketFeature tfeature = new TicketFeature(DBManager1.getNextTicketId(), Integer.parseInt(request.getParameter("sprintid"))
-					, request.getParameter("title"), request.getParameter("description"), date
-					, request.getUserPrincipal().getName(), request.getParameter("responsible_user"), request.getParameter("type")
-					, request.getParameter("state"), request.getParameter("estimated_time")
-					);
-					
-					
-			
-			errorMsgs = tfeature.validate();
-			if (errorMsgs.isEmpty()) {
-				DBManager1.saveTicket(tfeature);
-				String[] compids = request.getParameterValues("compid");
-				if(compids != null){
-					for(String compid: compids){
-						tempcomp = DBManager1.getComponentById(compid);
-						DBManager1.saveTCRelation(tfeature, tempcomp);
-					}
-				}
-			}
-
-		}else{
+		} else{
 			errorMsgs.put("type", "Type not available");
 		}
 		

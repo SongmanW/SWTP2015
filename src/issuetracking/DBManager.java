@@ -98,29 +98,29 @@ public class DBManager {
 			// 3. execute sql query
 			ResultSet resultBugs = myStmt
 					.executeQuery("select * from tickets, ticket_bugs WHERE "
-							+ "tickets.id = ticket_bugs.id "
+							+ "tickets.type == '" + Ticket.BUG + "' "
 							+ "order by tickets.id;");
 			ResultSet resultFeatures = myStmt2
 					.executeQuery("select * from tickets, ticket_features WHERE "
-							+ "tickets.id = ticket_features.id "
+							+ "tickets.type == '" + Ticket.FEATURE + "' "
 							+ "order by tickets.id;"
 							);
 			// 4. Process results
 			while (resultBugs.next()) {
-				TicketBug t1 = new TicketBug(resultBugs.getInt("id"), resultBugs.getInt("sprintid"),resultBugs.getString("title")
+				Ticket t1 = new Ticket(resultBugs.getInt("sprintid"),resultBugs.getString("title")
 						, resultBugs.getString("description"),  resultBugs.getDate("creation_date"), resultBugs.getString("author")
 						, resultBugs.getString("responsible_user"),resultBugs.getString("type") ,resultBugs.getString("state")
 						);
+                                t1.setId(resultBugs.getInt("id"));
 				ticketsMap.put(t1.getId(), t1);
 			}
 			while (resultFeatures.next()) {
-			
-			
-				TicketFeature t1 = new TicketFeature(resultFeatures.getInt("id"), resultFeatures.getInt("sprintid"),resultFeatures.getString("title")
+				Ticket t1 = new Ticket(resultFeatures.getInt("sprintid"),resultFeatures.getString("title")
 						, resultFeatures.getString("description"),  resultFeatures.getDate("creation_date"), resultFeatures.getString("author")
 						, resultFeatures.getString("responsible_user"),resultFeatures.getString("type") ,resultFeatures.getString("state")
-						, resultFeatures.getString("estimated_time")
 						);
+                                t1.setId(resultFeatures.getInt("id"));
+                                t1.setEstimated_time(resultFeatures.getString("estimated_time"));
 				ticketsMap.put(t1.getId(), t1);
 				
 			}
@@ -187,9 +187,8 @@ public class DBManager {
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
 			
-			
 			String sql = "insert into tickets "
-					+ " (id, sprintid, title, description, creation_date, author, responsible_user, type, state)"
+					+ " (id, sprintid, title, description, creation_date, author, responsible_user, type, state, estimated_time)"
 					+ " values("+ t1.getId()+ ", "
 					+ "'"+ t1.getSprintid()+ "', "
 					+ "'"+ t1.getTitle()+ "', "
@@ -197,34 +196,10 @@ public class DBManager {
 					+ "'"+ t1.getDateAsString()+ "', "
 					+ "'"+ t1.getAuthor()+ "' ,"
 					+ "'"+ t1.getResponsible_user()+ "', "
-					+ "'"+ t1.getType()+ "' ," + "'" + t1.getState() + "' " + ");";
+					+ "'"+ t1.getType()+ "' ," + "'" + t1.getState() + "' "+ "'" + t1.getEstimated_time()
+						+ "' " + ");";
 			myStmt.executeUpdate(sql);
 
-			if (t1 instanceof TicketBug) {
-				TicketBug tbug = (TicketBug) t1;
-
-				// 2. create statement
-				Statement myStmt2 = myConn.createStatement();
-				String sql2 = "insert into ticket_bugs " + " (id)" + " values("
-						+ tbug.getId() + " " + ");";
-
-				myStmt2.executeUpdate(sql2);
-				try { if( myStmt2 != null ) myStmt2.close(); } catch( Exception ex ) {/* nothing to do*/};
-			}
-
-			if (t1 instanceof TicketFeature) {
-				TicketFeature tfeature = (TicketFeature) t1;
-
-				// 2. create statement
-				Statement myStmt2 = myConn.createStatement();
-				String sql2 = "insert into ticket_features "
-						+ " (id, estimated_time)" + " values("
-						+ tfeature.getId() + ", " + "'" + tfeature.getEstimated_time()
-						+ "' " + ");";
-
-				myStmt2.executeUpdate(sql2);
-				try { if( myStmt2 != null ) myStmt2.close(); } catch( Exception ex ) {/* nothing to do*/};
-			}
 		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
 		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {

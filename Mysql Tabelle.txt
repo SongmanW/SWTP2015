@@ -17,63 +17,32 @@ SELECT * FROM users ORDER BY userid;
 
 DROP table tickets;
 
-CREATE TABLE tickets(id INT, sprintid INT, title VARCHAR(35), description VARCHAR(3000), creation_date DATE, author VARCHAR(35), responsible_user VARCHAR(35), type VARCHAR(35), state VARCHAR(35)) engine=innodb;
-INSERT INTO tickets VALUES (101, -1, "test1", "description1", "2015-05-24", "user1", "user1", "feature", "open");
-INSERT INTO tickets VALUES (102, 8, "test2", "description2", "2015-05-24", "user1", "user3", "feature", "closed");
-INSERT INTO tickets VALUES (103, 8, "test3", "description3", "2015-05-24", "user2", "user4", "bug" ,"open");
-INSERT INTO tickets VALUES (104, 8, "test4", "description1", "2015-05-24", "user2", "user5", "feature", "open");
-INSERT INTO tickets VALUES (105, 8, "test5", "description2", "2015-05-24", "user3", "user3", "feature", "closed");
-INSERT INTO tickets VALUES (106, 8, "test6", "description3", "2015-05-24", "user3", "user5", "bug" ,"open");
-INSERT INTO tickets VALUES (107, 8, "test7", "description1", "2015-05-24", "user4", "user6", "feature", "open");
-INSERT INTO tickets VALUES (108, 8, "test8", "description2", "2015-05-24", "user4", "user7", "feature", "closed");
-INSERT INTO tickets VALUES (109, 8, "test9", "description1", "2015-05-24", "user5", "user8", "feature", "open");
-INSERT INTO tickets VALUES (110, 8, "test10", "description2", "2015-05-24", "user5", "user7", "feature", "closed");
-INSERT INTO tickets VALUES (111, 8, "test11", "description3", "2015-05-24", "user6", "user6", "bug" ,"open");
-INSERT INTO tickets VALUES (112, 8, "test12", "description1", "2015-05-24", "user6", "user1", "feature", "open");
-INSERT INTO tickets VALUES (113, 8, "test13", "description2", "2015-05-24", "user7", "user2", "feature", "closed");
-INSERT INTO tickets VALUES (114, 8, "test14", "description3", "2015-05-24", "user7", "user2", "bug" ,"open");
-INSERT INTO tickets VALUES (115, 9, "test15", "description1", "2015-05-24", "user8", "user1", "feature", "open");
-INSERT INTO tickets VALUES (116, 9, "test26", "description2", "2015-05-24", "user8", "user3", "feature", "closed");
-INSERT INTO tickets VALUES (117, -1, "test44", "description1", "2015-05-24", "user1", "user1", "feature", "open");
-INSERT INTO tickets VALUES (118, -1, "test45", "description1", "2015-05-24", "user1", "user1", "feature", "open");
-INSERT INTO tickets VALUES (119, -1, "test46", "description1", "2015-05-24", "user1", "user1", "feature", "open");
-INSERT INTO tickets VALUES (120, -1, "test47", "description1", "2015-05-24", "user1", "user1", "feature", "open");
+CREATE TABLE tickets(id INT, sprintid INT, title VARCHAR(35), description VARCHAR(3000), creation_date DATE, author VARCHAR(35), responsible_user VARCHAR(35), type VARCHAR(35), state VARCHAR(35), estimated_time VARCHAR(35)) engine=innodb;
+INSERT INTO tickets VALUES (101, -1, "test1", "description1", "2015-05-24", "user1", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (102, 8, "test2", "description2", "2015-05-24", "user1", "user3", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (103, 8, "test3", "description3", "2015-05-24", "user2", "user4", "bug" ,"open", null);
+INSERT INTO tickets VALUES (104, 8, "test4", "description1", "2015-05-24", "user2", "user5", "feature", "open", "20h");
+INSERT INTO tickets VALUES (105, 8, "test5", "description2", "2015-05-24", "user3", "user3", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (106, 8, "test6", "description3", "2015-05-24", "user3", "user5", "bug" ,"open", null);
+INSERT INTO tickets VALUES (107, 8, "test7", "description1", "2015-05-24", "user4", "user6", "feature", "open", "20h");
+INSERT INTO tickets VALUES (108, 8, "test8", "description2", "2015-05-24", "user4", "user7", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (109, 8, "test9", "description1", "2015-05-24", "user5", "user8", "feature", "open", "20h");
+INSERT INTO tickets VALUES (110, 8, "test10", "description2", "2015-05-24", "user5", "user7", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (111, 8, "test11", "description3", "2015-05-24", "user6", "user6", "bug" ,"open", null);
+INSERT INTO tickets VALUES (112, 8, "test12", "description1", "2015-05-24", "user6", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (113, 8, "test13", "description2", "2015-05-24", "user7", "user2", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (114, 8, "test14", "description3", "2015-05-24", "user7", "user2", "bug" ,"open", null);
+INSERT INTO tickets VALUES (115, 9, "test15", "description1", "2015-05-24", "user8", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (116, 9, "test26", "description2", "2015-05-24", "user8", "user3", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (117, -1, "test44", "description1", "2015-05-24", "user1", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (118, -1, "test45", "description1", "2015-05-24", "user1", "user1", "feature", "open", "3h");
+INSERT INTO tickets VALUES (119, -1, "test46", "description1", "2015-05-24", "user1", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (120, -1, "test47", "description1", "2015-05-24", "user1", "user1", "feature", "open", "3h");
 
 
 
 
 SELECT * FROM tickets ORDER BY id;
-
-DROP table ticket_features;
-
-CREATE TABLE ticket_features(id INT, estimated_time VARCHAR(35)) engine=innodb;
-INSERT INTO ticket_features VALUES (101, "20h");
-INSERT INTO ticket_features VALUES (102, "3h");
-INSERT INTO ticket_features VALUES (104, "20h");
-INSERT INTO ticket_features VALUES (105, "3h");
-INSERT INTO ticket_features VALUES (107, "20h");
-INSERT INTO ticket_features VALUES (108, "3h");
-INSERT INTO ticket_features VALUES (19, "20h");
-INSERT INTO ticket_features VALUES (110, "3h");
-INSERT INTO ticket_features VALUES (112, "20h");
-INSERT INTO ticket_features VALUES (113, "3h");
-INSERT INTO ticket_features VALUES (115, "20h");
-INSERT INTO ticket_features VALUES (116, "3h");
-INSERT INTO ticket_features VALUES (117, "20h");
-INSERT INTO ticket_features VALUES (118, "3h");
-INSERT INTO ticket_features VALUES (119, "20h");
-INSERT INTO ticket_features VALUES (120, "3h");
-SELECT * FROM ticket_features ORDER BY id;
-
-DROP table ticket_bugs;
-
-CREATE TABLE ticket_bugs(id INT) engine=innodb;
-INSERT INTO ticket_bugs VALUES (103);
-INSERT INTO ticket_bugs VALUES (106);
-INSERT INTO ticket_bugs VALUES (111);
-INSERT INTO ticket_bugs VALUES (114);
-SELECT * FROM ticket_bugs ORDER BY id;
-
 
 DROP table components;
 
@@ -122,12 +91,10 @@ GRANT ALL PRIVILEGES ON issuetracking_db.* TO 'glassfishadmin'@'%' IDENTIFIED BY
 
 Alles ausgeben:
 Die Ausgabekonsole ist nicht breit genug. 
-Rechtsklick auf den oberen Fensterrand der cmd-> Einstellungen-> Layout-> bei Fenstergröße die Breite erhöhen
+Rechtsklick auf den oberen Fensterrand der cmd-> Einstellungen-> Layout-> bei Fenstergrï¿½ï¿½e die Breite erhï¿½hen
 
 SELECT * FROM users ORDER BY userid;
 SELECT * FROM tickets ORDER BY id;
-SELECT * FROM ticket_features ORDER BY id;
-SELECT * FROM ticket_bugs ORDER BY id;
 SELECT * FROM components ORDER BY compid;
 SELECT * FROM tcrelation ORDER BY tid;
 SELECT * FROM comments ORDER BY cid;
