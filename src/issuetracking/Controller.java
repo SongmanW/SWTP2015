@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import javax.ejb.EJB;
 
 /**
  * Servlet implementation class Controller
@@ -18,8 +19,9 @@ import action.Action;
 @WebServlet("/Controller")
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	protected static final DBManager DBManager1 = DBManager.getInstance();
-
+	@EJB
+        private DBManager DBManager1;
+        
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -38,6 +40,7 @@ public class Controller extends HttpServlet {
 		Action aktion = Action.actionFactory(action);
 
 		if (aktion != null) {
+                    request.setAttribute("dao", DBManager1);
 			String result = aktion.execute(request, response);
 			if (result != null) {
 				preparePage(result, request, response);
@@ -61,7 +64,6 @@ public class Controller extends HttpServlet {
 	public void preparePage(String pageName, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		DBManager DBManager1 = DBManager.getInstance();
 
 		if (pageName.endsWith("index.jsp")) {
 			request.setAttribute("users", DBManager1.getUsers());
