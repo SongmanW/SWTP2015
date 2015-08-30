@@ -6,6 +6,7 @@ import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 @Entity
 @Table(name="tickets")
@@ -20,6 +21,7 @@ public class Ticket implements Serializable {
 	protected int sprintid;
 	protected String title;
 	protected String description;
+        @Temporal(javax.persistence.TemporalType.DATE)
 	protected Date date;
 	protected String author;
 	protected String responsible_user;
