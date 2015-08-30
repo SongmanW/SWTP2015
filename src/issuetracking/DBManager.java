@@ -97,12 +97,12 @@ public class DBManager {
 			Statement myStmt2 = myConn.createStatement();
 			// 3. execute sql query
 			ResultSet resultBugs = myStmt
-					.executeQuery("select * from tickets, ticket_bugs WHERE "
-							+ "tickets.type == '" + Ticket.BUG + "' "
+					.executeQuery("select * from tickets WHERE "
+							+ "tickets.type = '" + Ticket.BUG + "' "
 							+ "order by tickets.id;");
 			ResultSet resultFeatures = myStmt2
-					.executeQuery("select * from tickets, ticket_features WHERE "
-							+ "tickets.type == '" + Ticket.FEATURE + "' "
+					.executeQuery("select * from tickets WHERE "
+							+ "tickets.type = '" + Ticket.FEATURE + "' "
 							+ "order by tickets.id;"
 							);
 			// 4. Process results
