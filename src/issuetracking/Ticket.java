@@ -16,17 +16,15 @@ public class Ticket implements Serializable {
 	
         @Id
 	protected int id;
-
-	
 	protected int sprintid;
 	protected String title;
 	protected String description;
         @Temporal(javax.persistence.TemporalType.DATE)
-	protected Date date;
+	protected Date creation_date;
 	protected String author;
 	protected String responsible_user;
 	protected String type;
-	protected String state;
+	protected String status;
         
         private String estimated_time;
 
@@ -39,11 +37,11 @@ public class Ticket implements Serializable {
 		this.sprintid = sprintid;
 		this.title = title;
 		this.description = description;
-		this.date = date;
+		this.creation_date = date;
 		this.author = author;
 		this.responsible_user = responsible_user;
 		this.type = type;
-		this.state = state;
+		this.status = state;
 	}
 
 	public int getId() {
@@ -79,18 +77,18 @@ public class Ticket implements Serializable {
 		this.description = description;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getCreation_date() {
+		return creation_date;
 	}
 
 	public String getDateAsString() {
    		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-  		String date1=ft.format(date);
+  		String date1=ft.format(creation_date);
 		return date1;
 	}
 	
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCreation_date(Date creation_date) {
+		this.creation_date = creation_date;
 	}
 
 	public String getAuthor() {
@@ -117,12 +115,12 @@ public class Ticket implements Serializable {
 		this.type = type;
 	}
 
-	public String getState() {
-		return state;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getEstimated_time() {
@@ -150,7 +148,7 @@ public class Ticket implements Serializable {
 			errorMsg.put("responsible_user", "The user does not exist!");
 		if (type == null || type.trim().equals(""))
 			errorMsg.put("type", "This field should not be empty!!");
-		if (state == null || state.trim().equals(""))
+		if (status == null || status.trim().equals(""))
 			errorMsg.put("state", "This field should not be empty!!");
                 
                 if(FEATURE.equals(type)){

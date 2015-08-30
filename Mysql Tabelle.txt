@@ -17,7 +17,7 @@ SELECT * FROM users ORDER BY userid;
 
 DROP table tickets;
 
-CREATE TABLE tickets(id INT, sprintid INT, title VARCHAR(35), description VARCHAR(3000), creation_date DATE, author VARCHAR(35), responsible_user VARCHAR(35), type VARCHAR(35), state VARCHAR(35), estimated_time VARCHAR(35)) engine=innodb;
+CREATE TABLE tickets(id INT, sprintid INT, title VARCHAR(35), description VARCHAR(3000), creation_date DATE, author VARCHAR(35), responsible_user VARCHAR(35), type VARCHAR(35), status VARCHAR(35), estimated_time VARCHAR(35)) engine=innodb;
 INSERT INTO tickets VALUES (101, -1, "test1", "description1", "2015-05-24", "user1", "user1", "feature", "open", "20h");
 INSERT INTO tickets VALUES (102, 8, "test2", "description2", "2015-05-24", "user1", "user3", "feature", "closed", "3h");
 INSERT INTO tickets VALUES (103, 8, "test3", "description3", "2015-05-24", "user2", "user4", "bug" ,"open", null);
