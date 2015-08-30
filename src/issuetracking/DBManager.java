@@ -196,7 +196,7 @@ public class DBManager {
 					+ "'"+ t1.getDateAsString()+ "', "
 					+ "'"+ t1.getAuthor()+ "' ,"
 					+ "'"+ t1.getResponsible_user()+ "', "
-					+ "'"+ t1.getType()+ "' ," + "'" + t1.getState() + "' "+ "'" + t1.getEstimated_time()
+					+ "'"+ t1.getType()+ "' ," + "'" + t1.getState() + "', "+ "'" + t1.getEstimated_time()
 						+ "' " + ");";
 			myStmt.executeUpdate(sql);
 
