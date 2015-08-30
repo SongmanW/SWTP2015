@@ -15,11 +15,23 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 
+@Stateless
+@LocalBean
 public class DBManager {
+    
+    @Resource(name = "jdbc/issuetracking/Datasource")
+    private DataSource ds;
+    
+    @PersistenceContext(unitName="SWTP2015PU")
+    private EntityManager em;
 
-    
-    
 	private static DBManager DBManager1;
 
 	private static Map<Integer, Ticket> ticketsMap = new HashMap<Integer, Ticket>();
@@ -38,11 +50,9 @@ public class DBManager {
 		}
 		return DBManager.DBManager1;
 	}
-        
+
         private Connection getConnection() throws SQLException{
-            			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+            			Connection myConn = ds.getConnection();
                                 return myConn;
         }
 
