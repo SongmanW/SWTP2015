@@ -1,17 +1,35 @@
 package issuetracking;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
-public class Sprint {
+@Entity
+@Table(name = "sprints")
+public class Sprint implements Serializable {
+        @Id
+        @Column (name = "sprintid")
 	int sprintid;
+        @Column (name = "title")
 	String title;
+        @Column (name = "start_date")
+        @Temporal(javax.persistence.TemporalType.DATE)
 	protected Date start_date;
+        @Column (name = "end_date")
+        @Temporal(javax.persistence.TemporalType.DATE)
 	protected Date end_date;
+        @Column (name = "active")
 	boolean active;
-	
+
+    public Sprint() {
+    }
 	
 public Sprint(int sprintid, String title, Date start_date, Date end_date,
 			boolean active) {
@@ -73,6 +91,11 @@ return date1;
 public boolean isActive() {
 	return active;
 }
+
+public boolean getActive(){
+    return active;
+}
+
 public void setActive(boolean active) {
 	this.active = active;
 }
@@ -90,6 +113,7 @@ public Map<String, String> validate() {
 	return errorMsg;
 }
 
+@Override
 public String toString(){
 	return ("" + this.sprintid + ", " + this.title + ", " + this.start_date.toString() + ", " + this.end_date.toString() + ", " + this.active);
 }
