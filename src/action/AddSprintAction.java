@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AddSprintAction implements Action{
-	private static final DBManager DBManager1 = DBManager.getInstance();
-
+            
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
+            DBManager manager = (DBManager) request.getAttribute("dao");
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		//build Sprint
 		DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -42,20 +42,20 @@ public class AddSprintAction implements Action{
 		}
 
 		
-		Sprint sprint1 = new Sprint(DBManager1.getNextSprintId(),  request.getParameter("title"), date1,date2, false);
+		Sprint sprint1 = new Sprint(manager.getNextSprintId(),  request.getParameter("title"), date1,date2, false);
 		
 		//validate and save in DB
 		errorMsgs = sprint1.validate();
 		if(errorMsgs.isEmpty()){
-			DBManager1.saveSprint(sprint1);
+			manager.saveSprint(sprint1);
 			
 			//checked tickets now belong to the sprint
 			if(request.getParameterValues("tickids")!=null){
 				
 			for(String tickid: request.getParameterValues("tickids")){
-				Ticket temptick = DBManager1.getTicketById(Integer.parseInt(tickid));
+				Ticket temptick = manager.getTicketById(Integer.parseInt(tickid));
 				temptick.setSprintid(sprint1.getSprintid());
-				DBManager1.updateTicket(temptick);
+				manager.updateTicket(temptick);
 			}}
 			
 		}
