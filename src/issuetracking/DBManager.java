@@ -807,7 +807,7 @@ public void loadSprints() {
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. execute sql query
-		ResultSet myRs = myStmt.executeQuery("select * from sprints order by sprintid");
+		ResultSet myRs = myStmt.executeQuery("select * from sprints order by sprintid;");
 		// 4. Process results
 		while (myRs.next()) {
 			java.util.Date date1= null;
