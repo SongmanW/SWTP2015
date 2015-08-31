@@ -20,6 +20,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
 @Stateless
@@ -34,7 +35,6 @@ public class DBManager {
 
 	private static DBManager DBManager1;
 
-	private static Map<Integer, Ticket> ticketsMap = new HashMap<Integer, Ticket>();
 	private static Map<String, User> usersMap = new HashMap<String, User>();
 	private static Map<String, Component> componentsMap = new HashMap<String, Component>();
 	private static Map<String, List<Integer>> tcRelationMap = new HashMap<String, List<Integer>>();
@@ -55,16 +55,6 @@ public class DBManager {
             			Connection myConn = ds.getConnection();
                                 return myConn;
         }
-
-	public int getNextTicketId() {
-		loadTickets();
-		int i = 1;
-		for (; i < 10000; i++) {
-			if (!ticketsMap.keySet().contains(i))
-				break;
-		}
-		return i;
-	}
 	
 	public int getNextSprintId() {
 		loadSprints();
@@ -85,78 +75,31 @@ public class DBManager {
 		}
 		return i;
 	}
-	
-	public void loadTickets() {
-		ticketsMap.clear();
-		try {
-			// Holen
-			// 1. get conn
-                    Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			Statement myStmt2 = myConn.createStatement();
-			// 3. execute sql query
-			ResultSet resultBugs = myStmt
-					.executeQuery("select * from tickets WHERE "
-							+ "tickets.type = '" + Ticket.BUG + "' "
-							+ "order by tickets.id;");
-			ResultSet resultFeatures = myStmt2
-					.executeQuery("select * from tickets WHERE "
-							+ "tickets.type = '" + Ticket.FEATURE + "' "
-							+ "order by tickets.id;"
-							);
-			// 4. Process results
-			while (resultBugs.next()) {
-				Ticket t1 = new Ticket(resultBugs.getInt("sprintid"),resultBugs.getString("title")
-						, resultBugs.getString("description"),  resultBugs.getDate("creation_date"), resultBugs.getString("author")
-						, resultBugs.getString("responsible_user"),resultBugs.getString("type") ,resultBugs.getString("state")
-						);
-                                t1.setId(resultBugs.getInt("id"));
-				ticketsMap.put(t1.getId(), t1);
-			}
-			while (resultFeatures.next()) {
-				Ticket t1 = new Ticket(resultFeatures.getInt("sprintid"),resultFeatures.getString("title")
-						, resultFeatures.getString("description"),  resultFeatures.getDate("creation_date"), resultFeatures.getString("author")
-						, resultFeatures.getString("responsible_user"),resultFeatures.getString("type") ,resultFeatures.getString("state")
-						);
-                                t1.setId(resultFeatures.getInt("id"));
-                                t1.setEstimated_time(resultFeatures.getString("estimated_time"));
-				ticketsMap.put(t1.getId(), t1);
-				
-			}
-			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	public List<Ticket> getTickets() {
-		loadTickets();
-		List<Ticket> tickets = new LinkedList<Ticket>(ticketsMap.values());
+                TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t", Ticket.class);
+		List<Ticket> tickets = query.getResultList();
 		return tickets;
 	}
 
 	public Ticket getTicketById(int i) {
-		loadTickets();
-		return ticketsMap.get(i);
+		return em.find(Ticket.class, i);
 	}
 	
 	public List<Ticket> getTicketsByState(String state, int sprintid) {
-		loadTickets();
+		List<Ticket> ticketList = getTickets();
 		List<Ticket> ticketsBySprintid = new LinkedList<Ticket>();
 		List<Ticket> ticketsByBoth = new LinkedList<Ticket>();
 		
 		//when sprintid is -2, return tickets of all sprints (for alltickets.jsp)
 		if(sprintid!=-2){
-		for(Ticket t : ticketsMap.values()){
+		for(Ticket t : ticketList){
 			if(t.getSprintid()==sprintid){
 				ticketsBySprintid.add(t);
 			}
 		}}
 		else 
-		for(Ticket t : ticketsMap.values()){
+		for(Ticket t : ticketList){
 			ticketsBySprintid.add(t);
 		}
 		
@@ -178,74 +121,28 @@ public class DBManager {
 		return ticketsByBoth;
 	}
 
-	public void saveTicket(Ticket t1) {
-		try {
-			// Einfuegen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			
-			String sql = "insert into tickets "
-					+ " (id, sprintid, title, description, creation_date, author, responsible_user, type, state, estimated_time)"
-					+ " values("+ t1.getId()+ ", "
-					+ "'"+ t1.getSprintid()+ "', "
-					+ "'"+ t1.getTitle()+ "', "
-					+ "'"+ t1.getDescription()+ "' ,"
-					+ "'"+ t1.getDateAsString()+ "', "
-					+ "'"+ t1.getAuthor()+ "' ,"
-					+ "'"+ t1.getResponsible_user()+ "', "
-					+ "'"+ t1.getType()+ "' ," + "'" + t1.getStatus() + "', "+ "'" + t1.getEstimated_time()
-						+ "' " + ");";
-			myStmt.executeUpdate(sql);
-
-		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadTickets();
+	public Integer saveTicket(Ticket t1) {
+            em.persist(t1);
+            return t1.getId();
 	}
 
 	public void updateTicket(Ticket tupdate) {
-		loadTickets();
-		Ticket t1 = DBManager1.getTicketById(tupdate.getId());
-
-		deleteTicket(t1);
-		saveTicket(tupdate);
-		loadTickets();
-
+		Ticket persistanceTicket = em.find(Ticket.class, tupdate.getId());
+                persistanceTicket.setAuthor(tupdate.getAuthor());
+                persistanceTicket.setCreation_date(tupdate.getCreation_date());
+                persistanceTicket.setDescription(tupdate.getDescription());
+                persistanceTicket.setEstimated_time(tupdate.getEstimated_time());
+                persistanceTicket.setResponsible_user(tupdate.getResponsible_user());
+                persistanceTicket.setSprintid(tupdate.getSprintid());
+                persistanceTicket.setStatus(tupdate.getStatus());
+                persistanceTicket.setTitle(tupdate.getTitle());
+                persistanceTicket.setType(tupdate.getType());
+                em.persist(persistanceTicket);
 	}
 
 	public void deleteTicket(Ticket t1) {
-		try {
-			// Loeschen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "delete from tickets " + "where id=" + t1.getId()
-					+ ";";
-
-			myStmt.executeUpdate(sql);
-
-			if (t1.getType().equals("bug"))
-				deleteBugPart(t1);
-			if (t1.getType().equals("feature"))
-				deleteFeaturePart(t1);
-
-			// try { if( rs != null ) rs.close(); } catch( Exception ex ) {/* nothing to do*/}
-		    try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/}
-		    try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/}
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadTickets();
-	}
+            t1 = em.merge(t1);
+            em.remove(t1);
 	}
 
 	public void loadUsers() {

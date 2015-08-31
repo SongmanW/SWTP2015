@@ -40,7 +40,6 @@ public class AddTicketAction implements Action{
 					, request.getUserPrincipal().getName(), request.getParameter("responsible_user"), request.getParameter("type")
 					, request.getParameter("state")
 					);
-                        ticket.setId(DBManager1.getNextTicketId());
                         ticket.setEstimated_time(request.getParameter("estimated_time"));
 			
 			
@@ -48,7 +47,7 @@ public class AddTicketAction implements Action{
 			errorMsgs = ticket.validate(DBManager1);
 			
 			if (errorMsgs.isEmpty()) {
-				DBManager1.saveTicket(ticket);
+				ticket.setId(DBManager1.saveTicket(ticket));
 				String[] compids = request.getParameterValues("compid");
 				if(compids != null){
 					for(String compid: compids){

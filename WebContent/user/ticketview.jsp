@@ -25,7 +25,7 @@ window.onload = function(){
 	//prepare "Responsible User"-inputfield
 	setchecked('responsible_user_selection',"${t1.responsible_user}");
 	//prepare "State"-inputfield
-	setchecked('state_selection',"${t1.state}");
+	setchecked('state_selection',"${t1.status}");
 };
 function showSpan(elem){
    if(elem.value == "feature")
@@ -60,11 +60,11 @@ function setchecked(selectid,valuewert)
 	Title:${t1.title}<br> 
 	Description:<br>
 	<pre style="display:inline">${t1.description}</pre><br> 
-	Date:${t1.date}<br> 
+	Date:${t1.creation_date}<br> 
 	Author:${t1.author}<br>
 	Responsible User:${t1.responsible_user}<br>
 	Type:${t1.type}<br> 
-	State:${t1.state}<br>
+	State:${t1.status}<br>
 	<span id="estimated_time_display_span">
 	Estimated_Time:${t1.estimated_time}</span><br>
 	Components: <br>
@@ -110,7 +110,7 @@ function setchecked(selectid,valuewert)
 			<option value="feature">feature</option>
 		</select> ${errorMsgs.type}<br /> 
 		State:
-		<select name="state"  id="state_selection">
+		<select name="status"  id="state_selection">
 			<option value="open">open</option>
 			<option value="closed">closed</option>
 			<option value="in progress">in progress</option>
