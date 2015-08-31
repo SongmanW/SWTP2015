@@ -22,7 +22,12 @@ public class AddCommentAction implements Action{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		Comment comment1 = new Comment(DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id"))), date,request.getUserPrincipal().getName(), request.getParameter("message"));
+                
+                Ticket ticket = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
+                String author = request.getUserPrincipal().getName();
+                String message = request.getParameter("message");
+                Comment comment1 = new Comment(ticket, date, author, message);
+                ticket.getComments().add(comment1);
 
 		errorMsgs = comment1.validate();
 		
