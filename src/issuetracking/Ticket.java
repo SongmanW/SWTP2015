@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,6 +31,12 @@ public class Ticket implements Serializable {
 	protected String type;
 	protected String status;
         
+        @ManyToMany(fetch = FetchType.EAGER)
+        @JoinTable(name = "tcrelation",
+                joinColumns = {@JoinColumn(name = "tid")},
+                inverseJoinColumns = {@JoinColumn(name = "compid")})
+        private List<Component> components;
+        
         @OneToMany(mappedBy="ticket", fetch = FetchType.EAGER)
         private List<Comment> comments;
 
@@ -39,11 +47,14 @@ public class Ticket implements Serializable {
         private String estimated_time;
 
         public Ticket() {
+            comments = new ArrayList<>();
+            components = new ArrayList<>();
         }
 
 	public Ticket(int sprintid, String title, String description,
 			Date date, String author, String responsible_user, String type,
 			String state) {
+            this();
 		this.sprintid = sprintid;
 		this.title = title;
 		this.description = description;
@@ -169,5 +180,21 @@ public class Ticket implements Serializable {
 
 		return errorMsg;
 	}
+
+    public void removeComponent(Component c) {
+        components.remove(c);
+    }
+    
+    public void addComponent(Component c){
+        components.add(c);
+    }
+    
+    public void clearComponents(){
+        components.clear();
+    }
+    
+    public List<Component> getComponents(){
+        return components;
+    }
 
 }

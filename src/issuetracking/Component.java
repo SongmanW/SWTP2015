@@ -1,19 +1,35 @@
 package issuetracking;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "components")
 public class Component {
+        @Id
 	protected String compid;
 	protected String description;
-	
+        
+        @ManyToMany
+        @JoinTable(name = "tcrelation")
+        List<Ticket> tickets;
+        
 	public Component(String compid, String description) {
+            this();
 		this.compid = compid;
 		this.description = description;
 	}
 	
-//	public Component() {
-//	}
+	public Component() {
+            tickets = new ArrayList<>();
+	}
 
 	public String getCompid() {
 		return compid;
@@ -40,4 +56,20 @@ public class Component {
 
 		return errorMsg;
 	}
+
+        void addTicket(Ticket t){
+            tickets.add(t);
+        }
+        
+        void removeTicket(Ticket t){
+            tickets.remove(t);
+        }
+        
+        void clearTickets() {
+            tickets.clear();
+        }
+        
+        List<Ticket> getTickets(){
+            return tickets;
+        }
 }

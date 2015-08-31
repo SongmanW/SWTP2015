@@ -48,16 +48,16 @@ public class ChangeTicketAction implements Action {
                         ticket.setId(Integer.parseInt(request.getParameter("ticket_id")));
                         ticket.setEstimated_time(request.getParameter("estimated_time"));
                         
+                        String[] compids = request.getParameterValues("compid");
+			if(compids != null){
+                            for(String compid: compids){
+                                ticket.addComponent(DBManager1.getComponentById(compid));
+                            }
+			}
+                        
 			errorMsgs = ticket.validate(DBManager1);
 			if (errorMsgs.isEmpty()) {
 				DBManager1.updateTicket(ticket);
-				String[] compids = request.getParameterValues("compid");
-				if(compids != null){
-					for(String compid: compids){
-						tcomplist.add(DBManager1.getComponentById(compid));
-					}
-				}
-				DBManager1.updateTCRelation(t1, tcomplist);
 			}
 
 		} else {

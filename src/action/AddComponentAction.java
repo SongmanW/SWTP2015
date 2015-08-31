@@ -25,7 +25,7 @@ public class AddComponentAction implements Action{
 		errorMsgs = comp.validate();
 		
 		if(errorMsgs.isEmpty()){
-			DBManager1.saveComponent(compidinput, descriptioninput);
+			DBManager1.saveComponent(comp);
 		}
 		
 		request.setAttribute("errorMsgs", errorMsgs);

@@ -36,9 +36,6 @@ public class DBManager {
 	private static DBManager DBManager1;
 
 	private static Map<String, User> usersMap = new HashMap<String, User>();
-	private static Map<String, Component> componentsMap = new HashMap<String, Component>();
-	private static Map<String, List<Integer>> tcRelationMap = new HashMap<String, List<Integer>>();
-	private static Map<Integer, Comment> commentsMap = new HashMap<Integer, Comment>();
 	private static Map<Integer, Sprint> sprintsMap = new HashMap<Integer, Sprint>(); 
         
         public DBManager() {
@@ -263,229 +260,54 @@ public class DBManager {
 		}
 		loadUsers();
 	}
-
-	public void loadComponents(){
-		componentsMap.clear();
-		try {
-			// Holen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. execute sql query
-			ResultSet myRs = myStmt.executeQuery("select * from components order by compid");
-			// 4. Process results
-			while (myRs.next()) {
-				Component c1 = new Component(myRs.getString("compid"), myRs.getString("description"));
-				
-				componentsMap.put(c1.getCompid(), c1);
-			}
-			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 	
 	public List<Component> getComponents(){
-		loadComponents();
-		List<Component> components = new LinkedList<Component>(componentsMap.values());
+                TypedQuery<Component> query = em.createQuery("SELECT c FROM Component c", Component.class);
+		List<Component> components = query.getResultList();
 		return components;
 	}
 	
 	public Component getComponentById(String compid){
-		loadComponents();
-		return componentsMap.get(compid);
+		return em.find(Component.class, compid);
 	}
 	
-	public void saveComponent(String compid, String description){
-		try {
-			// Einfoegen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "insert into components " + " (compid, description)"
-					+ " values('" + compid + "', '" + description + "');";
-
-			myStmt.executeUpdate(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadComponents();
+	public void saveComponent(Component toPersist){
+            em.persist(toPersist);
 	}
 	
 	public void updateComponent(Component c){
-		try {
-			// Updaten
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "update components " + "set description='" + c.getDescription()
-					+ "' " + "where compid='" + c.getCompid() + "';";
-
-			myStmt.executeUpdate(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadComponents();
+		em.merge(c);
+                em.persist(c);
 	}
 	
 	public void deleteComponent(Component c){
-		try {
-			// Loeschen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "delete from components " + "where compid = '"
-					+ c.getCompid() + "' ;";
-
-			myStmt.executeUpdate(sql);		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadComponents();
-		
-		removeTCRelation(c);
-	}
-	
-	public void loadTCRelation(){
-		tcRelationMap.clear();
-		try {
-			// Holen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. execute sql query
-			ResultSet myRs = myStmt.executeQuery("select * from tcrelation order by tid");
-			// 4. Process results
-			String compidinput;
-			int tidinput;
-			while (myRs.next()) {
-				compidinput = myRs.getString("compid");
-				tidinput = myRs.getInt("tid");
-				if(!tcRelationMap.containsKey(compidinput)){
-					tcRelationMap.put(compidinput, new LinkedList<Integer>());
-				}
-				tcRelationMap.get(compidinput).add(tidinput);
-				
-			}
-			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		em.merge(c);
+                em.remove(c);
 	}
 	
 	public List<Component> getComponentsByTicket(int tid){
-		loadComponents();
-		loadTCRelation();
-		List<Component> list = new LinkedList<Component>();
-		for(String cid : tcRelationMap.keySet()){
-			if(tcRelationMap.get(cid).contains(tid)) list.add(getComponentById(cid));
-		}
-		return list;
+            Ticket ticket = getTicketById(tid);
+            return ticket.getComponents();
 	}
 	
 	public List<Ticket> getTicketsByComponent(String compid){
-		loadTCRelation();
-		List<Ticket> list = new LinkedList<Ticket>();
-		for(Integer tid : tcRelationMap.get(compid)){
-			list.add(getTicketById(tid));
-		}
-		return list;
+            Component comp = getComponentById(compid);
+            return comp.getTickets();
 	}
-	
-	
-	
-	public void saveTCRelation(Ticket t1, Component c){
-		try {
-			// Einfuegen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "insert into tcrelation " + " (tid, compid)"
-					+ " values('" + t1.getId() + "', '" + c.getCompid() + "');";
-
-			myStmt.executeUpdate(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadTCRelation();
-	}
-	
-	public void updateTCRelation(Ticket t1, List<Component> clist){
-		removeTCRelation(t1);
-		for(Component c : clist){
-			saveTCRelation(t1, c);
-		}
-	}
-	
-	
 	
 	public void removeTCRelation(Ticket t1, Component c){
-		try {
-			// Loeschen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "delete from tcrelation " + "where compid = '"
-					+ c.getCompid() + "' and tid = '" + t1.getId() + "' ;";
-
-			myStmt.executeUpdate(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadTCRelation();
-		
+		em.merge(t1);
+                t1.removeComponent(c);
 	}
 	
 	public void removeTCRelation(Component c){
-		try {
-			// Loeschen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "delete from tcrelation " + "where compid = '"
-					+ c.getCompid() + "';";
-
-			myStmt.executeUpdate(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadTCRelation();
+            em.merge(c);
+            c.clearTickets();
 	}
 	
 	public void removeTCRelation(Ticket t1){
-		try {
-			// Loeschen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "delete from tcrelation " + "where tid = '"
-					+ t1.getId() + "';";
-
-			myStmt.executeUpdate(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadTCRelation();
-				
+            em.merge(t1);
+		t1.clearComponents();		
 	}
 
 public int saveComment(Comment comment1){
@@ -502,17 +324,6 @@ public void updateComment(Comment c){
 	c = em.merge(c);
         em.persist(c);
 }
-
-	/*public List<Comment> getCommentsByTicket(Ticket tid) {
-		loadComments();
-		List<Comment> list = new LinkedList<Comment>();
-		for (int cidkey : commentsMap.keySet()) {
-			if (commentsMap.get(cidkey).getTid() == tid){
-				list.add(commentsMap.get(cidkey));
-				}
-		}
-		return list;
-	}*/
 	
 	public Comment getCommentById(int comment_id){
             return em.find(Comment.class, comment_id);

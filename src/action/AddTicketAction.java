@@ -42,19 +42,19 @@ public class AddTicketAction implements Action{
 					);
                         ticket.setEstimated_time(request.getParameter("estimated_time"));
 			
-			
+			String[] compids = request.getParameterValues("compid");
+				if(compids != null){
+					for(String compid: compids){
+						tempcomp = DBManager1.getComponentById(compid);
+                                                ticket.addComponent(tempcomp);
+					}
+				}
 			
 			errorMsgs = ticket.validate(DBManager1);
 			
 			if (errorMsgs.isEmpty()) {
 				ticket.setId(DBManager1.saveTicket(ticket));
-				String[] compids = request.getParameterValues("compid");
-				if(compids != null){
-					for(String compid: compids){
-						tempcomp = DBManager1.getComponentById(compid);
-						DBManager1.saveTCRelation(ticket, tempcomp);
-					}
-				}
+				
 			}
 		} else{
 			errorMsgs.put("type", "Type not available");
