@@ -40,7 +40,7 @@ public class ChangeTicketAction implements Action {
 				e.printStackTrace();
 			}
 
-			Ticket ticket = new Ticket(-1/*Integer.parseInt(request.getParameter("sprintid"))*/
+			Ticket ticket = new Ticket(null
 					, request.getParameter("title"), request.getParameter("description"), date
 					, request.getParameter("author"), request.getParameter("responsible_user"), request.getParameter("type")
 					, request.getParameter("state")

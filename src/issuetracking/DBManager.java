@@ -36,7 +36,6 @@ public class DBManager {
 	private static DBManager DBManager1;
 
 	private static Map<String, User> usersMap = new HashMap<String, User>();
-	private static Map<Integer, Sprint> sprintsMap = new HashMap<Integer, Sprint>(); 
         
         public DBManager() {
         }
@@ -52,16 +51,6 @@ public class DBManager {
             			Connection myConn = ds.getConnection();
                                 return myConn;
         }
-	
-	public int getNextSprintId() {
-		loadSprints();
-		int i = 1;
-		for (; i < 10000; i++) {
-			if (!sprintsMap.keySet().contains(i))
-				break;
-		}
-		return i;
-	}
 
 	public List<Ticket> getTickets() {
                 TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t", Ticket.class);
@@ -120,7 +109,7 @@ public class DBManager {
                 persistanceTicket.setDescription(tupdate.getDescription());
                 persistanceTicket.setEstimated_time(tupdate.getEstimated_time());
                 persistanceTicket.setResponsible_user(tupdate.getResponsible_user());
-                persistanceTicket.setSprintid(tupdate.getSprintid());
+                persistanceTicket.setSprint(tupdate.getSprint());
                 persistanceTicket.setStatus(tupdate.getStatus());
                 persistanceTicket.setTitle(tupdate.getTitle());
                 persistanceTicket.setType(tupdate.getType());
@@ -332,125 +321,40 @@ public void updateComment(Comment c){
 
 ////////////////////////////////////////////////////////////////////
 
-public void loadSprints() {
-	sprintsMap.clear();
-
-	try {
-		// Holen
-		// 1. get conn
-		Connection myConn = getConnection();
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. execute sql query
-		ResultSet myRs = myStmt.executeQuery("select * from sprints order by sprintid;");
-		// 4. Process results
-		while (myRs.next()) {
-			java.util.Date date1= null;
-			Timestamp timestamp1 = myRs.getTimestamp("start_date");
-			if (timestamp1 != null)
-			    date1 = new java.util.Date(timestamp1.getTime());
-			java.util.Date date2= null;
-			Timestamp timestamp2 = myRs.getTimestamp("end_date");
-			if (timestamp2 != null)
-			    date2 = new java.util.Date(timestamp2.getTime());
-			
-			Sprint s1 = new Sprint(myRs.getInt("sprintid"),myRs.getString("title"), date1, date2, myRs.getBoolean("active"));;
-			sprintsMap.put(s1.getSprintid(), s1);
-		}
-		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-};
-
-
 public List<Sprint> getSprints() {
-	loadSprints();
-	List<Sprint> sprints = new LinkedList<Sprint>(sprintsMap.values());
+    TypedQuery<Sprint> query = em.createQuery("SELECT s FROM Sprint s", Sprint.class);
+	List<Sprint> sprints = query.getResultList();
 	return sprints;
 }
 
 public Sprint getSprintById(int sprintid){
-	loadSprints();
-	Sprint sprint1= sprintsMap.get(sprintid);
-	return sprint1;
+    return em.find(Sprint.class, sprintid);
 }
 
 
 public void saveSprint(Sprint sprint1){
-	try {
-		// Einfuegen
-		// 1. get conn
-		Connection myConn = getConnection();
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
-		
-		String sql = "insert into sprints " + " (sprintid ,title, start_date, end_date, active)"
-				+ " values(" + sprint1.sprintid + ", '" + sprint1.title + "', '" + sprint1.getStartDateAsStringForDatabase() + "', '" + sprint1.getEndDateAsStringForDatabase() + "', '" + (sprint1.active ? "1" : "0") + "');";
-		myStmt.executeUpdate(sql);
-		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	loadSprints();
+	em.persist(sprint1);
 }
 
 	public void deleteSprint(Sprint s) {
-		try {
-			List<Ticket> openTs= DBManager1.getTicketsByState("open",s.sprintid);//,Integer.parseInt(request.getParameter("sprintid"))));
-			List<Ticket> in_progressTs= DBManager1.getTicketsByState("in_progress",s.sprintid);//,Integer.parseInt(request.getParameter("sprintid"))));
-			List<Ticket> testTs= DBManager1.getTicketsByState("test",s.sprintid);//,Integer.parseInt(request.getParameter("sprintid"))));
-//			if (!(openTs.isEmpty() && in_progressTs.isEmpty() && testTs.isEmpty()))
-//					 {
-//				System.out.println("Deletion not possible. There are still not closed Tickets which belong to this Sprint");
-//			}else{
-			// L�schen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "delete from sprints " + "where sprintid = '"
-					+ s.getSprintid() + "' ;";
-
-			myStmt.executeUpdate(sql);
-			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		loadSprints();	
+		s=em.merge(s);
+                em.remove(s);
 	}
 	
 		
 	
 	public void updateSprint(Sprint supdate) {
-		loadSprints();
-		Sprint s1 = DBManager1.getSprintById(supdate.getSprintid());
-
-		deleteSprint(s1);
-		saveSprint(supdate);
-		loadSprints();
-
+		supdate = em.merge(supdate);
+                em.persist(supdate);
 	}
 	
 	public Sprint getActiveSprint() {
-		List<Sprint> sprints = getSprints();
-		Sprint sprint = null;
-		int count = 0;
-		for(Sprint s: sprints){
-			if(s.isActive()){
-				count++;
-				sprint = s;
-			}
-		}
-		if(count == 1){
-			return sprint;
-		}
-		return null;
+		TypedQuery<Sprint> query = em.createQuery("SELECT s FROM Sprint s WHERE s.active LIKE true", Sprint.class);
+                List<Sprint> activeSprints = query.getResultList();
+                if(activeSprints.size()==1)
+                    return activeSprints.get(0);
+                else
+                    return null;
 	}
 	
 	

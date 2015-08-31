@@ -74,7 +74,7 @@ SELECT * FROM comments ORDER BY cid;
 
 DROP table sprints;
 
-CREATE TABLE sprints(sprintid INT, title VARCHAR(35), start_date DATE, end_date DATE, active BOOL) engine=innodb;
+CREATE TABLE sprints(sprintid INT NOT NULL AUTO_INCREMENT, title VARCHAR(35), start_date DATE, end_date DATE, active BOOL, PRIMARY KEY (sprintid)) engine=innodb;
 INSERT INTO sprints VALUES (8, "sprint1", "2015-05-24", "2015-06-26",0);
 INSERT INTO sprints VALUES (9, "sprint2", "2015-05-10", "2015-06-12",0);
 INSERT INTO sprints VALUES (10, "sprint3", "2015-05-10", "2015-06-12",0);

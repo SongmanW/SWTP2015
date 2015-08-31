@@ -42,23 +42,23 @@ public class AddSprintAction implements Action{
 		}
 
 		
-		Sprint sprint1 = new Sprint(manager.getNextSprintId(),  request.getParameter("title"), date1,date2, false);
+		Sprint sprint1 = new Sprint(request.getParameter("title"), date1,date2, false);
+                
+                if(request.getParameterValues("tickids")!=null){
+				
+			for(String tickid: request.getParameterValues("tickids")){
+				Ticket temptick = manager.getTicketById(Integer.parseInt(tickid));
+                                sprint1.addTicket(temptick);
+                                temptick.setSprint(sprint1);
+			}
+                }
 		
 		//validate and save in DB
 		errorMsgs = sprint1.validate();
 		if(errorMsgs.isEmpty()){
 			manager.saveSprint(sprint1);
-			
-			//checked tickets now belong to the sprint
-			if(request.getParameterValues("tickids")!=null){
-				
-			for(String tickid: request.getParameterValues("tickids")){
-				Ticket temptick = manager.getTicketById(Integer.parseInt(tickid));
-				temptick.setSprintid(sprint1.getSprintid());
-				manager.updateTicket(temptick);
-			}}
-			
 		}
+                
 		request.setAttribute("errorMsgs", errorMsgs);
 		return "user/sprints.jsp";
 		

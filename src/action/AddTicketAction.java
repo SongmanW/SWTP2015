@@ -2,6 +2,7 @@ package action;
 
 import issuetracking.Component;
 import issuetracking.DBManager;
+import issuetracking.Sprint;
 import issuetracking.Ticket;
 
 import java.text.DateFormat;
@@ -34,8 +35,9 @@ public class AddTicketAction implements Action{
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
-			Ticket ticket = new Ticket(Integer.parseInt(request.getParameter("sprintid"))
+                        
+                        Sprint sprint = DBManager1.getSprintById(Integer.parseInt(request.getParameter("sprintid")));
+			Ticket ticket = new Ticket(sprint
 					, request.getParameter("title"), request.getParameter("description"), date
 					, request.getUserPrincipal().getName(), request.getParameter("responsible_user"), request.getParameter("type")
 					, request.getParameter("state")

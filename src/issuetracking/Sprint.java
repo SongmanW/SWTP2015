@@ -2,12 +2,17 @@ package issuetracking;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -15,25 +20,25 @@ import javax.persistence.Temporal;
 @Table(name = "sprints")
 public class Sprint implements Serializable {
         @Id
-        @Column (name = "sprintid")
 	int sprintid;
-        @Column (name = "title")
 	String title;
-        @Column (name = "start_date")
         @Temporal(javax.persistence.TemporalType.DATE)
 	protected Date start_date;
-        @Column (name = "end_date")
         @Temporal(javax.persistence.TemporalType.DATE)
 	protected Date end_date;
-        @Column (name = "active")
 	boolean active;
+        
+        @OneToMany(fetch = FetchType.EAGER)
+        @JoinColumn(name="sprintid")
+        List<Ticket> tickets;
 
     public Sprint() {
+        tickets = new ArrayList<>();
     }
 	
-public Sprint(int sprintid, String title, Date start_date, Date end_date,
+public Sprint(String title, Date start_date, Date end_date,
 			boolean active) {
-		this.sprintid = sprintid;
+                this();
 		this.title = title;
 		this.start_date = start_date;
 		this.end_date = end_date;
@@ -100,7 +105,21 @@ public void setActive(boolean active) {
 	this.active = active;
 }
 
+public void addTicket(Ticket t){
+    tickets.add(t);
+}
 
+public void removeTicket(Ticket t){
+    tickets.remove(t);
+}
+
+public void clearTickets(){
+    tickets.clear();
+}
+
+public List<Ticket> getTickets(){
+    return tickets;
+}
 
 public Map<String, String> validate() {
 	Map<String, String> errorMsg = new HashMap<String, String>();

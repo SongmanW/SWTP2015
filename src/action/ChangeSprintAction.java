@@ -61,41 +61,35 @@ public class ChangeSprintAction implements Action{
 			e.printStackTrace();
 		}
 		
-		
-		Sprint sprint2 = new Sprint(Integer.parseInt(request.getParameter("sprintid")),  request.getParameter("title"), date1,date2, false);
-		errorMsgs = sprint2.validate();
-
-
-		if(errorMsgs.isEmpty()){
-			
-			//alle Tickets des alten Sprints updaten sodass sie zum neuen Sprint geh�ren
-			LinkedList<Ticket> tList=(LinkedList<Ticket>) DBManager1.getTicketsByState("beliebig", sprint1.getSprintid());
-			if( tList!=null&&!(tList.isEmpty())){
-				for(Ticket ticket1: tList){
-					Ticket temptick = ticket1;
-					temptick.setSprintid(sprint2.getSprintid());
-					DBManager1.updateTicket(temptick);
-				}}
-			
-			//alle neu ausgew�hlten Tickets hinzuf�gen
+		sprint1.setTitle(request.getParameter("title"));
+                sprint1.setStart_date(date1);
+                sprint1.setEnd_date(date2);
+                sprint1.setActive(false);
+                
+                			//alle neu ausgew�hlten Tickets hinzuf�gen
 			if(request.getParameterValues("tickids")!=null){
 			for(String tickid: request.getParameterValues("tickids")){
 				Ticket temptick = DBManager1.getTicketById(Integer.parseInt(tickid));
-				temptick.setSprintid(sprint2.getSprintid());
-				DBManager1.updateTicket(temptick);
+				temptick.setSprint(sprint1);
+                                if(!sprint1.getTickets().contains(temptick))
+                                    sprint1.addTicket(temptick);
+                                DBManager1.updateTicket(temptick);
 			}}
 			//alle Tickets die entfernt werden sollen auf sprintid -1 setzen.
 			if(request.getParameterValues("nownosprinttickids")!=null){
 				for(String tickid: request.getParameterValues("nownosprinttickids")){
 					Ticket temptick = DBManager1.getTicketById(Integer.parseInt(tickid));
-					temptick.setSprintid(-1);
-					DBManager1.updateTicket(temptick);
-				}}
-			
-			
-			//neuen sprint in db einf�llen(alten sprint aus db l�schen)
-			DBManager1.deleteSprint(sprint1);
-			DBManager1.saveSprint(sprint2);
+                                        temptick.setSprint(null);
+					sprint1.removeTicket(temptick);
+                                        DBManager1.updateTicket(temptick);
+				}
+                        }
+		
+		errorMsgs = sprint1.validate();
+
+
+		if(errorMsgs.isEmpty()){
+                    DBManager1.updateSprint(sprint1);
 		}
 		request.setAttribute("errorMsgs", errorMsgs);
 		return "user/sprints.jsp";

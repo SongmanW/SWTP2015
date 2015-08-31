@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,7 +22,9 @@ public class Ticket implements Serializable {
 	
         @Id
 	protected int id;
-	protected int sprintid;
+        @ManyToOne
+        @JoinColumn(name = "sprintid")
+	protected Sprint sprint;
 	protected String title;
 	protected String description;
         @Temporal(javax.persistence.TemporalType.DATE)
@@ -51,11 +54,11 @@ public class Ticket implements Serializable {
             components = new ArrayList<>();
         }
 
-	public Ticket(int sprintid, String title, String description,
+	public Ticket(Sprint sprint, String title, String description,
 			Date date, String author, String responsible_user, String type,
 			String state) {
             this();
-		this.sprintid = sprintid;
+		this.sprint = sprint;
 		this.title = title;
 		this.description = description;
 		this.creation_date = date;
@@ -72,15 +75,20 @@ public class Ticket implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
+        
+        public Sprint getSprint(){
+            return sprint;
+        }
+        
+        public void setSprint(Sprint sprint){
+            this.sprint = sprint;
+        }
 	
 	public int getSprintid() {
-		return sprintid;
+            if(sprint == null)
+                return -1;
+            return sprint.getSprintid();
 	}
-
-	public void setSprintid(int sprintid) {
-		this.sprintid = sprintid;
-	}
-
 	
 	public String getTitle() {
 		return title;

@@ -24,7 +24,7 @@ public class DeleteSprintAction implements Action{
 		if( tList!=null&&!(tList.isEmpty())){
 			for(Ticket ticket1: tList){
 				Ticket temptick = ticket1;
-				temptick.setSprintid(-1);
+				temptick.setSprint(null);
 				DBManager1.updateTicket(temptick);
 			}}
 		
