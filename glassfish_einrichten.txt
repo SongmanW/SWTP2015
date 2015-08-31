@@ -1,0 +1,94 @@
+## Glassfish einrichten
+
+### Tabellen anlegen
+Tabellen USERS, USERS_GROUPS und GROUPS anlegen.
+
+create table `issuetracking_db`.GROUPS
+(
+	GROUPID VARCHAR(50) not null primary key
+)
+
+create table `issuetracking_db`.USERS_GROUPS
+(
+	GROUPID VARCHAR(20) not null,
+	USERID VARCHAR(255) not null
+)
+
+create table `issuetracking_db`.USERS
+(
+	USERID VARCHAR(255) not null primary key,
+	PASSWORD VARCHAR(255) not null
+)
+
+
+INSERT INTO GROUPS VALUES ('user');
+INSERT INTO GROUPS VALUES ('admin');
+
+INSERT INTO USERS VALUES ('user1','5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8');
+INSERT INTO USERS VALUES ('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
+INSERT INTO USERS VALUES ('user2','a3b142af6e97cfc3bb23e409ab83467af7d16ded7dc0632be6a6a9023e49ce8b');
+
+INSERT INTO USERS_GROUPS VALUES ('user', 'user1');
+INSERT INTO USERS_GROUPS VALUES ('admin', 'admin');
+INSERT INTO USERS_GROUPS VALUES ('user', 'user2');
+
+Initial Passwörter
+
+user1: password
+admin: admin
+user2: use
+
+Hinweis: aus bisher unerklärlichen Gründen wird der Hash bei den dem Passwort "user" falsch gebildet. Dieses funktioniert somit nicht.
+
+### JDBC Connection Pool anlegen
+
+Admin Console -> Resources -> JDBC Connection Pools -> new
+
+- poolname: z.B. MySQLPool
+- resource type: javax.sql.datasource
+- datasource/driver vendor: mysql bzw. com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+
+proceed with next
+
+- die folgenden Eigenschaften hinzufügen
+    + password: chucknorris42
+    + databaseName: issuetracking_db
+    + serverName: localhost
+    + user: glassfishadmin
+
+Der Connection Pool ist irgendwie ein bisschen tricky. Am besten unter "advanced" die "connection validation"aktivieren.
+
+- validation Method: table
+- table name: einfach einen tablennamen auswählen z.B. USERS
+
+jetzt noch unter general den haken bei "Ping" setzen.
+
+Bevor der Ping (mit validation) kein ok gibt funktioniert es nicht.
+    
+### JDBC Resource einrichten
+Admin Console -> Resources -> JDBC Resources -> new
+name: jdbc/security/Datasource
+pool name: der eben erstellte
+
+zweite JDBC Resource für JPA und JNDI einrichten
+name: jdbc/issuetracking/Datasource
+pool name: der eben erstellte
+
+### JAAS login anlegen
+Admin Console -> Configurations -> server-config -> Security -> Realms -> new
+
+- name: JDBCRealm
+- Classname: com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm
+
+siehe Bild jaas security context
+- jaas context: jdbcRealm
+- JNDI: jdbc/security/Datasource
+- User Table: USERS
+- User Name Column: USERID
+- Password Column: PASSWORD
+- Group Table: USERS_GROUPS
+- Group Name Column: GROUPID
+- Password Encryption Algorithm: SHA-256
+- Digest Algorithm: SHA-256
+- Encoding: Hex
+- Charset: UTF-8
