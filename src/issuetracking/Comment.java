@@ -1,18 +1,34 @@
 package issuetracking;
 
+import java.io.Serializable;
 import java.text.*;
 import java.util.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
-public class Comment {
+@Entity
+@Table(name="comments")
+public class Comment implements Serializable {
+        @Id
 	protected int cid;
-	protected int tid;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name="tid")
+	protected Ticket ticket;
 	protected String author;
+        @Temporal(javax.persistence.TemporalType.DATE)
 	protected Date creation_date;
 	protected String message;
+
+    public Comment() {
+    }
 	
-	public Comment(int cid, int tid, Date creation_date,String author, String message) {
-		this.cid=cid;
-		this.tid=tid;
+	public Comment(Ticket ticket, Date creation_date,String author, String message) {
+		this.ticket=ticket;
 		this.creation_date=creation_date;
 		this.author=author;
 		this.message=message;
@@ -25,13 +41,9 @@ public class Comment {
 	public void setCid(int cid) {
 		this.cid = cid;
 	}
-
-	public int getTid() {
-		return tid;
-	}
-
-	public void setTid(int tid) {
-		this.tid = tid;
+    
+	public Ticket getTicket() {
+		return ticket;
 	}
 
 	public String getAuthor() {
@@ -77,7 +89,7 @@ public class Comment {
 	}
 
 	public String toString(){
-		return ("" + this.cid + ", " + this.tid + ", " + this.creation_date.toString() + ", " + this.author +", " + this.message );
+		return ("" + this.cid + ", " + this.ticket + ", " + this.creation_date.toString() + ", " + this.author +", " + this.message );
 	}
 	
 	

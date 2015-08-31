@@ -64,7 +64,7 @@ SELECT * FROM tcrelation ORDER BY tid;
 
 DROP table comments;
 
-CREATE TABLE comments(cid INT, tid INT, creation_date DATETIME, author VARCHAR(35), message VARCHAR(1000));
+CREATE TABLE comments(cid INT NOT NULL AUTO_INCREMENT, tid INT, creation_date DATETIME, author VARCHAR(35), message VARCHAR(1000), PRIMARY KEY (cid));
 INSERT INTO comments VALUES (1, 101, "2014-01-01 01:00:00","user1", "Kommentartext1" );
 INSERT INTO comments VALUES (2, 101, "2014-01-01 02:00:00","user1", "Kommentartext2" );
 INSERT INTO comments VALUES (3, 101, "2014-01-01 03:00:00","user3", "Kommentartext3" );

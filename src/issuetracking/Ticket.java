@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.text.*;
 import java.util.*;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -26,6 +29,13 @@ public class Ticket implements Serializable {
 	protected String type;
 	protected String status;
         
+        @OneToMany(mappedBy="ticket", fetch = FetchType.EAGER)
+        private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+     
         private String estimated_time;
 
         public Ticket() {

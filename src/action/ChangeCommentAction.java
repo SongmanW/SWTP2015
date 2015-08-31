@@ -18,7 +18,7 @@ public class ChangeCommentAction implements Action {
 			Comment comment1 = DBManager1.getCommentById(Integer.parseInt(request.getParameter("comment_id")));
 			Map<String, String> errorMsgs = new HashMap<String, String>();
 			
-			Comment comment2 = new Comment(comment1.getCid(),comment1.getTid(),comment1.getCreation_date(),comment1.getAuthor(),request.getParameter("message"));
+			Comment comment2 = new Comment(comment1.getTicket(),comment1.getCreation_date(),comment1.getAuthor(),request.getParameter("message"));
 			
 			errorMsgs = comment2.validate();
 			if(errorMsgs.isEmpty()){

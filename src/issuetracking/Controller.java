@@ -137,19 +137,10 @@ public class Controller extends HttpServlet {
 			request.setAttribute("ticket_compids", DBManager1.getComponentsByTicket(
 					Integer.parseInt(request.getParameter("ticket_id"))));
 			request.setAttribute("compids", DBManager1.getComponents());
-			
-			request.setAttribute("ticket_comments", DBManager1.getCommentsByTicket(
-					Integer.parseInt(request.getParameter("ticket_id"))));
 
 			SimpleDateFormat ft2 = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
 			String date2 = ft2.format(dNow);
-			request.setAttribute("date2", date2);
-			
-			
-			for(Comment com1 : DBManager1.getCommentsByTicket(
-					Integer.parseInt(request.getParameter("ticket_id")))) {
-			}
-			
+			request.setAttribute("date2", date2);		
 		}
 
 		if(pageName.endsWith("users.jsp")){

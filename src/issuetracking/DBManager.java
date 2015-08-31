@@ -65,16 +65,6 @@ public class DBManager {
 		}
 		return i;
 	}
-	
-	public int getNextCommentId() {
-		loadComments();
-		int i = 1;
-		for (; i < 10000; i++) {
-			if (!commentsMap.keySet().contains(i))
-				break;
-		}
-		return i;
-	}
 
 	public List<Ticket> getTickets() {
                 TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t", Ticket.class);
@@ -498,97 +488,22 @@ public class DBManager {
 				
 	}
 
-
-
-
-
-
-
-public void loadComments(){
-	commentsMap.clear();
-	try {
-		// Holen
-		// 1. get conn
-		Connection myConn = getConnection();
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. execute sql query
-		ResultSet myRs = myStmt.executeQuery("select * from comments order by cid");
-		// 4. Process results
-		while (myRs.next()) {
-	
-			java.util.Date date= null;
-			Timestamp timestamp = myRs.getTimestamp("creation_date");
-			if (timestamp != null)
-			    date = new java.util.Date(timestamp.getTime());
-			
-			Comment c1 = new Comment(myRs.getInt("cid"), myRs.getInt("tid"), date, myRs.getString("author"), myRs.getString("message"));
-			commentsMap.put(c1.getCid(), c1);
-		}
-		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-	} catch (Exception e) {
-		e.printStackTrace();
-		}
-
-	}
-
-public void saveComment(Comment comment1){
-	try {
-		// Einfuegen
-		// 1. get conn
-		Connection myConn = getConnection();
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
-		
-		String sql = "insert into comments " + " (cid ,tid, creation_date, author, message)"
-				+ " values(" + comment1.cid + ", " + comment1.tid + ", '" + comment1.getDateAsStringForDatabase() + "', '" + comment1.getAuthor() + "', '" + comment1.message + "');";
-
-		myStmt.executeUpdate(sql);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	loadComments();
+public int saveComment(Comment comment1){
+    em.persist(comment1);
+    return comment1.getCid();
 }
 
 public void deleteComment(Comment c){
-	try {
-		// Loeschen
-		// 1. get conn
-		Connection myConn = getConnection();
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
-		String sql = "delete from comments " + "where cid = "
-				+ c.getCid() + " ;";
-
-		myStmt.executeUpdate(sql);		
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	loadComments();
+    c = em.merge(c);
+    em.remove(c);
 }
 
 public void updateComment(Comment c){
-	try {
-		// Updaten
-		// 1. get conn
-		Connection myConn = getConnection();
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
-		String sql = "update comments " + "set message='" + c.getMessage()
-				+ "' " + "where cid='" + c.getCid() + "';";
-
-		myStmt.executeUpdate(sql);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	loadComments();
+	c = em.merge(c);
+        em.persist(c);
 }
 
-	public List<Comment> getCommentsByTicket(int tid) {
+	/*public List<Comment> getCommentsByTicket(Ticket tid) {
 		loadComments();
 		List<Comment> list = new LinkedList<Comment>();
 		for (int cidkey : commentsMap.keySet()) {
@@ -597,11 +512,10 @@ public void updateComment(Comment c){
 				}
 		}
 		return list;
-	}
+	}*/
 	
 	public Comment getCommentById(int comment_id){
-		loadComments();
-		return commentsMap.get(comment_id);
+            return em.find(Comment.class, comment_id);
 	}
 
 
