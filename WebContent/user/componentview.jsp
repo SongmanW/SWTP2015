@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Component View</title>
 </head>
 <body>
 	<a href="Controller?action=preparePage&pageName=user/components.jsp"> back to componentlist </a>

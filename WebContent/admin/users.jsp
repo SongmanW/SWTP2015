@@ -11,19 +11,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-<style>
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-th, td {
-	padding: 5px;
-}
-th {
-	text-align: left;
-}
-</style>
+<title>User overview</title>
+<link rel="stylesheet" type="text/css" href="application.css"/>
 </head>
 <body>
 	<a href="login.jsp"> back to login </a>

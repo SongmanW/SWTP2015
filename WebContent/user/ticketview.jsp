@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Ticket view</title>
 <script src="script/ticketview.js"></script>
 <script src="application.js"></script>
 </head>

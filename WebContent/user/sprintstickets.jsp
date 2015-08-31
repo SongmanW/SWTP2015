@@ -10,28 +10,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-<script>
-function showSpan(elem){
-   if(elem.value == "feature")
-      document.getElementById('estimated_time_change_span').style.display = "inline";
-   else document.getElementById('estimated_time_change_span').style.display = "none";
-}
-</script>
-<style>
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
-th, td {
-	padding: 5px;
-}
-
-th {
-	text-align: left;
-}
-</style>
+<title>Sprint tickets</title>
+<script src="application.js"></script>
+<link rel="stylesheet" type="text/css" href="application.css"/>
 </head>
 
 <body>

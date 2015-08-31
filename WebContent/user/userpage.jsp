@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>User Page</title>
 </head>
 <body>
 	<a href="Controller?action=preparePage&pageName=user/index.jsp"> back to index </a>

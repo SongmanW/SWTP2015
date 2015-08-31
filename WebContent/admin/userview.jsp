@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>User view</title>
 </head>
 <body>
 	<a href="Controller?action=preparePage&pageName=admin/users.jsp"> back to userlist </a>

@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Tickets</title>
 <script src="application.js"></script>
 <link rel="stylesheet" type="text/css" href="application.css"/>
 </head>
