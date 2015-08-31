@@ -1,25 +1,43 @@
 ## Glassfish einrichten
 
 ### Tabellen anlegen
-Tabellen USERS, USERS_GROUPS und GROUPS anlegen.
+Tabellen
+- USERS
+- USERS_GROUPS
+- GROUPS
+- tickets
+- components
+- tcrelation
+- comments
+- sprints
+anlegen.
 
 create table `issuetracking_db`.GROUPS
 (
 	GROUPID VARCHAR(50) not null primary key
-)
+);
 
 create table `issuetracking_db`.USERS_GROUPS
 (
 	GROUPID VARCHAR(20) not null,
 	USERID VARCHAR(255) not null
-)
+);
 
 create table `issuetracking_db`.USERS
 (
 	USERID VARCHAR(255) not null primary key,
 	PASSWORD VARCHAR(255) not null
-)
+);
 
+CREATE TABLE tickets(id INT NOT NULL AUTO_INCREMENT, sprintid INT, title VARCHAR(35), description VARCHAR(3000), creation_date DATE, author VARCHAR(35), responsible_user VARCHAR(35), type VARCHAR(35), status VARCHAR(35), estimated_time VARCHAR(35), PRIMARY KEY (id)) engine=innodb;
+CREATE TABLE components(compid VARCHAR(35), description VARCHAR(3000)) engine=innodb;
+CREATE TABLE tcrelation(tid INT, compid VARCHAR(35)) engine=innodb;
+CREATE TABLE comments(cid INT NOT NULL AUTO_INCREMENT, tid INT, creation_date DATETIME, author VARCHAR(35), message VARCHAR(1000), PRIMARY KEY (cid));
+CREATE TABLE sprints(sprintid INT NOT NULL AUTO_INCREMENT, title VARCHAR(35), start_date DATE, end_date DATE, active BOOL, PRIMARY KEY (sprintid)) engine=innodb;
+
+GRANT ALL PRIVILEGES ON issuetracking_db.* TO 'glassfishadmin'@'%' IDENTIFIED BY 'chucknorris42';
+
+### Standartbenutzer hinzufügen
 
 INSERT INTO GROUPS VALUES ('user');
 INSERT INTO GROUPS VALUES ('admin');
@@ -92,3 +110,47 @@ siehe Bild jaas security context
 - Digest Algorithm: SHA-256
 - Encoding: Hex
 - Charset: UTF-8
+
+
+### Beispielwerte für die Anwendung
+
+INSERT INTO tickets VALUES (101, -1, "test1", "description1", "2015-05-24", "user1", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (102, 8, "test2", "description2", "2015-05-24", "user1", "user3", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (103, 8, "test3", "description3", "2015-05-24", "user2", "user4", "bug" ,"open", null);
+INSERT INTO tickets VALUES (104, 8, "test4", "description1", "2015-05-24", "user2", "user5", "feature", "open", "20h");
+INSERT INTO tickets VALUES (105, 8, "test5", "description2", "2015-05-24", "user3", "user3", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (106, 8, "test6", "description3", "2015-05-24", "user3", "user5", "bug" ,"open", null);
+INSERT INTO tickets VALUES (107, 8, "test7", "description1", "2015-05-24", "user4", "user6", "feature", "open", "20h");
+INSERT INTO tickets VALUES (108, 8, "test8", "description2", "2015-05-24", "user4", "user7", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (109, 8, "test9", "description1", "2015-05-24", "user5", "user8", "feature", "open", "20h");
+INSERT INTO tickets VALUES (110, 8, "test10", "description2", "2015-05-24", "user5", "user7", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (111, 8, "test11", "description3", "2015-05-24", "user6", "user6", "bug" ,"open", null);
+INSERT INTO tickets VALUES (112, 8, "test12", "description1", "2015-05-24", "user6", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (113, 8, "test13", "description2", "2015-05-24", "user7", "user2", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (114, 8, "test14", "description3", "2015-05-24", "user7", "user2", "bug" ,"open", null);
+INSERT INTO tickets VALUES (115, 9, "test15", "description1", "2015-05-24", "user8", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (116, 9, "test26", "description2", "2015-05-24", "user8", "user3", "feature", "closed", "3h");
+INSERT INTO tickets VALUES (117, -1, "test44", "description1", "2015-05-24", "user1", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (118, -1, "test45", "description1", "2015-05-24", "user1", "user1", "feature", "open", "3h");
+INSERT INTO tickets VALUES (119, -1, "test46", "description1", "2015-05-24", "user1", "user1", "feature", "open", "20h");
+INSERT INTO tickets VALUES (120, -1, "test47", "description1", "2015-05-24", "user1", "user1", "feature", "open", "3h");
+
+INSERT INTO components VALUES ("comp24", "componentNr24");
+INSERT INTO components VALUES ("comp26", "description of comp26");
+INSERT INTO components VALUES ("comp27", "description of comp27");
+
+INSERT INTO tcrelation VALUES (101, "comp24");
+INSERT INTO tcrelation VALUES (102, "comp24");
+INSERT INTO tcrelation VALUES (103, "comp24");
+INSERT INTO tcrelation VALUES (101, "comp26");
+INSERT INTO tcrelation VALUES (104, "comp26");
+
+INSERT INTO comments VALUES (1, 101, "2014-01-01 01:00:00","user1", "Kommentartext1" );
+INSERT INTO comments VALUES (2, 101, "2014-01-01 02:00:00","user1", "Kommentartext2" );
+INSERT INTO comments VALUES (3, 101, "2014-01-01 03:00:00","user3", "Kommentartext3" );
+INSERT INTO comments VALUES (4, 102, "2014-01-01 03:00:00","user1", "Kommentartext4" );
+
+INSERT INTO sprints VALUES (8, "sprint1", "2015-05-24", "2015-06-26",0);
+INSERT INTO sprints VALUES (9, "sprint2", "2015-05-10", "2015-06-12",0);
+INSERT INTO sprints VALUES (10, "sprint3", "2015-05-10", "2015-06-12",0);
+INSERT INTO sprints VALUES (11, "sprint4", "2015-05-10", "2015-06-12",0);
