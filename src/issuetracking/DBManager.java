@@ -246,43 +246,6 @@ public class DBManager {
 		}
 		loadTickets();
 	}
-
-	public void deleteFeaturePart(Ticket t1) {
-		try {
-			// Loeschen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "delete from ticket_features " + "where id="
-					+ t1.getId() + ";";
-
-			myStmt.executeUpdate(sql);
-			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void deleteBugPart(Ticket t1) {
-		try {
-			// Loeschen
-			// 1. get conn
-			Connection myConn = getConnection();
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. Execute SQL query
-			String sql = "delete from ticket_bugs " + "where id=" + t1.getId()
-					+ ";";
-
-			myStmt.executeUpdate(sql);
-			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void loadUsers() {
@@ -413,31 +376,6 @@ public class DBManager {
 		}
 		loadUsers();
 	}
-	
-	/*public boolean checkLogin(String userid, String password) {
-		try {
-			// Holen
-			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
-			// 2. create statement
-			Statement myStmt = myConn.createStatement();
-			// 3. execute sql query
-			ResultSet myRs = myStmt
-					.executeQuery("select password from users where userid = '"
-							+ userid + "';");
-			String s1;
-			if (myRs.next()) {
-				s1 = myRs.getString(1);
-				if (s1.equals(password))
-					return true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	};*/
 
 	public void loadComponents(){
 		componentsMap.clear();
