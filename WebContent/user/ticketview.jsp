@@ -10,40 +10,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<script>
-window.onload = function(){
-	//prepare "Type"-inputfield and display
-	if('${t1.type}' == "feature"){
-		setchecked('type_selection',"feature");
-	    document.getElementById('estimated_time_display_span').style.display = "inline";
-	    document.getElementById('estimated_time_change_span').style.display = "inline"}
-	else  {document.getElementById('estimated_time_display_span').style.display = "none";
-	document.getElementById('estimated_time_change_span').style.display = "none";}
-	if('${t1.type}' == "bug"){
-		setchecked('type_selection',"bug");;
-	}
-	//prepare "Responsible User"-inputfield
-	setchecked('responsible_user_selection',"${t1.responsible_user}");
-	//prepare "State"-inputfield
-	setchecked('state_selection',"${t1.status}");
-};
-function showSpan(elem){
-   if(elem.value == "feature")
-      document.getElementById('estimated_time_change_span').style.display = "inline";
-   else document.getElementById('estimated_time_change_span').style.display = "none";
-}
-function setchecked(selectid,valuewert)
-{
-  optionen=document.getElementById(selectid).options;
-  for(i=0;i<optionen.length;i++)
-  {
-    if(optionen[i].value==valuewert)
-	{
-	  optionen[i].setAttribute('selected','selected');
-	}
-  }
-}
-</script>
+<script src="script/ticketview.js"></script>
+<script src="application.js"></script>
 </head>
 <body>
 
@@ -73,7 +41,7 @@ function setchecked(selectid,valuewert)
 	</c:forEach>
 
 	<h1>Comments:</h1>
-	<c:forEach items="${ticket_comments}" var="comment1">
+	<c:forEach items="${t1.comments}" var="comment1">
 	        comment from:${comment1.author}  &nbsp;&nbsp;&nbsp; posted at:${comment1.dateAsString} &nbsp;&nbsp;&nbsp;${comment1.author == sessionScope.user ? '<a href="Controller?action=preparePage&pageName=commentview.jsp&comment_id='.concat(comment1.cid).concat('"> bearbeiten </a>') : ''}<br>
 			${comment1.message} <br> <br>
 	</c:forEach>
