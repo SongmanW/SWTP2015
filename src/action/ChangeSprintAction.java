@@ -32,8 +32,8 @@ public class ChangeSprintAction implements Action{
 		
 		
 		
-		//alten sprint aus db löschen
-		//neuen sprint in db einfüllen
+		//alten sprint aus db lÃ¶schen
+		//neuen sprint in db einfÃ¼llen
 
 		//neuen sprint erschaffen
 		DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -68,7 +68,7 @@ public class ChangeSprintAction implements Action{
 
 		if(errorMsgs.isEmpty()){
 			
-			//alle Tickets des alten Sprints updaten sodass sie zum neuen Sprint gehören
+			//alle Tickets des alten Sprints updaten sodass sie zum neuen Sprint gehÃ¶ren
 			LinkedList<Ticket> tList=(LinkedList<Ticket>) DBManager1.getTicketsByState("beliebig", sprint1.getSprintid());
 			if( tList!=null&&!(tList.isEmpty())){
 				for(Ticket ticket1: tList){
@@ -77,7 +77,7 @@ public class ChangeSprintAction implements Action{
 					DBManager1.updateTicket(temptick);
 				}}
 			
-			//alle neu ausgewählten Tickets hinzufügen
+			//alle neu ausgewÃ¤hlten Tickets hinzufÃ¼gen
 			if(request.getParameterValues("tickids")!=null){
 			for(String tickid: request.getParameterValues("tickids")){
 				Ticket temptick = DBManager1.getTicketById(Integer.parseInt(tickid));
@@ -93,7 +93,7 @@ public class ChangeSprintAction implements Action{
 				}}
 			
 			
-			//neuen sprint in db einfüllen(alten sprint aus db löschen)
+			//neuen sprint in db einfÃ¼llen(alten sprint aus db lÃ¶schen)
 			DBManager1.deleteSprint(sprint1);
 			DBManager1.saveSprint(sprint2);
 		}

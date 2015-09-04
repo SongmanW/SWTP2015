@@ -25,7 +25,7 @@ th {
 }
 </style>
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 	<a href="Controller?action=preparePage&pageName=login.jsp"> back to login </a>
 	
  	${regSuccess}

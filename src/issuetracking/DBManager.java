@@ -17,9 +17,6 @@ import java.util.Map;
 
 public class DBManager {
 
-	public static void main(String[] args) {
-	}
-
 	private static DBManager DBManager1;
 
 	private static Map<Integer, Ticket> ticketsMap = new HashMap<Integer, Ticket>();
@@ -32,6 +29,10 @@ public class DBManager {
 	private DBManager() {
 	}
 
+	/**
+	 * Gibt die DBManager-Instanz zurück
+	 * @return
+	 */
 	public static DBManager getInstance() {
 		if (DBManager.DBManager1 == null) {
 			DBManager.DBManager1 = new DBManager();
@@ -39,6 +40,10 @@ public class DBManager {
 		return DBManager.DBManager1;
 	}
 
+	/**
+	 * Gibt eine neue unbenutzte ID zurück
+	 * @return
+	 */
 	public int getNextTicketId() {
 		loadTickets();
 		int i = 1;
@@ -49,6 +54,10 @@ public class DBManager {
 		return i;
 	}
 	
+	/**
+	 * Gibt eine neue unbenutzte ID zurück
+	 * @return
+	 */
 	public int getNextSprintId() {
 		loadSprints();
 		int i = 1;
@@ -59,6 +68,10 @@ public class DBManager {
 		return i;
 	}
 	
+	/**
+	 * Gibt eine neue unbenutzte ID zurück
+	 * @return
+	 */
 	public int getNextCommentId() {
 		loadComments();
 		int i = 1;
@@ -69,6 +82,9 @@ public class DBManager {
 		return i;
 	}
 	
+	/**
+	 * Läd die aktuellen Tickets aus der Datenbank
+	 */
 	public void loadTickets() {
 		ticketsMap.clear();
 		try {
@@ -117,17 +133,32 @@ public class DBManager {
 		}
 	}
 
+	/**
+	 * Gibt die Tickets als Liste zurück
+	 * @return
+	 */
 	public List<Ticket> getTickets() {
 		loadTickets();
 		List<Ticket> tickets = new LinkedList<Ticket>(ticketsMap.values());
 		return tickets;
 	}
 
+	/**
+	 * Gibt ein Ticket mit der entsprechenden ID zurück
+	 * @param i ID des Tickets
+	 * @return
+	 */
 	public Ticket getTicketById(int i) {
 		loadTickets();
 		return ticketsMap.get(i);
 	}
 	
+	/**
+	 * Gibt alle Tickets des entsprechenden Zustands des entsprechenden Sprints zurück
+	 * @param state
+	 * @param sprintid
+	 * @return
+	 */
 	public List<Ticket> getTicketsByState(String state, int sprintid) {
 		loadTickets();
 		List<Ticket> ticketsBySprintid = new LinkedList<Ticket>();
@@ -163,6 +194,10 @@ public class DBManager {
 		return ticketsByBoth;
 	}
 
+	/**
+	 * Speichert das Ticket in der Datenbank
+	 * @param t1
+	 */
 	public void saveTicket(Ticket t1) {
 		try {
 			// Einfuegen
@@ -220,6 +255,10 @@ public class DBManager {
 		loadTickets();
 	}
 
+	/**
+	 * Ändert das Ticket in der Datenbank
+	 * @param tupdate
+	 */
 	public void updateTicket(Ticket tupdate) {
 		loadTickets();
 		Ticket t1 = DBManager1.getTicketById(tupdate.getId());
@@ -230,6 +269,10 @@ public class DBManager {
 
 	}
 
+	/**
+	 * Entfernt das Ticket aus der Datenbank
+	 * @param t1
+	 */
 	public void deleteTicket(Ticket t1) {
 		try {
 			// Loeschen
@@ -261,6 +304,7 @@ public class DBManager {
 		loadTickets();
 	}
 
+	
 	public void deleteFeaturePart(Ticket t1) {
 		try {
 			// Loeschen
@@ -303,6 +347,9 @@ public class DBManager {
 		}
 	}
 
+	/**
+	 * Läd doe Nutzer aus der Datenbank
+	 */
 	public void loadUsers() {
 		usersMap.clear();
 
@@ -330,18 +377,31 @@ public class DBManager {
 		}
 	};
 
-
+	/**
+	 * Gibt die Nutzer zurück
+	 * @return
+	 */
 	public List<User> getUsers() {
 		loadUsers();
 		List<User> users = new LinkedList<User>(usersMap.values());
 		return users;
 	}
 
+	/**
+	 * Gibt den Nutzer mit der entsprechenden ID aus
+	 * @param userid
+	 * @return
+	 */
 	public User getUserByUserid(String userid) {
 		loadUsers();
 		return usersMap.get(userid);
 	}
 	
+	/**
+	 * Registriert einen neuen Nutzer
+	 * @param userid
+	 * @param password
+	 */
 	public void registerUser(String userid, String password) {
 		try {
 			// Einfoegen
@@ -378,6 +438,10 @@ public class DBManager {
             return encrypted;
         }
 
+        /**
+         * Ändert einen Nutzer
+         * @param u1
+         */
 	public void updateUser(User u1) {
 		try {
 			// Updaten
@@ -398,6 +462,11 @@ public class DBManager {
 		loadUsers();
 	}
 
+	/**
+	 * Prüft ob ein Nutzer in der Datenbank enthalten ist
+	 * @param userid
+	 * @return
+	 */
 	public boolean containsUser(String userid) {
 		loadUsers();
 		try {
@@ -422,6 +491,10 @@ public class DBManager {
 		return false;
 	};
 
+	/**
+	 * Löscht einen Nutzer
+	 * @param u1
+	 */
 	public void deleteUser(User u1) {
 		try {
 			// Loeschen
@@ -442,6 +515,12 @@ public class DBManager {
 		loadUsers();
 	}
 	
+	/**
+	 * Prüft ob die Nutzerdaten in der Datenbank enthalten sind
+	 * @param userid
+	 * @param password
+	 * @return
+	 */
 	public boolean checkLogin(String userid, String password) {
 		try {
 			// Holen
@@ -467,6 +546,9 @@ public class DBManager {
 		return false;
 	};
 
+	/**
+	 * Holt alle Komponenten aus der Datenbank
+	 */
 	public void loadComponents(){
 		componentsMap.clear();
 		try {
@@ -493,17 +575,31 @@ public class DBManager {
 
 	}
 	
+	/**
+	 * Gibt alle Komponenten zurück
+	 * @return
+	 */
 	public List<Component> getComponents(){
 		loadComponents();
 		List<Component> components = new LinkedList<Component>(componentsMap.values());
 		return components;
 	}
 	
+	/**
+	 * Gibt die Komponente mit der entsprechenden ID zurück
+	 * @param compid
+	 * @return
+	 */
 	public Component getComponentById(String compid){
 		loadComponents();
 		return componentsMap.get(compid);
 	}
 	
+	/**
+	 * Speichert eine Komponente in die Datenbank
+	 * @param compid
+	 * @param description
+	 */
 	public void saveComponent(String compid, String description){
 		try {
 			// Einfoegen
@@ -524,6 +620,10 @@ public class DBManager {
 		loadComponents();
 	}
 	
+	/**
+	 * Ändert eine Komponente in der Datenbank
+	 * @param c
+	 */
 	public void updateComponent(Component c){
 		try {
 			// Updaten
@@ -544,6 +644,10 @@ public class DBManager {
 		loadComponents();
 	}
 	
+	/**
+	 * Löscht eine Komponente aus der Datenbank
+	 * @param c
+	 */
 	public void deleteComponent(Component c){
 		try {
 			// Loeschen
@@ -566,6 +670,9 @@ public class DBManager {
 		removeTCRelation(c);
 	}
 	
+	/**
+	 * Läd alle TCRelations aus der Datenbank
+	 */
 	public void loadTCRelation(){
 		tcRelationMap.clear();
 		try {
@@ -597,6 +704,11 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Gibt die Komponente mit der entsprechenden ID zurück
+	 * @param tid
+	 * @return
+	 */
 	public List<Component> getComponentsByTicket(int tid){
 		loadComponents();
 		loadTCRelation();
@@ -607,6 +719,11 @@ public class DBManager {
 		return list;
 	}
 	
+	/**
+	 * Gibt eine Liste mit allen Tickets aus, welche die Komponente besitzen
+	 * @param compid
+	 * @return
+	 */
 	public List<Ticket> getTicketsByComponent(String compid){
 		loadTCRelation();
 		List<Ticket> list = new LinkedList<Ticket>();
@@ -617,7 +734,11 @@ public class DBManager {
 	}
 	
 	
-	
+	/**
+	 * Speichet eine TCRelation
+	 * @param t1
+	 * @param c
+	 */
 	public void saveTCRelation(Ticket t1, Component c){
 		try {
 			// Einfuegen
@@ -638,6 +759,11 @@ public class DBManager {
 		loadTCRelation();
 	}
 	
+	/**
+	 * Ändert eine TCRelation
+	 * @param t1
+	 * @param clist
+	 */
 	public void updateTCRelation(Ticket t1, List<Component> clist){
 		removeTCRelation(t1);
 		for(Component c : clist){
@@ -646,7 +772,11 @@ public class DBManager {
 	}
 	
 	
-	
+	/**
+	 * Löscht eine TCRelation in der Datenbank
+	 * @param t1
+	 * @param c
+	 */
 	public void removeTCRelation(Ticket t1, Component c){
 		try {
 			// Loeschen
@@ -668,6 +798,10 @@ public class DBManager {
 		
 	}
 	
+	/**
+	 * Löscht eine TCRelation aus der Datenbank
+	 * @param c
+	 */
 	public void removeTCRelation(Component c){
 		try {
 			// Loeschen
@@ -688,6 +822,10 @@ public class DBManager {
 		loadTCRelation();
 	}
 	
+	/**
+	 * Löscht eine TCRelation aus der Datenbank
+	 * @param t1
+	 */
 	public void removeTCRelation(Ticket t1){
 		try {
 			// Loeschen
@@ -711,13 +849,12 @@ public class DBManager {
 
 
 
-
-
-
-
-public void loadComments(){
-	commentsMap.clear();
-	try {
+	/**
+ 	* Läd alle Kommentare aus der Datenbank
+ 	*/
+	public void loadComments(){
+		commentsMap.clear();
+		try {
 		// Holen
 		// 1. get conn
 		Connection myConn = DriverManager.getConnection(
@@ -729,7 +866,6 @@ public void loadComments(){
 		ResultSet myRs = myStmt.executeQuery("select * from comments order by cid");
 		// 4. Process results
 		while (myRs.next()) {
-	
 			java.util.Date date= null;
 			Timestamp timestamp = myRs.getTimestamp("creation_date");
 			if (timestamp != null)
@@ -746,28 +882,60 @@ public void loadComments(){
 
 	}
 
-public void saveComment(Comment comment1){
-	try {
-		// Einfuegen
-		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
+	/**
+	 * Speichert einen Kommentar in der Datenbank
+	 * @param comment1
+	 */
+	public void saveComment(Comment comment1){
+		try {
+			// Einfuegen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
 				"jdbc:mysql://localhost:3306/issuetracking_db",
 				"glassfishadmin", "chucknorris42");
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
 		
-		String sql = "insert into comments " + " (cid ,tid, creation_date, author, message)"
+			String sql = "insert into comments " + " (cid ,tid, creation_date, author, message)"
 				+ " values(" + comment1.cid + ", " + comment1.tid + ", '" + comment1.getDateAsStringForDatabase() + "', '" + comment1.getAuthor() + "', '" + comment1.message + "');";
 
-		myStmt.executeUpdate(sql);
-	} catch (Exception e) {
-		e.printStackTrace();
+			myStmt.executeUpdate(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadComments();
 	}
-	loadComments();
-}
 
-public void deleteComment(Comment c){
+	/**
+	 * Löscht einen Kommentar in der Datenbank
+	 * @param c
+	 */
+	public void deleteComment(Comment c){
+		try {
+			// Loeschen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/issuetracking_db",
+				"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from comments " + "where cid = "
+				+ c.getCid() + " ;";
+
+			myStmt.executeUpdate(sql);		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadComments();
+	}
+
+	/**
+	* Löscht alle Kommentare des Tickets
+ 	* @param t1
+ 	*/
+	public void removeComments(Ticket t1){
 	try {
 		// Loeschen
 		// 1. get conn
@@ -777,17 +945,22 @@ public void deleteComment(Comment c){
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. Execute SQL query
-		String sql = "delete from comments " + "where cid = "
-				+ c.getCid() + " ;";
+		String sql = "delete from Comments " + "where tid = '"
+				+ t1.getId() + "' ;";
 
-		myStmt.executeUpdate(sql);		
+		myStmt.executeUpdate(sql);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	loadComments();
-}
+	loadTCRelation();
+	
+	}
 
-public void updateComment(Comment c){
+	/**
+	 * Ändert einen Kommentar
+	 * @param c
+	 */
+	public void updateComment(Comment c){
 	try {
 		// Updaten
 		// 1. get conn
@@ -805,8 +978,13 @@ public void updateComment(Comment c){
 		e.printStackTrace();
 	}
 	loadComments();
-}
+	}
 
+	/**
+	 * Gibt das entsprechende Ticket zurück
+	 * @param tid
+	 * @return
+	 */
 	public List<Comment> getCommentsByTicket(int tid) {
 		loadComments();
 		List<Comment> list = new LinkedList<Comment>();
@@ -824,9 +1002,10 @@ public void updateComment(Comment c){
 	}
 
 
-////////////////////////////////////////////////////////////////////
-
-public void loadSprints() {
+	/**
+	 * Läd alle Sprints aus der Datenbank
+	 */
+	public void loadSprints() {
 	sprintsMap.clear();
 
 	try {
@@ -858,23 +1037,35 @@ public void loadSprints() {
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-};
+	};
+
+	/**
+	 * Gibt alle Sprints zurück
+	 * @return
+	 */
+	public List<Sprint> getSprints() {
+		loadSprints();
+		List<Sprint> sprints = new LinkedList<Sprint>(sprintsMap.values());
+		return sprints;
+	}
+
+	/**
+	 * Gibt den entsprechenden Sprint zurück
+	 * @param sprintid
+	 * @return
+	 */
+	public Sprint getSprintById(int sprintid){
+		loadSprints();
+		Sprint sprint1= sprintsMap.get(sprintid);
+		return sprint1;
+	}
 
 
-public List<Sprint> getSprints() {
-	loadSprints();
-	List<Sprint> sprints = new LinkedList<Sprint>(sprintsMap.values());
-	return sprints;
-}
-
-public Sprint getSprintById(int sprintid){
-	loadSprints();
-	Sprint sprint1= sprintsMap.get(sprintid);
-	return sprint1;
-}
-
-
-public void saveSprint(Sprint sprint1){
+	/**
+	 * Speichert den Sprint in der Datenbank
+	 * @param sprint1
+	 */
+	public void saveSprint(Sprint sprint1){
 	try {
 		// Einfuegen
 		// 1. get conn
@@ -888,14 +1079,18 @@ public void saveSprint(Sprint sprint1){
 		String sql = "insert into sprints " + " (sprintid ,title, start_date, end_date, active)"
 				+ " values(" + sprint1.sprintid + ", '" + sprint1.title + "', '" + sprint1.getStartDateAsStringForDatabase() + "', '" + sprint1.getEndDateAsStringForDatabase() + "', '" + (sprint1.active ? "1" : "0") + "');";
 		myStmt.executeUpdate(sql);
-		try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
-		try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
-	} catch (Exception e) {
-		e.printStackTrace();
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadSprints();
 	}
-	loadSprints();
-}
 
+	/**
+ 	* Löscht den Sprint in der Datenbank
+ 	* @param s
+ 	*/
 	public void deleteSprint(Sprint s) {
 		try {
 			List<Ticket> openTs= DBManager1.getTicketsByState("open",s.sprintid);//,Integer.parseInt(request.getParameter("sprintid"))));
@@ -905,7 +1100,7 @@ public void saveSprint(Sprint sprint1){
 //					 {
 //				System.out.println("Deletion not possible. There are still not closed Tickets which belong to this Sprint");
 //			}else{
-			// L�schen
+			// Löschen
 			// 1. get conn
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/issuetracking_db",
@@ -926,7 +1121,10 @@ public void saveSprint(Sprint sprint1){
 	}
 	
 		
-	
+	/**
+	 * Ändert den Sprint in der Datenbank
+	 * @param supdate
+	 */
 	public void updateSprint(Sprint supdate) {
 		loadSprints();
 		Sprint s1 = DBManager1.getSprintById(supdate.getSprintid());
@@ -937,6 +1135,10 @@ public void saveSprint(Sprint sprint1){
 
 	}
 	
+	/**
+	 * Gibt den aktiven Sprint aus
+	 * @return
+	 */
 	public Sprint getActiveSprint() {
 		List<Sprint> sprints = getSprints();
 		Sprint sprint = null;
@@ -953,5 +1155,178 @@ public void saveSprint(Sprint sprint1){
 		return null;
 	}
 	
+	/**
+	 * Gibt die Anzahl der Tickets aus
+	 * @return
+	 */
+	public int TicketCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from tickets");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der erledigten Tickets aus
+	 * @return
+	 */
+	public int closedTicketCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from tickets where type = 'closed'");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der Kommentare aus
+	 * @return
+	 */
+	public int commentCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from comments");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der Komponenten aus
+	 * @return
+	 */
+	public int componentCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from components");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der Nutzer aus
+	 * @return
+	 */
+	public int userCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from users");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der Sprints aus
+	 * @return
+	 */
+	public int sprintCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from sprints");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 	
 }

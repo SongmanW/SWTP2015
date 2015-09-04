@@ -37,7 +37,7 @@ th {
 </style>
 </head>
 
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 	User:
 	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>
@@ -64,12 +64,20 @@ th {
 			<input type="checkbox" name="tickids" value="${tick1.id}">${tick1.title}${tick1.id}
 			<br>
 		</c:forEach>
-		<input type="submit" value="add sprint">
-		
-		
-		
-		
+		<input type="submit" value="add sprint">	
 		</form>
+
+	<c:choose>
+		<c:when test="${not empty activesprint}">
+			<h1>
+				Active Sprint: 
+				<a href=${"Controller?action=preparePage&pageName=sprintDetail.jsp&sprintid=".concat(activesprint.getSprintid())}>${activesprint.title}
+				</a>
+		</c:when>
+		<c:otherwise>
+    '<h1>No active sprint</h1>'
+  </c:otherwise>
+	</c:choose>
 
 	<h1>Sprints</h1>
 
@@ -84,24 +92,18 @@ th {
 		</tr>
 		<c:forEach items="${sprints}" var="sprint1">
 			<tr>
-				<td><a     
+				<td><a
 					href=${"Controller?action=preparePage&pageName=sprintDetail.jsp&sprintid=".concat(sprint1.getSprintid())}>
 						${sprint1.title} </a></td>
-					<td><a     
+				<td><a
 					href=${"Controller?action=preparePage&pageName=sprintstickets.jsp&sprintid=".concat(sprint1.getSprintid())}>
-						tickets </a></td>	
-						<td>   
-						${sprint1.getStartDateAsString()} </td>
-						<td>   
-						${sprint1.getEndDateAsString()}</td>		
+						tickets </a></td>
+				<td>${sprint1.getStartDateAsString()}</td>
+				<td>${sprint1.getEndDateAsString()}</td>
 			</tr>
 		</c:forEach>
 	</table>
-	<br>
-	<br>
-	<br>
-	<a     
-					href=${"Controller?action=preparePage&pageName=index.jsp&sprintid=-2"}>
+	<a href=${"Controller?action=preparePage&pageName=index.jsp&sprintid=-2"}>
 						all tickets </a>
 <!-- development -->
 <br>

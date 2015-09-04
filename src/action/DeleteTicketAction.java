@@ -13,8 +13,10 @@ public class DeleteTicketAction implements Action {
 			HttpServletResponse response) {
 
 		Ticket t1 = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
+		DBManager1.removeComments(t1);
 		DBManager1.deleteTicket(t1);
 		DBManager1.removeTCRelation(t1);
+		
 		return "index.jsp";
 	}
 }

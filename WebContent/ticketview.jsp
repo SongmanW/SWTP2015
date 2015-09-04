@@ -55,7 +55,7 @@ function setchecked(selectid,valuewert)
 }
 </script>
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 		User:
 	<a href=${'Controller?action=preparePage&pageName=userpage.jsp&user_id='.concat(sessionScope.user)}>

@@ -57,7 +57,14 @@ public class Controller extends HttpServlet {
 		doGet(request, response);
 	}
 
-	
+	/**
+	 * Bereitet die Parameter für die entsprechende Seite vor
+	 * @param pageName Name der aufgerufenen Seite
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void preparePage(String pageName, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
@@ -109,6 +116,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("nosprinttickets_test", DBManager1.getTicketsByState("test",-1));//,Integer.parseInt(request.getParameter("sprintid"))));
 			
 			request.setAttribute("thissprint",DBManager1.getSprintById(Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("activesprint", DBManager1.getActiveSprint());
 			
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -181,10 +189,20 @@ public class Controller extends HttpServlet {
 			request.setAttribute("c1", comment1);
 		}
 	
-		if(pageName.endsWith("sprints.jsp")){	
+		if(pageName.endsWith("sprints.jsp")){
+			request.setAttribute("activesprint", DBManager1.getActiveSprint());
 			request.setAttribute("sprints", DBManager1.getSprints());
 			request.setAttribute("nosprinttickets",DBManager1.getTicketsByState("beliebig", -1));
 		
+		}
+		
+		if(pageName.endsWith("statistics.jsp")){
+			request.setAttribute("tickets", DBManager1.TicketCount());
+			request.setAttribute("sprints", DBManager1.sprintCount());
+			request.setAttribute("closedtickets",DBManager1.closedTicketCount());
+			request.setAttribute("comments", DBManager1.commentCount());
+			request.setAttribute("components", DBManager1.componentCount());
+			request.setAttribute("users",DBManager1.userCount());	
 		}
 		
 	}

@@ -7,8 +7,6 @@ abstract public class Ticket {
 	protected static final DBManager DBManager1 = DBManager.getInstance();
 	
 	protected int id;
-
-	
 	protected int sprintid;
 	protected String title;
 	protected String description;
@@ -19,7 +17,6 @@ abstract public class Ticket {
 	protected String state;
 
 	
-
 	public Ticket(int id, int sprintid, String title, String description,
 			Date date, String author, String responsible_user, String type,
 			String state) {
@@ -33,10 +30,6 @@ abstract public class Ticket {
 		this.type = type;
 		this.state = state;
 	}
-//	public Ticket() {
-//	}
-	
-	
 
 	public int getId() {
 		return id;
@@ -123,6 +116,7 @@ abstract public class Ticket {
 
 	public void setEstimated_time(String estimated_time) {
 	}
+	
 	
 	public Map<String, String> validate() {
 		Map<String, String> errorMsg = new HashMap<String, String>();

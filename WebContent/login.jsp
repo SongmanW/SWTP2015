@@ -20,14 +20,14 @@ if (DBManager1.checkLogin((String)request.getSession().getAttribute("user"),
 
 </style>
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png">
 	${sessionScope.test}
 	${regSuccess}
 	<h1>Login</h1>
 	<form action="Controller" method="post">
 		<input type="hidden" name="action" value="login"/>
 		Username:<input name="useridinput" type="text"/>${errorMsgsLogin.useridinput}<br />
-		Password:<input name="passwordinput" type="text"/>${errorMsgsLogin.passwordinput}<br />
+		Password:<input type="password" name="passwordinput" type="text"/>${errorMsgsLogin.passwordinput}<br />
 		<input type="submit" value="login">
 	</form>
 
@@ -39,7 +39,8 @@ if (DBManager1.checkLogin((String)request.getSession().getAttribute("user"),
 		<input type="submit" value="register"> 
 	</form><br />
 	
-	<a href="Controller?action=preparePage&pageName=users.jsp"> Edit Users (Adminpage)</a>
+	<a href="Controller?action=preparePage&pageName=users.jsp"> Edit Users (Adminpage)</a><br>
+	<a href="Controller?action=preparePage&pageName=statistics.jsp"> Statistics</a>
 <!-- development -->
 <br>
 <br>

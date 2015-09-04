@@ -49,7 +49,7 @@ th {
 </style>
 </head>
 
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 
 
