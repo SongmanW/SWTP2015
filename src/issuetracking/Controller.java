@@ -136,6 +136,8 @@ public class Controller extends HttpServlet {
 					Integer.parseInt(request.getParameter("ticket_id"))));
 			request.setAttribute("compids", DBManager1.getComponents());
 			
+			request.setAttribute("ticket_pictures", DBManager1.getPicturesByTicket(Integer.parseInt(request.getParameter("ticket_id"))));
+			
 			request.setAttribute("ticket_comments", DBManager1.getCommentsByTicket(
 					Integer.parseInt(request.getParameter("ticket_id"))));
 
@@ -164,7 +166,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("u1", u1);
 		}
 		if (pageName.endsWith("login.jsp")) {
-
+			
 		}
 		
 		if(pageName.endsWith("components.jsp")){
