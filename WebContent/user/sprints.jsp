@@ -17,7 +17,7 @@
 <body>
 
 	User:
-        <a href="Controller?action=preparePage&pageName=user/userpage.jsp">
+        <a href="user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
 	<a href="Controller?action=logout"> logout </a>
 
@@ -62,10 +62,10 @@
 		<c:forEach items="${sprints}" var="sprint1">
 			<tr>
 				<td><a     
-					href=${"Controller?action=preparePage&pageName=user/sprintDetail.jsp&sprintid=".concat(sprint1.getSprintid())}>
+					href=${"user/sprintDetail.jsp&sprintid=".concat(sprint1.getSprintid())}>
 						${sprint1.title} </a></td>
 					<td><a     
-					href=${"Controller?action=preparePage&pageName=user/sprintstickets.jsp&sprintid=".concat(sprint1.getSprintid())}>
+					href=${"user/sprintstickets.jsp&sprintid=".concat(sprint1.getSprintid())}>
 						tickets </a></td>	
 						<td>   
 						${sprint1.getStartDateAsString()} </td>
@@ -78,7 +78,7 @@
 	<br>
 	<br>
 	<a     
-					href=${"Controller?action=preparePage&pageName=user/index.jsp&sprintid=-2"}>
+					href=${"user/index.jsp&sprintid=-2"}>
 						all tickets </a>
 <!-- development -->
 <br>

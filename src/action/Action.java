@@ -27,8 +27,6 @@ public interface Action {
 		case "changeUser":
 		case "changeUser_from_account":
 			return new ChangeUserAction();
-		case "preparePage":
-			return new PreparePageAction();
 		case "addComponent":
 			return new AddComponentAction();
 		case "changeComponent":

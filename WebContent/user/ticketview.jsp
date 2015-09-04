@@ -16,10 +16,10 @@
 <body>
 
 		User:
-	<a href="Controller?action=preparePage&pageName=user/userpage.jsp">
+	<a href="user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
 	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="Controller?action=preparePage&pageName=user/sprints.jsp"> back to
+	<a href="user/sprints.jsp"> back to
 		sprints </a>
 
 
@@ -42,7 +42,7 @@
 
 	<h1>Comments:</h1>
 	<c:forEach items="${t1.comments}" var="comment1">
-	        comment from:${comment1.author}  &nbsp;&nbsp;&nbsp; posted at:${comment1.dateAsString} &nbsp;&nbsp;&nbsp;${comment1.author == sessionScope.user ? '<a href="Controller?action=preparePage&pageName=commentview.jsp&comment_id='.concat(comment1.cid).concat('"> bearbeiten </a>') : ''}<br>
+	        comment from:${comment1.author}  &nbsp;&nbsp;&nbsp; posted at:${comment1.dateAsString} &nbsp;&nbsp;&nbsp;${comment1.author == sessionScope.user ? '<a href="commentview.jsp&comment_id='.concat(comment1.cid).concat('"> bearbeiten </a>') : ''}<br>
 			${comment1.message} <br> <br>
 	</c:forEach>
 
@@ -86,7 +86,7 @@
 		</select><br> 
 		<span id="estimated_time_change_span" style="display: none;">
 		Estimated time:<input name="estimated_time" value="${t1.estimated_time}" type="text" />hours  ${errorMsgs.estimated_time}</span><br /> 
-		Components <a href="Controller?action=preparePage&pageName=user/components.jsp">(addComponents)</a>:<br>
+		Components <a href="user/components.jsp">(addComponents)</a>:<br>
 		<c:forEach items="${compids}" var="compid1">
 			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
 			<br>

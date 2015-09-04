@@ -12,11 +12,11 @@
 </head>
 <body>
 	User:
-        <a href="Controller?action=preparePage&pageName=user/userpage.jsp">
+        <a href="user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
 	<a href="Controller?action=logout"> logout </a> &nbsp;
-	<a href=${"Controller?action=preparePage&pageName=user/ticketview.jsp&ticket_id=".concat(c1.tid)}> back to the ticket </a>
-	&nbsp;&nbsp;<a href="Controller?action=preparePage&pageName=user/index.jsp"> back to index </a>
+	<a href=${"user/ticketview.jsp&ticket_id=".concat(c1.tid)}> back to the ticket </a>
+	&nbsp;&nbsp;<a href="user/index.jsp"> back to index </a>
 	<h1>The comment:</h1>
 	CommentID=${c1.cid}<br>
 	Ticket= ${c1.tid}<br>

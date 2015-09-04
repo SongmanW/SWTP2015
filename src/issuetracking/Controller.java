@@ -16,7 +16,7 @@ import javax.ejb.EJB;
 /**
  * Servlet implementation class Controller
  */
-@WebServlet("/Controller")
+@WebServlet
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB

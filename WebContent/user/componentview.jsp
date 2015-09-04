@@ -11,7 +11,7 @@
 <title>Component View</title>
 </head>
 <body>
-	<a href="Controller?action=preparePage&pageName=user/components.jsp"> back to componentlist </a>
+	<a href="user/components.jsp"> back to componentlist </a>
 	<h1>The component:</h1>
 	ComponentID=${c1.compid}<br> 
 	Description=${c1.description}<br> 
