@@ -6,6 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 public interface Action {
 	String execute(HttpServletRequest request, HttpServletResponse response);
 
+	/**
+	 * @param actionName Die Art der erzeugten Aktion
+	 * Erzeugt die entsprechende Aktion
+	*/
 	public static Action actionFactory(String actionName) {
 		switch (actionName) {
 		case "addTicket":
@@ -45,6 +49,10 @@ public interface Action {
 			return new DeleteSprintAction();
 		case "changeSprint":
 			return new ChangeSprintAction();
+		case "startSprint":
+			return new StartSprintAction();
+		case "endSprint":
+			return new EndSprintAction();
 		default:
 			throw new IllegalArgumentException("Invalid Action: " + actionName);
 		}

@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User view</title>
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 	<a href="admin/users.jsp"> back to userlist </a>
 	<h1>The user:</h1>
 	UserID=${u1.userid}<br> 

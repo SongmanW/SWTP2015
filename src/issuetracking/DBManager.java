@@ -32,7 +32,6 @@ public class DBManager {
     
     @PersistenceContext(unitName="SWTP2015PU")
     private EntityManager em;
-
 	private static DBManager DBManager1;
 
 	private static Map<String, User> usersMap = new HashMap<String, User>();
@@ -40,6 +39,10 @@ public class DBManager {
         public DBManager() {
         }
         
+	/**
+	 * Gibt die DBManager-Instanz zurück
+	 * @return
+	 */
 	public static DBManager getInstance() {
 		if (DBManager.DBManager1 == null) {
 			DBManager.DBManager1 = new DBManager();
@@ -52,16 +55,31 @@ public class DBManager {
                                 return myConn;
         }
 
+	/**
+	 * Gibt die Tickets als Liste zurück
+	 * @return
+	 */
 	public List<Ticket> getTickets() {
                 TypedQuery<Ticket> query = em.createQuery("SELECT t FROM Ticket t", Ticket.class);
 		List<Ticket> tickets = query.getResultList();
 		return tickets;
 	}
 
+	/**
+	 * Gibt ein Ticket mit der entsprechenden ID zurück
+	 * @param i ID des Tickets
+	 * @return
+	 */
 	public Ticket getTicketById(int i) {
 		return em.find(Ticket.class, i);
 	}
 	
+	/**
+	 * Gibt alle Tickets des entsprechenden Zustands des entsprechenden Sprints zurück
+	 * @param state
+	 * @param sprintid
+	 * @return
+	 */
 	public List<Ticket> getTicketsByState(String state, int sprintid) {
 		List<Ticket> ticketList = getTickets();
 		List<Ticket> ticketsBySprintid = new LinkedList<Ticket>();
@@ -97,11 +115,19 @@ public class DBManager {
 		return ticketsByBoth;
 	}
 
+	/**
+	 * Speichert das Ticket in der Datenbank
+	 * @param t1
+	 */
 	public Integer saveTicket(Ticket t1) {
             em.persist(t1);
             return t1.getId();
 	}
 
+	/**
+	 * Ändert das Ticket in der Datenbank
+	 * @param tupdate
+	 */
 	public void updateTicket(Ticket tupdate) {
 		Ticket persistanceTicket = em.find(Ticket.class, tupdate.getId());
                 persistanceTicket.setAuthor(tupdate.getAuthor());
@@ -116,11 +142,19 @@ public class DBManager {
                 em.persist(persistanceTicket);
 	}
 
+	/**
+	 * Entfernt das Ticket aus der Datenbank
+	 * @param t1
+	 */
 	public void deleteTicket(Ticket t1) {
             t1 = em.merge(t1);
             em.remove(t1);
+	
 	}
 
+	/**
+	 * Läd doe Nutzer aus der Datenbank
+	 */
 	public void loadUsers() {
 		usersMap.clear();
 
@@ -146,18 +180,31 @@ public class DBManager {
 		}
 	};
 
-
+	/**
+	 * Gibt die Nutzer zurück
+	 * @return
+	 */
 	public List<User> getUsers() {
 		loadUsers();
 		List<User> users = new LinkedList<User>(usersMap.values());
 		return users;
 	}
 
+	/**
+	 * Gibt den Nutzer mit der entsprechenden ID aus
+	 * @param userid
+	 * @return
+	 */
 	public User getUserByUserid(String userid) {
 		loadUsers();
 		return usersMap.get(userid);
 	}
 	
+	/**
+	 * Registriert einen neuen Nutzer
+	 * @param userid
+	 * @param password
+	 */
 	public void registerUser(String userid, String password) {
 		try {
 			// Einfoegen
@@ -192,6 +239,10 @@ public class DBManager {
             return encrypted;
         }
 
+        /**
+         * Ändert einen Nutzer
+         * @param u1
+         */
 	public void updateUser(User u1) {
 		try {
 			// Updaten
@@ -210,6 +261,11 @@ public class DBManager {
 		loadUsers();
 	}
 
+	/**
+	 * Prüft ob ein Nutzer in der Datenbank enthalten ist
+	 * @param userid
+	 * @return
+	 */
 	public boolean containsUser(String userid) {
 		loadUsers();
 		try {
@@ -232,6 +288,10 @@ public class DBManager {
 		return false;
 	};
 
+	/**
+	 * Löscht einen Nutzer
+	 * @param u1
+	 */
 	public void deleteUser(User u1) {
 		try {
 			// Loeschen
@@ -250,35 +310,67 @@ public class DBManager {
 		loadUsers();
 	}
 	
+	/**
+	 * Gibt alle Komponenten zurück
+	 * @return
+	 */
 	public List<Component> getComponents(){
                 TypedQuery<Component> query = em.createQuery("SELECT c FROM Component c", Component.class);
 		List<Component> components = query.getResultList();
 		return components;
 	}
 	
+	/**
+	 * Gibt die Komponente mit der entsprechenden ID zurück
+	 * @param compid
+	 * @return
+	 */
 	public Component getComponentById(String compid){
 		return em.find(Component.class, compid);
 	}
 	
+	/**
+	 * Speichert eine Komponente in die Datenbank
+	 * @param compid
+	 * @param description
+	 */
 	public void saveComponent(Component toPersist){
             em.persist(toPersist);
 	}
 	
+	/**
+	 * Ändert eine Komponente in der Datenbank
+	 * @param c
+	 */
 	public void updateComponent(Component c){
 		em.merge(c);
                 em.persist(c);
 	}
 	
+	/**
+	 * Löscht eine Komponente aus der Datenbank
+	 * @param c
+	 */
 	public void deleteComponent(Component c){
 		em.merge(c);
                 em.remove(c);
 	}
 	
+	/**
+	 * Gibt die Komponente mit der entsprechenden ID zurück
+	 * @param tid
+	 * @return
+	 */
 	public List<Component> getComponentsByTicket(int tid){
             Ticket ticket = getTicketById(tid);
             return ticket.getComponents();
 	}
 	
+	/**
+	 * Gibt eine Liste mit allen Tickets aus, welche die Komponente besitzen
+	 * @param compid
+	 * @return
+	 */
 	public List<Ticket> getTicketsByComponent(String compid){
             Component comp = getComponentById(compid);
             return comp.getTickets();
@@ -289,29 +381,75 @@ public class DBManager {
                 t1.removeComponent(c);
 	}
 	
+	/**
+	 * Löscht eine TCRelation aus der Datenbank
+	 * @param c
+	 */
 	public void removeTCRelation(Component c){
             em.merge(c);
             c.clearTickets();
 	}
 	
+	/**
+	 * Löscht eine TCRelation aus der Datenbank
+	 * @param t1
+	 */
 	public void removeTCRelation(Ticket t1){
             em.merge(t1);
 		t1.clearComponents();		
 	}
 
+/**
+	 * Speichert einen Kommentar in der Datenbank
+	 * @param comment1
+	 */
 public int saveComment(Comment comment1){
     em.persist(comment1);
     return comment1.getCid();
-}
+	}
 
-public void deleteComment(Comment c){
+	/**
+	 * Löscht einen Kommentar in der Datenbank
+	 * @param c
+	 */
+	public void deleteComment(Comment c){
     c = em.merge(c);
     em.remove(c);
-}
+	}
 
-public void updateComment(Comment c){
+	/**
+	* Löscht alle Kommentare des Tickets
+ 	* @param t1
+ 	*/
+	public void removeComments(Ticket t1){
+	try {
+		// Loeschen
+		// 1. get conn
+		Connection myConn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/issuetracking_db",
+				"glassfishadmin", "chucknorris42");
+		// 2. create statement
+		Statement myStmt = myConn.createStatement();
+		// 3. Execute SQL query
+		String sql = "delete from Comments " + "where tid = '"
+				+ t1.getId() + "' ;";
+
+		myStmt.executeUpdate(sql);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	loadTCRelation();
+	
+	}
+
+	/**
+	 * Ändert einen Kommentar
+	 * @param c
+	 */
+	public void updateComment(Comment c){
 	c = em.merge(c);
         em.persist(c);
+	}
 }
 	
 	public Comment getCommentById(int comment_id){
@@ -321,33 +459,57 @@ public void updateComment(Comment c){
 
 ////////////////////////////////////////////////////////////////////
 
-public List<Sprint> getSprints() {
+	/**
+	 * Gibt alle Sprints zurück
+	 * @return
+	 */
+	public List<Sprint> getSprints() {
     TypedQuery<Sprint> query = em.createQuery("SELECT s FROM Sprint s", Sprint.class);
 	List<Sprint> sprints = query.getResultList();
-	return sprints;
-}
+		return sprints;
+	}
 
-public Sprint getSprintById(int sprintid){
+	/**
+	 * Gibt den entsprechenden Sprint zurück
+	 * @param sprintid
+	 * @return
+	 */
+	public Sprint getSprintById(int sprintid){
     return em.find(Sprint.class, sprintid);
-}
+	}
 
 
-public void saveSprint(Sprint sprint1){
+	/**
+	 * Speichert den Sprint in der Datenbank
+	 * @param sprint1
+	 */
+	public void saveSprint(Sprint sprint1){
 	em.persist(sprint1);
-}
+	}
 
+	/**
+ 	* Löscht den Sprint in der Datenbank
+ 	* @param s
+ 	*/
 	public void deleteSprint(Sprint s) {
 		s=em.merge(s);
                 em.remove(s);
 	}
 	
 		
-	
+	/**
+	 * Ändert den Sprint in der Datenbank
+	 * @param supdate
+	 */
 	public void updateSprint(Sprint supdate) {
 		supdate = em.merge(supdate);
                 em.persist(supdate);
 	}
 	
+	/**
+	 * Gibt den aktiven Sprint aus
+	 * @return
+	 */
 	public Sprint getActiveSprint() {
 		TypedQuery<Sprint> query = em.createQuery("SELECT s FROM Sprint s WHERE s.active LIKE true", Sprint.class);
                 List<Sprint> activeSprints = query.getResultList();
@@ -357,5 +519,178 @@ public void saveSprint(Sprint sprint1){
                     return null;
 	}
 	
+	/**
+	 * Gibt die Anzahl der Tickets aus
+	 * @return
+	 */
+	public int TicketCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from tickets");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der erledigten Tickets aus
+	 * @return
+	 */
+	public int closedTicketCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from tickets where type = 'closed'");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der Kommentare aus
+	 * @return
+	 */
+	public int commentCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from comments");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der Komponenten aus
+	 * @return
+	 */
+	public int componentCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from components");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der Nutzer aus
+	 * @return
+	 */
+	public int userCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from users");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+	
+	/**
+	 * Gibt die Anzahl der Sprints aus
+	 * @return
+	 */
+	public int sprintCount() {
+		int count=0;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet result = myStmt
+					.executeQuery("select COUNT(*) from sprints");
+			// 4. Process results
+			result.next();
+				count=result.getInt(1);
+			try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 	
 }

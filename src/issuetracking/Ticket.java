@@ -42,7 +42,6 @@ public class Ticket implements Serializable {
         
         @OneToMany(mappedBy="ticket", fetch = FetchType.EAGER)
         private List<Comment> comments;
-
     public List<Comment> getComments() {
         return comments;
     }
@@ -159,6 +158,7 @@ public class Ticket implements Serializable {
 	public void setEstimated_time(String estimated_time) {
             this.estimated_time = estimated_time;
 	}
+	
 	
 	public Map<String, String> validate(DBManager DBManager1) {
 		Map<String, String> errorMsg = new HashMap<String, String>();

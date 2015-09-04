@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Component View</title>
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 	<a href="user/components.jsp"> back to componentlist </a>
 	<h1>The component:</h1>
 	ComponentID=${c1.compid}<br> 

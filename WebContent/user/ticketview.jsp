@@ -13,7 +13,7 @@
 <script src="script/ticketview.js"></script>
 <script src="application.js"></script>
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 		User:
 	<a href="user/userpage.jsp">

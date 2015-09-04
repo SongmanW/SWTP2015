@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png">
 	${sessionScope.test}
 	${regSuccess}
 	<h1>Login</h1> 
@@ -28,6 +28,7 @@
 	</form><br />
 	
 	<a href="users.jsp"> Edit Users (Adminpage)</a>
+	<a href="Controller?action=preparePage&pageName=statistics.jsp"> Statistics</a>
 <!-- development -->
 <br>
 <br>
