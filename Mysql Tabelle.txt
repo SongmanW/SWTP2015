@@ -80,6 +80,9 @@ INSERT INTO sprints VALUES (9, "sprint2", "2015-05-10", "2015-06-12",0);
 INSERT INTO sprints VALUES (10, "sprint3", "2015-05-10", "2015-06-12",0);
 INSERT INTO sprints VALUES (11, "sprint4", "2015-05-10", "2015-06-12",0);
 
+DROP table pictures;
+
+CREATE TABLE pictures(pictureid INT, ticketid INT, upload_date DATE, uploader VARCHAR(35), type VARCHAR(5));
 
 
 GRANT ALL PRIVILEGES ON issuetracking_db.* TO 'glassfishadmin'@'%' IDENTIFIED BY 'chucknorris42';

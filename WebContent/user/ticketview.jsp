@@ -40,6 +40,20 @@
 			${compid1.compid}<br>
 	</c:forEach>
 
+	<h1>Pictures:</h1><br>
+	<c:forEach items = "${ticket_pictures}" var="pic">
+		<img alt="uploaded ${pic.uploadDateAsString} by ${pic.uploader}" src="/ITS_1/image?file=${pic.pictureId}"><br>
+		uploaded ${pic.uploadDateAsString} by ${pic.uploader}<br>
+	</c:forEach>
+	
+	Attach picture: <br>
+	<form method="POST" action="Uploader" enctype="multipart/form-data" >
+		<input type="hidden" name = "ticket_id" value = "${t1.id}" /> 
+		<input type="hidden" name="author" value="${sessionScope.user}" /> 
+        <input type="file" name="file" id="file" /> <br/>
+    	<input type="submit" value="Upload" name="upload" id="upload" />
+	</form>
+	
 	<h1>Comments:</h1>
 	<c:forEach items="${t1.comments}" var="comment1">
 	        comment from:${comment1.author}  &nbsp;&nbsp;&nbsp; posted at:${comment1.dateAsString} &nbsp;&nbsp;&nbsp;${comment1.author == sessionScope.user ? '<a href="commentview.jsp&comment_id='.concat(comment1.cid).concat('"> bearbeiten </a>') : ''}<br>

@@ -1,7 +1,9 @@
 package issuetracking;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -35,6 +37,7 @@ public class DBManager {
 	private static DBManager DBManager1;
 
 	private static Map<String, User> usersMap = new HashMap<String, User>();
+	private static Map<Integer, PictureFile> pictureMap = new HashMap<Integer, PictureFile>();
         
         public DBManager() {
         }
@@ -53,6 +56,16 @@ public class DBManager {
         private Connection getConnection() throws SQLException{
             			Connection myConn = ds.getConnection();
                                 return myConn;
+	public int getNextPictureId() {
+		loadPictures();
+		int i = 1;
+		for (; i < 10000; i++) {
+			if (!pictureMap.keySet().contains(i))
+				break;
+		}
+		return i;
+	}
+
         }
 
 	/**
@@ -84,9 +97,10 @@ public class DBManager {
 		List<Ticket> ticketList = getTickets();
 		List<Ticket> ticketsBySprintid = new LinkedList<Ticket>();
 		List<Ticket> ticketsByBoth = new LinkedList<Ticket>();
-		
-		//when sprintid is -2, return tickets of all sprints (for alltickets.jsp)
-		if(sprintid!=-2){
+
+		// when sprintid is -2, return tickets of all sprints (for
+		// alltickets.jsp)
+		if (sprintid != -2) {
 		for(Ticket t : ticketList){
 			if(t.getSprintid()==sprintid){
 				ticketsBySprintid.add(t);
@@ -94,24 +108,20 @@ public class DBManager {
 		}}
 		else 
 		for(Ticket t : ticketList){
-			ticketsBySprintid.add(t);
-		}
-		
-		
-		
-		if(!state.equals("beliebig")){
-		for(Ticket t : ticketsBySprintid){
+				ticketsBySprintid.add(t);
+			}
+
+		if (!state.equals("beliebig")) {
+			for (Ticket t : ticketsBySprintid) {
 			if(t.getStatus().equals(state)){
-				ticketsByBoth.add(t);
-			}}
-		}
-		else 
-			for(Ticket t : ticketsBySprintid){
+					ticketsByBoth.add(t);
+				}
+			}
+		} else
+			for (Ticket t : ticketsBySprintid) {
 				ticketsByBoth.add(t);
 			}
-		
-		
-		
+
 		return ticketsByBoth;
 	}
 
@@ -217,27 +227,29 @@ public class DBManager {
                         String encryptedPassword = encryptPassword(password);
 			String addUserQuery = "insert into USERS " + " (USERID, PASSWORD)"
 					+ " values('" + userid + "', '" + encryptedPassword + "');";
-                        
+
 			myStmt.executeUpdate(addUserQuery);
-                        
-                        String addGroupQuery = "insert into USERS_GROUPS (GROUPID, USERID) values ('user', '" + userid + "');";
-                        myStmt.executeUpdate(addGroupQuery);
+
+			String addGroupQuery = "insert into USERS_GROUPS (GROUPID, USERID) values ('user', '"
+					+ userid + "');";
+			myStmt.executeUpdate(addGroupQuery);
 		} catch (Exception e) {
-                    System.out.println("Exception");
+			System.out.println("Exception");
 			e.printStackTrace();
 		}
 		loadUsers();
 	}
-        
-        public static String encryptPassword(String clearText) throws UnsupportedEncodingException, NoSuchAlgorithmException{
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            String text = clearText;
-            md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-            byte[] digest = md.digest();
-            BigInteger bigInt = new BigInteger(1, digest);
-            String encrypted = bigInt.toString(16);
-            return encrypted;
-        }
+
+	public static String encryptPassword(String clearText)
+			throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		String text = clearText;
+		md.update(text.getBytes("UTF-8")); // Change this to "UTF-16" if needed
+		byte[] digest = md.digest();
+		BigInteger bigInt = new BigInteger(1, digest);
+		String encrypted = bigInt.toString(16);
+		return encrypted;
+	}
 
         /**
          * Ändert einen Nutzer
@@ -251,8 +263,9 @@ public class DBManager {
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
-			String sql = "update USERS " + "set PASSWORD='" + encryptPassword(u1.getPassword())
-					+ "' " + "where USERID='" + u1.getUserid() + "';";
+			String sql = "update USERS " + "set PASSWORD='"
+					+ encryptPassword(u1.getPassword()) + "' "
+					+ "where USERID='" + u1.getUserid() + "';";
 
 			myStmt.executeUpdate(sql);
 		} catch (Exception e) {
@@ -309,26 +322,26 @@ public class DBManager {
 		}
 		loadUsers();
 	}
-	
+
 	/**
 	 * Gibt alle Komponenten zurück
 	 * @return
 	 */
-	public List<Component> getComponents(){
+	public List<Component> getComponents() {
                 TypedQuery<Component> query = em.createQuery("SELECT c FROM Component c", Component.class);
 		List<Component> components = query.getResultList();
 		return components;
 	}
-	
+
 	/**
 	 * Gibt die Komponente mit der entsprechenden ID zurück
 	 * @param compid
 	 * @return
 	 */
-	public Component getComponentById(String compid){
+	public Component getComponentById(String compid) {
 		return em.find(Component.class, compid);
 	}
-	
+
 	/**
 	 * Speichert eine Komponente in die Datenbank
 	 * @param compid
@@ -337,21 +350,21 @@ public class DBManager {
 	public void saveComponent(Component toPersist){
             em.persist(toPersist);
 	}
-	
+
 	/**
 	 * Ändert eine Komponente in der Datenbank
 	 * @param c
 	 */
-	public void updateComponent(Component c){
+	public void updateComponent(Component c) {
 		em.merge(c);
                 em.persist(c);
 	}
-	
+
 	/**
 	 * Löscht eine Komponente aus der Datenbank
 	 * @param c
 	 */
-	public void deleteComponent(Component c){
+	public void deleteComponent(Component c) {
 		em.merge(c);
                 em.remove(c);
 	}
@@ -365,7 +378,7 @@ public class DBManager {
             Ticket ticket = getTicketById(tid);
             return ticket.getComponents();
 	}
-	
+
 	/**
 	 * Gibt eine Liste mit allen Tickets aus, welche die Komponente besitzen
 	 * @param compid
@@ -380,7 +393,7 @@ public class DBManager {
 		em.merge(t1);
                 t1.removeComponent(c);
 	}
-	
+
 	/**
 	 * Löscht eine TCRelation aus der Datenbank
 	 * @param c
@@ -389,7 +402,7 @@ public class DBManager {
             em.merge(c);
             c.clearTickets();
 	}
-	
+
 	/**
 	 * Löscht eine TCRelation aus der Datenbank
 	 * @param t1
@@ -451,7 +464,7 @@ public int saveComment(Comment comment1){
         em.persist(c);
 	}
 }
-	
+
 	public Comment getCommentById(int comment_id){
             return em.find(Comment.class, comment_id);
 	}
@@ -495,7 +508,7 @@ public int saveComment(Comment comment1){
 		s=em.merge(s);
                 em.remove(s);
 	}
-	
+
 		
 	/**
 	 * Ändert den Sprint in der Datenbank
@@ -692,5 +705,218 @@ public int saveComment(Comment comment1){
 		}
 		return count;
 	}
+
+	// ///////////////////////////
+
+	/**
+	 * Loads all PictureFiles stored in the database into pictureMap
+	 */
+	public void loadPictures() {
+		pictureMap.clear();
+
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet myRs = myStmt
+					.executeQuery("select * from pictures order by pictureid");
+			// 4. Process results
+			while (myRs.next()) {
+				java.util.Date date1 = null;
+				Timestamp timestamp1 = myRs.getTimestamp("upload_date");
+				if (timestamp1 != null)
+					date1 = new java.util.Date(timestamp1.getTime());
+				PictureFile p1 = new PictureFile(myRs.getInt("pictureid"),
+						myRs.getInt("ticketid"), date1,
+						myRs.getString("uploader"),
+						myRs.getString("type"));
+				;
+				pictureMap.put(p1.getPictureId(), p1);
+			}
+			try {
+				if (myStmt != null)
+					myStmt.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+			try {
+				if (myConn != null)
+					myConn.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	};
+
+	/**
+	 * Saves a PictureFile in the database
+	 * @param p1 the PictureFile to save
+	 */
+	public void savePicture(PictureFile p1) {
+		try {
+			// Einfuegen
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+
+			String sql = "insert into pictures"
+					+ " (pictureid ,ticketid, upload_date, uploader, type)"
+					+ " values(" + p1.getPictureId() + ", " + p1.getTicketId()
+					+ ", '" + p1.getUploadDateAsStringForDatabase() + "', '"
+					+ p1.getUploader() + "', '"+ p1.getType() + "');";
+			myStmt.executeUpdate(sql);
+			try {
+				if (myStmt != null)
+					myStmt.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+			try {
+				if (myConn != null)
+					myConn.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadPictures();
+	}
 	
+	/**
+	 * Returns the PictureFile with the matching id
+	 * @param id the id of the picture
+	 * @return the PictureFile with the matching id
+	 */
+	public PictureFile getPictureById(int id){
+		loadPictures();
+		return pictureMap.get(id);
+	}
+	
+	/**
+	 * @return All PictureFiles stored in the Database
+	 */
+	public List<PictureFile> getPictures(){
+		loadPictures();
+		LinkedList<PictureFile> pics = new LinkedList<PictureFile>(pictureMap.values());
+		return pics;
+	}
+	
+	/**
+	 * Returns all PictureFiles attached to a specified ticket
+	 * @param ticketid the id of the ticket
+	 * @return all PictureFiles with matching ticketid
+	 */
+	public List<PictureFile> getPicturesByTicket(int ticketid){
+		List<PictureFile> pics = getPictures();
+		List<PictureFile> result = new LinkedList<PictureFile>();
+		for(int i = 0; i < pics.size(); i++){
+			if(pics.get(i).getTicketId() == ticketid){
+				result.add(pics.get(i));
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Deletes a PictureFile from the database and the file system
+	 * @param p the PictureFile to delete
+	 */
+	public void deletePicture(PictureFile p) {
+		try {
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from pictures " + "where pictureid = '"
+					+ p.getPictureId() + "' ;";
+
+			myStmt.executeUpdate(sql);
+			p.delete();
+			try {
+				if (myStmt != null)
+					myStmt.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+			try {
+				if (myConn != null)
+					myConn.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadPictures();
+	}
+	
+	public void deletePictureByTicketId(int id) {
+		try {
+			List<PictureFile> pics = getPicturesByTicket(id);
+			// 1. get conn
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/issuetracking_db",
+					"glassfishadmin", "chucknorris42");
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from pictures " + "where ticketid = '"
+					+ id + "' ;";
+
+			myStmt.executeUpdate(sql);
+			PictureFile p = null;
+			while(pics.size() > 0){
+				p = pics.get(0);
+				pics.remove(0);
+				p.delete();
+			}
+			try {
+				if (myStmt != null)
+					myStmt.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+			try {
+				if (myConn != null)
+					myConn.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		loadPictures();
+	}
+
+	/**
+	 * @return the folder that contains the uploaded files
+	 */
+	public static String getFilesPath() {
+		String path = "C:\\Users\\Simon\\Desktop\\test";
+		//TODO
+		return path;
+	}
+	
+	/**
+	 * Sets the folder that contains the uploaded files
+	 * @param path the path to the folder
+	 */
+	public static void setFilesPath(String path) {
+		//TODO
+	}
 }

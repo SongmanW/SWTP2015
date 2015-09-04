@@ -146,6 +146,8 @@ public class Controller extends HttpServlet {
 					Integer.parseInt(request.getParameter("ticket_id"))));
 			request.setAttribute("compids", DBManager1.getComponents());
 
+			request.setAttribute("ticket_pictures", DBManager1.getPicturesByTicket(Integer.parseInt(request.getParameter("ticket_id"))));
+			
 			SimpleDateFormat ft2 = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
 			String date2 = ft2.format(dNow);
 			request.setAttribute("date2", date2);		
@@ -165,7 +167,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("u1", u1);
 		}
 		if (pageName.endsWith("login.jsp")) {
-
+			
 		}
 		
 		if(pageName.endsWith("components.jsp")){
