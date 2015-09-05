@@ -41,17 +41,6 @@ public class DBManager {
         
         public DBManager() {
         }
-        
-	/**
-	 * Gibt die DBManager-Instanz zurück
-	 * @return
-	 */
-	/*public static DBManager getInstance() {
-		if (DBManager.DBManager1 == null) {
-			DBManager.DBManager1 = new DBManager();
-		}
-		return DBManager.DBManager1;
-	}*/
 
         private Connection getConnection() throws SQLException{
             			Connection myConn = ds.getConnection();

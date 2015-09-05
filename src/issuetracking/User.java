@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-	private static final DBManager DBManager1 = DBManager.getInstance();
 
 	private String userid;
 	private String password;
@@ -31,7 +30,7 @@ public class User {
 	}
 
 	public static Map<String, String> validateUserRegistration(
-			String useridinput, String passwordinput) {
+			String useridinput, String passwordinput, DBManager DBManager1) {
 		Map<String, String> errorMsg = new HashMap<String, String>();
 		if (useridinput == null || useridinput.trim().equals(""))
 			errorMsg.put("useridinput", "This field should not be empty!");
