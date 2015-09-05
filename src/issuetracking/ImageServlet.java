@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import javax.ejb.EJB;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -20,7 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/image")
 public class ImageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	protected static final DBManager DBManager1 = DBManager.getInstance();
+	@EJB
+        private DBManager DBManager1;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -35,7 +37,7 @@ public class ImageServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int fileid = Integer.parseInt(request.getParameter("file"));
-		PictureFile p = DBManager.getInstance().getPictureById(fileid);
+		PictureFile p = DBManager1.getPictureById(fileid);
 		switch(p.getType()){
 			case "jpeg" :   response.setContentType("image/jpeg"); 
 							break;

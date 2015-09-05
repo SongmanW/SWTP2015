@@ -12,16 +12,15 @@ public class StartSprintAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
                 DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Sprint sprint = DBManager1.getSprintById(Integer.parseInt(request.getParameter("sprint_id")));
-		Sprint update = new Sprint(sprint.getSprintid(), sprint.getTitle(), sprint.getStart_date(),sprint.getEnd_date(),true);
+		sprint.setActive(true);
 		
-		if(DBManager1.getActiveSprint() == null){
-			DBManager1.updateSprint(update);
-		}else{
-			Sprint active = DBManager1.getActiveSprint();
-			Sprint update2 = new Sprint(active.getSprintid(), active.getTitle(), active.getStart_date(),active.getEnd_date(),false);
-			DBManager1.updateSprint(update2);
-			DBManager1.updateSprint(update);
+                //deactive probably already active sprint
+                Sprint active;
+		if((active = DBManager1.getActiveSprint()) != null){
+                    active.setActive(false);
+                    DBManager1.updateSprint(active);
 		}
+                DBManager1.updateSprint(sprint);
 		
 		return "user/sprints.jsp";
 	}

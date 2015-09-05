@@ -3,6 +3,7 @@ package issuetracking;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.ejb.EJB;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -19,7 +20,8 @@ import javax.servlet.http.Part;
 @MultipartConfig
 public class Uploader extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	protected static final DBManager DBManager1 = DBManager.getInstance();
+	@EJB
+        private DBManager DBManager1;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -33,7 +35,7 @@ public class Uploader extends HttpServlet {
 		final String path = DBManager.getFilesPath();
 		final Part filePart = request.getPart("file");
 		final String fileType = getFileType(filePart);
-		final String fileName = DBManager.getInstance().getNextPictureId() + "";
+		final String fileName = DBManager1.getNextPictureId() + "";
 		
 		OutputStream out = null;
 		InputStream filecontent = null;
@@ -95,7 +97,6 @@ public class Uploader extends HttpServlet {
 	public void preparePage(String pageName, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		DBManager DBManager1 = DBManager.getInstance();
 		
 		Ticket t2 = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
 		request.setAttribute("t1", t2);

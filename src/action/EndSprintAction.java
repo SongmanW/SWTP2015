@@ -12,9 +12,9 @@ public class EndSprintAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
                 DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Sprint sprint = DBManager1.getSprintById(Integer.parseInt(request.getParameter("sprint_id")));
-		Sprint update = new Sprint(sprint.getSprintid(), sprint.getTitle(), sprint.getStart_date(),sprint.getEnd_date(),false);
+                sprint.setActive(false);
 		
-		DBManager1.updateSprint(update);
+		DBManager1.updateSprint(sprint);
 	
 		return "user/sprints.jsp";
 	}

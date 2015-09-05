@@ -46,16 +46,18 @@ public class DBManager {
 	 * Gibt die DBManager-Instanz zurück
 	 * @return
 	 */
-	public static DBManager getInstance() {
+	/*public static DBManager getInstance() {
 		if (DBManager.DBManager1 == null) {
 			DBManager.DBManager1 = new DBManager();
 		}
 		return DBManager.DBManager1;
-	}
+	}*/
 
         private Connection getConnection() throws SQLException{
             			Connection myConn = ds.getConnection();
                                 return myConn;
+        }
+        
 	public int getNextPictureId() {
 		loadPictures();
 		int i = 1;
@@ -65,8 +67,6 @@ public class DBManager {
 		}
 		return i;
 	}
-
-        }
 
 	/**
 	 * Gibt die Tickets als Liste zurück
@@ -299,7 +299,7 @@ public class DBManager {
 			e.printStackTrace();
 		}
 		return false;
-	};
+	}
 
 	/**
 	 * Löscht einen Nutzer
@@ -438,9 +438,7 @@ public int saveComment(Comment comment1){
 	try {
 		// Loeschen
 		// 1. get conn
-		Connection myConn = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/issuetracking_db",
-				"glassfishadmin", "chucknorris42");
+		Connection myConn = getConnection();
 		// 2. create statement
 		Statement myStmt = myConn.createStatement();
 		// 3. Execute SQL query
@@ -463,7 +461,6 @@ public int saveComment(Comment comment1){
 	c = em.merge(c);
         em.persist(c);
 	}
-}
 
 	public Comment getCommentById(int comment_id){
             return em.find(Comment.class, comment_id);
@@ -541,9 +538,7 @@ public int saveComment(Comment comment1){
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -570,9 +565,7 @@ public int saveComment(Comment comment1){
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -599,9 +592,7 @@ public int saveComment(Comment comment1){
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -628,9 +619,7 @@ public int saveComment(Comment comment1){
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -657,9 +646,7 @@ public int saveComment(Comment comment1){
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -686,9 +673,7 @@ public int saveComment(Comment comment1){
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -717,9 +702,7 @@ public int saveComment(Comment comment1){
 		try {
 			// Holen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. execute sql query
@@ -763,9 +746,7 @@ public int saveComment(Comment comment1){
 		try {
 			// Einfuegen
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -836,9 +817,7 @@ public int saveComment(Comment comment1){
 	public void deletePicture(PictureFile p) {
 		try {
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
@@ -869,9 +848,7 @@ public int saveComment(Comment comment1){
 		try {
 			List<PictureFile> pics = getPicturesByTicket(id);
 			// 1. get conn
-			Connection myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/issuetracking_db",
-					"glassfishadmin", "chucknorris42");
+			Connection myConn = getConnection();
 			// 2. create statement
 			Statement myStmt = myConn.createStatement();
 			// 3. Execute SQL query
