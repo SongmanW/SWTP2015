@@ -109,8 +109,8 @@ public class Uploader extends HttpServlet {
 		Integer.parseInt(request.getParameter("ticket_id"))));
 		request.setAttribute("compids", DBManager1.getComponents());
 		request.setAttribute("ticket_pictures", DBManager1.getPicturesByTicket(Integer.parseInt(request.getParameter("ticket_id"))));
-		request.setAttribute("ticket_comments", DBManager1.getCommentsByTicket(
-		Integer.parseInt(request.getParameter("ticket_id"))));
+		request.setAttribute("ticket_comments", DBManager1.getTicketById(
+		Integer.parseInt(request.getParameter("ticket_id"))).getComments());
 		SimpleDateFormat ft2 = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
 		String date2 = ft2.format(dNow);
 		request.setAttribute("date2", date2);

@@ -435,22 +435,13 @@ public int saveComment(Comment comment1){
  	* @param t1
  	*/
 	public void removeComments(Ticket t1){
-	try {
-		// Loeschen
-		// 1. get conn
-		Connection myConn = getConnection();
-		// 2. create statement
-		Statement myStmt = myConn.createStatement();
-		// 3. Execute SQL query
-		String sql = "delete from Comments " + "where tid = '"
-				+ t1.getId() + "' ;";
-
-		myStmt.executeUpdate(sql);
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	loadTCRelation();
-	
+            t1 = em.merge(t1);
+            List<Comment> commentList = t1.getComments();
+            for(Comment c: commentList){
+                em.remove(c);
+            }
+            t1.clearComponents();
+            em.refresh(t1);
 	}
 
 	/**
