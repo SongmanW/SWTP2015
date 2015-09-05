@@ -13,6 +13,11 @@
       <servlet-class>issuetracking.Controller</servlet-class>
       <load-on-startup>1</load-on-startup>
   </servlet>
+  <servlet>
+      <servlet-name>AdminController</servlet-name>
+      <servlet-class>issuetracking.AdminController</servlet-class>
+      <load-on-startup>1</load-on-startup>
+  </servlet>
   <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.xhtml</url-pattern>
@@ -20,6 +25,9 @@
   <servlet-mapping>
       <servlet-name>User Controller</servlet-name>
       <url-pattern>user/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+      <servlet-name>AdminController</servlet-name>
       <url-pattern>admin/*</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
