@@ -6,6 +6,8 @@
 package issuetracking;
 
 import action.Action;
+import action.ActionFactory;
+import action.AdminActionFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -24,6 +26,7 @@ public class AdminController extends HttpServlet {
     DBManager DBManager1;
     private static final String ADMIN_JSP_PATH = "/adminpages";
 
+    private ActionFactory actionFactory = AdminActionFactory.getInstance();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,7 +41,7 @@ public class AdminController extends HttpServlet {
         String requestedPage = ADMIN_JSP_PATH.concat(request.getPathInfo()).replaceAll(request.getQueryString(), "");
 	String action = request.getParameter("action");
         if(action != null){
-            Action aktion = Action.actionFactory(action);
+            Action aktion = actionFactory.getActionByName(action);
 
             if (aktion != null) {
                 request.setAttribute("dao", DBManager1);

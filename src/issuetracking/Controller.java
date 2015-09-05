@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.ActionFactory;
+import action.UserActionFactory;
 import javax.ejb.EJB;
 
 /**
@@ -22,6 +24,7 @@ public class Controller extends HttpServlet {
         private static final String USER_JSP_PATH = "/userpages";
 	@EJB
         private DBManager DBManager1;
+        private ActionFactory actionFactory = UserActionFactory.getInstance();
         
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -40,7 +43,7 @@ public class Controller extends HttpServlet {
                 String requestedPage = USER_JSP_PATH.concat(request.getPathInfo()).replaceAll(request.getQueryString(), "");
 		String action = request.getParameter("action");
                 if(action != null){
-                    Action aktion = Action.actionFactory(action);
+                    Action aktion = actionFactory.getActionByName(action);
 
                     if (aktion != null) {
                         request.setAttribute("dao", DBManager1);
