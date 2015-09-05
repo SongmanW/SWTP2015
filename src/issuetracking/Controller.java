@@ -19,6 +19,7 @@ import javax.ejb.EJB;
 @WebServlet
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+        private static final String USER_JSP_PATH = "/userpages";
 	@EJB
         private DBManager DBManager1;
         
@@ -36,20 +37,23 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 		HttpServletResponse response) throws ServletException, IOException {
+                String requestedPage = USER_JSP_PATH.concat(request.getPathInfo());
 		String action = request.getParameter("action");
-		Action aktion = Action.actionFactory(action);
+                if(action != null){
+                    Action aktion = Action.actionFactory(action);
 
-		if (aktion != null) {
-                    request.setAttribute("dao", DBManager1);
-			String result = aktion.execute(request, response);
-			if (result != null) {
-				preparePage(result, request, response);
-				request.getRequestDispatcher(result).forward(request, response);
-			}
-		} else
-		request.getRequestDispatcher("help.jsp").forward(request, response);
+                    if (aktion != null) {
+                        request.setAttribute("dao", DBManager1);
+                        String result = aktion.execute(request, response);
+                        if (result != null) {
+                            requestedPage = result;
+                        }
+                    } else
+                        requestedPage = "help.jsp";
+                }
+                preparePage(requestedPage, request, response);
+                request.getRequestDispatcher(requestedPage).forward(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
