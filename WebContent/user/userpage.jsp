@@ -11,7 +11,7 @@
 <title>User Page</title>
 </head>
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
-	<a href="Controller?action=preparePage&pageName=sprints.jsp"> back to sprints </a>
+	<a href="sprints.jsp"> back to sprints </a>
 	<h1>Your data:</h1>
 	UserID=${u1.userid}<br> 
 	Password=${u1.password} <br> 

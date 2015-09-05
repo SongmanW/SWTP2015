@@ -19,7 +19,7 @@
 	User:
         <a href="user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
-	<a href="Controller?action=logout"> logout </a>&nbsp;
+	<a href="logout.jsp?action=logout"> logout </a>&nbsp;
 	<a href="user/sprints.jsp"> back to
 		sprints </a>
 

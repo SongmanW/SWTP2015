@@ -42,7 +42,7 @@
 
 	<h1>Pictures:</h1><br>
 	<c:forEach items = "${ticket_pictures}" var="pic">
-		<img alt="uploaded ${pic.uploadDateAsString} by ${pic.uploader}" src="/ITS_1/image?file=${pic.pictureId}"><br>
+		<img alt="uploaded ${pic.uploadDateAsString} by ${pic.uploader}" src="image?file=${pic.pictureId}"><br>
 		uploaded ${pic.uploadDateAsString} by ${pic.uploader}<br>
 	</c:forEach>
 	

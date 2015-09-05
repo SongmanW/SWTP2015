@@ -48,7 +48,7 @@
 		<c:when test="${not empty activesprint}">
 			<h1>
 				Active Sprint: 
-				<a href=${"Controller?action=preparePage&pageName=sprintDetail.jsp&sprintid=".concat(activesprint.getSprintid())}>${activesprint.title}
+				<a href=${"sprintDetail.jsp&sprintid=".concat(activesprint.getSprintid())}>${activesprint.title}
 				</a>
 		</c:when>
 		<c:otherwise>
