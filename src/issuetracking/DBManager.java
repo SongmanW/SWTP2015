@@ -726,13 +726,11 @@ public int saveComment(Comment comment1){
 					myStmt.close();
 			} catch (Exception ex) {/* nothing to do */
 			}
-			;
 			try {
 				if (myConn != null)
 					myConn.close();
 			} catch (Exception ex) {/* nothing to do */
 			}
-			;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -762,13 +760,11 @@ public int saveComment(Comment comment1){
 					myStmt.close();
 			} catch (Exception ex) {/* nothing to do */
 			}
-			;
 			try {
 				if (myConn != null)
 					myConn.close();
 			} catch (Exception ex) {/* nothing to do */
 			}
-			;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -831,13 +827,11 @@ public int saveComment(Comment comment1){
 					myStmt.close();
 			} catch (Exception ex) {/* nothing to do */
 			}
-			;
 			try {
 				if (myConn != null)
 					myConn.close();
 			} catch (Exception ex) {/* nothing to do */
 			}
-			;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -867,13 +861,13 @@ public int saveComment(Comment comment1){
 					myStmt.close();
 			} catch (Exception ex) {/* nothing to do */
 			}
-			;
+
 			try {
 				if (myConn != null)
 					myConn.close();
 			} catch (Exception ex) {/* nothing to do */
 			}
-			;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
