@@ -34,8 +34,9 @@
         <display-name>Admin Pages</display-name>
         <web-resource-collection>
             <web-resource-name>Protected Admin Area</web-resource-name>
-            <description></description>
+            <description/>
             <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/adminpages/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
@@ -53,34 +54,12 @@
         </user-data-constraint>
     </security-constraint>
     <security-constraint>
-        <display-name>/user/index.jsp</display-name>
+        <display-name>User Access</display-name>
         <web-resource-collection>
-            <web-resource-name>User Index</web-resource-name>
-            <description/>
-            <url-pattern>/user/index.jsp</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>HEAD</http-method>
-            <http-method>PUT</http-method>
-            <http-method>OPTIONS</http-method>
-            <http-method>TRACE</http-method>
-            <http-method>DELETE</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>user</role-name>
-            <role-name>admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>NONE</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <display-name>All Access</display-name>
-        <web-resource-collection>
-            <web-resource-name>None Protected User Area</web-resource-name>
+            <web-resource-name>Protected User Area</web-resource-name>
             <description/>
             <url-pattern>/user/*</url-pattern>
+            <url-pattern>/userpages/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
