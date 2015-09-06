@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -14,16 +15,19 @@ import javax.persistence.Table;
 @Table(name = "components")
 public class Component {
         @Id
-	protected String compid;
+	protected Integer compid;
+        protected String name;
 	protected String description;
         
         @ManyToMany
-        @JoinTable(name = "tcrelation")
+        @JoinTable(name = "tcrelation",
+                joinColumns = {@JoinColumn(name = "compid")},
+                inverseJoinColumns = {@JoinColumn(name = "tid")})
         List<Ticket> tickets;
         
-	public Component(String compid, String description) {
+	public Component(String name, String description) {
             this();
-		this.compid = compid;
+		this.name = name;
 		this.description = description;
 	}
 	
@@ -31,13 +35,21 @@ public class Component {
             tickets = new ArrayList<>();
 	}
 
-	public String getCompid() {
-		return compid;
+	public String getName() {
+		return name;
 	}
 
-	public void setCompid(String compid) {
-		this.compid = compid;
+	public void setName(String name) {
+		this.name = name;
 	}
+        
+        public void setCompid(Integer id){
+            this.compid = id;
+        }
+        
+        public Integer getCompid(){
+            return compid;
+        }
 
 	public String getDescription() {
 		return description;
@@ -49,7 +61,7 @@ public class Component {
 	
 	public Map<String, String> validate() {
 		Map<String, String> errorMsg = new HashMap<String, String>();
-		if (compid == null || compid.trim().equals(""))
+		if (name == null || name.trim().equals(""))
 			errorMsg.put("id", "This field should not be empty!");
 		if (description == null || description.trim().equals(""))
 			errorMsg.put("description", "This field should not be empty!");

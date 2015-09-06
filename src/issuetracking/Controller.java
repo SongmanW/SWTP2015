@@ -180,7 +180,8 @@ public class Controller extends HttpServlet {
 		}
 		
 		if(pageName.endsWith("componentview.jsp")){
-			Component c1 = DBManager1.getComponentById(request.getParameter("compid"));
+                    Integer compid = Integer.parseInt(request.getParameter("compid"));
+                    Component c1 = DBManager1.getComponentById(compid);
 			request.setAttribute("c1", c1);
 		}
 		if(pageName.endsWith("commentview.jsp")){

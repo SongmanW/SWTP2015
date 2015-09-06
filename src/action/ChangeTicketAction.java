@@ -48,8 +48,10 @@ public class ChangeTicketAction implements Action {
                         t1.setEstimated_time(request.getParameter("estimated_time"));
                         String[] compids = request.getParameterValues("compid");
 			if(compids != null){
-                            for(String compid: compids){
-                                t1.addComponent(DBManager1.getComponentById(compid));
+                            for(String sCompid: compids){
+                                Integer iCompid = Integer.parseInt(sCompid);
+                                Component comp1 = DBManager1.getComponentById(iCompid);
+                                t1.addComponent(comp1);
                             }
 			}
                         

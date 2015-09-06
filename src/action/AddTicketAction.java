@@ -46,9 +46,10 @@ public class AddTicketAction implements Action{
 			
 			String[] compids = request.getParameterValues("compid");
 				if(compids != null){
-					for(String compid: compids){
-						tempcomp = DBManager1.getComponentById(compid);
-                                                ticket.addComponent(tempcomp);
+					for(String sCompid: compids){
+						Integer iCompid = Integer.parseInt(sCompid);
+                                                Component comp1 = DBManager1.getComponentById(iCompid);
+                                                ticket.addComponent(comp1);
 					}
 				}
 			

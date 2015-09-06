@@ -33,13 +33,15 @@
 </nav>
 	<h1>The component:</h1>
 	ComponentID=${c1.compid}<br> 
+        ComponentName=${c1.name}<br> 
 	Description=${c1.description}<br> 
 	
 	<h1>Change the component</h1>
 	<form action="user" method="post">
-		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
-		<input type="hidden" name="action" value="changeComponent" /> 
-		Description:<input name="description" type="text" />${errorMsgs.description}<br />
+		<input type="hidden" name="compid" value="${c1.compid}" /> 
+		<input type="hidden" name="action" value="changeComponent" />
+                Name:<input name="name" type="text" value="${c1.name}"/>${errorMsgs.name}<br/>
+		Description:<input name="description" type="text" value="${c1.description}"/>${errorMsgs.description}<br />
 		<input type="submit" value="change the component">
 	</form>
 

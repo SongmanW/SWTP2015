@@ -70,7 +70,7 @@
 		</span><br />
 		Components <a href="${pageContext.request.contextPath}/user/components.jsp">(addComponents)</a>:<br>
 		<c:forEach items="${compids}" var="compid1">
-			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
+			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.name}
 			<br>
 		</c:forEach>
 		<input type="submit" value="add ticket">

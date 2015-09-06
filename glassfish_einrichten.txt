@@ -30,8 +30,8 @@ create table `issuetracking_db`.USERS
 );
 
 CREATE TABLE tickets(id INT NOT NULL AUTO_INCREMENT, sprintid INT, title VARCHAR(35), description VARCHAR(3000), creation_date DATE, author VARCHAR(35), responsible_user VARCHAR(35), type VARCHAR(35), status VARCHAR(35), estimated_time VARCHAR(35), PRIMARY KEY (id)) engine=innodb;
-CREATE TABLE components(compid VARCHAR(35), description VARCHAR(3000)) engine=innodb;
-CREATE TABLE tcrelation(tid INT, compid VARCHAR(35)) engine=innodb;
+CREATE TABLE components(compid INT NOT NULL AUTO_INCREMENT,name VARCHAR(35), description VARCHAR(3000), PRIMARY KEY(compid)) engine=innodb;
+CREATE TABLE tcrelation(tid INT, compid INT, FOREIGN KEY (tid) REFERENCES tickets(id), FOREIGN KEY (compid) REFERENCES components(compid)) engine=innodb;
 CREATE TABLE comments(cid INT NOT NULL AUTO_INCREMENT, tid INT, creation_date DATETIME, author VARCHAR(35), message VARCHAR(1000), PRIMARY KEY (cid));
 CREATE TABLE sprints(sprintid INT NOT NULL AUTO_INCREMENT, title VARCHAR(35), start_date DATE, end_date DATE, active BOOL, PRIMARY KEY (sprintid)) engine=innodb;
 CREATE TABLE pictures(pictureid INT, ticketid INT, upload_date DATE, uploader VARCHAR(35), type VARCHAR(5));

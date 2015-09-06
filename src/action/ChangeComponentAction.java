@@ -17,13 +17,15 @@ public class ChangeComponentAction implements Action {
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) {
                 DBManager DBManager1 = (DBManager) request.getAttribute("dao");
-		Component comp1 = DBManager1.getComponentById(request.getParameter("comp_id"));
+                Integer compid = Integer.parseInt(request.getParameter("compid"));
+		Component comp1 = DBManager1.getComponentById(compid);
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 		
-		Component comp2 = new Component(comp1.getCompid(),request.getParameter("description"));
-		errorMsgs = comp2.validate();
+                comp1.setName(request.getParameter("name"));
+		comp1.setDescription(request.getParameter("description"));
+		errorMsgs = comp1.validate();
 		if(errorMsgs.isEmpty()){
-			DBManager1.updateComponent(comp2);
+			DBManager1.updateComponent(comp1);
 		}
 		
 		request.setAttribute("errorMsgs", errorMsgs);

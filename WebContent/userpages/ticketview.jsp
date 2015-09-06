@@ -48,8 +48,8 @@
 	<span id="estimated_time_display_span">
 	Estimated_Time:${t1.estimated_time}</span><br>
 	Components: <br>
-	<c:forEach items="${ticket_compids}" var="compid1">
-			${compid1.compid}<br>
+	<c:forEach items="${t1.components}" var="comp">
+			${comp.name}<br>
 	</c:forEach>
 
 	<h1>Pictures:</h1><br>
@@ -114,7 +114,7 @@
 		Estimated time:<input name="estimated_time" value="${t1.estimated_time}" type="text" />hours  ${errorMsgs.estimated_time}</span><br /> 
 		Components <a href="${pageContext.request.contextPath}/user/components.jsp">(addComponents)</a>:<br>
 		<c:forEach items="${compids}" var="compid1">
-			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
+			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.name}
 			<br>
 		</c:forEach>
 		<input type="submit" value="change the ticket">

@@ -326,7 +326,7 @@ public class DBManager {
 	 * @param compid
 	 * @return
 	 */
-	public Component getComponentById(String compid) {
+	public Component getComponentById(Integer compid) {
 		return em.find(Component.class, compid);
 	}
 
@@ -345,7 +345,6 @@ public class DBManager {
 	 */
 	public void updateComponent(Component c) {
 		em.merge(c);
-                em.persist(c);
 	}
 
 	/**
@@ -353,7 +352,7 @@ public class DBManager {
 	 * @param c
 	 */
 	public void deleteComponent(Component c) {
-		em.merge(c);
+		c = em.merge(c);
                 em.remove(c);
 	}
 	
@@ -372,7 +371,7 @@ public class DBManager {
 	 * @param compid
 	 * @return
 	 */
-	public List<Ticket> getTicketsByComponent(String compid){
+	public List<Ticket> getTicketsByComponent(Integer compid){
             Component comp = getComponentById(compid);
             return comp.getTickets();
 	}

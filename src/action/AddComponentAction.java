@@ -18,9 +18,9 @@ public class AddComponentAction implements Action{
                 DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 	
-		String compidinput = request.getParameter("comp_id");
+		String nameinput = request.getParameter("name");
 		String descriptioninput = request.getParameter("description");
-		Component comp = new Component(compidinput, descriptioninput);
+		Component comp = new Component(nameinput, descriptioninput);
 		
 		errorMsgs = comp.validate();
 		

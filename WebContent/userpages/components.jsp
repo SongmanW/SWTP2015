@@ -43,7 +43,7 @@
 	<h1>New Component</h1>
 	<form action="user" method="post">
 		<input type="hidden" name="action" value="addComponent" /> 
-		Title:<input name="comp_id" type="text" /> ${errorMsgs.title}<br> 
+		Name:<input name="name" type="text" /> ${errorMsgs.title}<br> 
 		Description:<br><textarea name="description" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
 		<input type="submit" value="add component">
 	</form>
@@ -62,7 +62,7 @@
 			<tr>
 				<td><a
 					href="${pageContext.request.contextPath.concat("/user/componentview.jsp?compid=").concat(comp1.compid)}">
-						${comp1.compid} </a></td>
+						${comp1.name} </a></td>
 				<td>${fn:length(comp1.description) gt 25 ? fn:substring(comp1.description, 0, 25).concat("..."):comp1.description}
 				</td>
 			</tr>
