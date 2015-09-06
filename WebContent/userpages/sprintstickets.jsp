@@ -13,16 +13,29 @@
 <title>Sprint tickets</title>
 <script src="${pageContext.request.contextPath}/application.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/application.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
-
-		User:
-        <a href="${pageContext.request.contextPath}/user/userpage.jsp">
-		${pageContext.request.userPrincipal.name}</a>
-	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>&nbsp;
-	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to
-		sprints </a>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/credits.jsp">SWTP-Team</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="${pageContext.request.contextPath}/user/sprints.jsp">Sprints</a></li>
+            <li><a href="${pageContext.request.contextPath}/user/index.jsp">Tickets</a></li>
+            <li><a href="${pageContext.request.contextPath}/user/components.jsp">Components</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="${pageContext.request.contextPath}/user/userpage.jsp"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+		${pageContext.request.userPrincipal.name}</a></li>
+            <li><a href="${pageContext.request.contextPath}/user/?action=logout">logout</a></li>
+        </ul>
+    </div>
+</nav>
 
 
 	<h1>Open Tickets</h1>
