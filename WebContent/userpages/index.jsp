@@ -94,8 +94,11 @@
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
 				<td>${ticket1.sprintid}</td>
-                                <td><a href="${pageContext.request.contextPath.concat("/user/?action=deleteTicket&ticket_id=").concat(ticket1.id)}" role="button" class="btn btn-danger">remove</a></td>
-				
+                                <td>
+                                    <a href="${pageContext.request.contextPath.concat("/user/?action=deleteTicket&ticket_id=").concat(ticket1.id)}" role="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>remove
+                                    </a>
+                                </td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -125,6 +128,11 @@
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
 				<td>${ticket1.sprintid}</td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath.concat("/user/?action=deleteTicket&ticket_id=").concat(ticket1.id)}" role="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>remove
+                                    </a>
+                                </td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -154,6 +162,11 @@
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
 				<td>${ticket1.sprintid}</td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath.concat("/user/?action=deleteTicket&ticket_id=").concat(ticket1.id)}" role="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>remove
+                                    </a>
+                                </td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -183,6 +196,11 @@
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
 				<td>${ticket1.sprintid}</td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath.concat("/user/?action=deleteTicket&ticket_id=").concat(ticket1.id)}" role="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>remove
+                                    </a>
+                                </td>
 			</tr>
 		</c:forEach>
 	</table>
