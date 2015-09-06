@@ -20,15 +20,15 @@
 	</form>
 	
 	<h1>Register</h1>
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="action" value="register"/>
 		Username:<input name="useridinput" type="text"/>${errorMsgsReg.useridinput}<br />
 		Password:<input name="passwordinput" type="text"/>${errorMsgsReg.passwordinput}<br />
 		<input type="submit" value="register"> 
 	</form><br />
 	
-	<a href="users.jsp"> Edit Users (Adminpage)</a>
-	<a href="Controller?action=preparePage&pageName=statistics.jsp"> Statistics</a>
+	<a href="${pageContext.request.contextPath}/admin/users.jsp"> Edit Users (Adminpage)</a>
+	<a href="${pageContext.request.contextPath}/admin/statistics.jsp"> Statistics</a>
 <!-- development -->
 <br>
 <br>
