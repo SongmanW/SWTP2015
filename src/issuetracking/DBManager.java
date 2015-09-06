@@ -148,7 +148,7 @@ public class DBManager {
 	public void deleteTicket(Ticket t1) {
             t1 = em.merge(t1);
             em.remove(t1);
-	
+            em.flush();
 	}
 
 	/**
