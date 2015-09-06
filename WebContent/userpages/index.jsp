@@ -13,6 +13,13 @@
 <title>Tickets</title>
 <script src="application.js"></script>
 <link rel="stylesheet" type="text/css" href="application.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
@@ -87,6 +94,7 @@
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
 				<td>${ticket1.sprintid}</td>
+                                <td><a href="${pageContext.request.contextPath.concat("/user/?action=deleteTicket&ticket_id=").concat(ticket1.id)}" role="button" class="btn btn-danger">remove</a></td>
 				
 			</tr>
 		</c:forEach>
