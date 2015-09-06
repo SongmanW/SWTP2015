@@ -28,8 +28,8 @@ public class RegisterAction implements Action {
 		request.setAttribute("errorMsgsReg", errorMsgs);
 		request.setAttribute("regSuccess", regSuccess);
 		if ("register".equals(request.getParameter("action")))
-			return "login.jsp";
+			return "/login.jsp";
 		else
-			return "admin/users.jsp";
+			return "/admin/users.jsp";
 	}
 }

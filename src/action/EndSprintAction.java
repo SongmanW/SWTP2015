@@ -16,7 +16,7 @@ public class EndSprintAction implements Action{
 		
 		DBManager1.updateSprint(sprint);
 	
-		return "user/sprints.jsp";
+		return "/user/sprints.jsp";
 	}
 
 }

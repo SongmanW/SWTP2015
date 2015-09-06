@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
                         DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 			Comment comment1 = DBManager1.getCommentById(Integer.parseInt(request.getParameter("cid")));
 			DBManager1.deleteComment(comment1);
-			return "user/ticketview.jsp";
+			return "/user/ticketview.jsp";
 		}
 
 	}

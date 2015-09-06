@@ -11,6 +11,6 @@ public class LogoutAction implements Action {
                     request.getSession().invalidate();
 			//request.getSession().removeAttribute("user");
 			//request.getSession().removeAttribute("password");
-			return "logout.jsp";
+			return "/logout.jsp";
 		}	
 	}

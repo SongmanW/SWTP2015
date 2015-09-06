@@ -15,7 +15,7 @@ public class DeleteComponentAction implements Action {
                 DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Component comp = DBManager1.getComponentById(request.getParameter("comp_id"));
 		DBManager1.deleteComponent(comp);
-		return "user/components.jsp";
+		return "/user/components.jsp";
 	}
 
 }

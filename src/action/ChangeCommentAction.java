@@ -26,7 +26,7 @@ public class ChangeCommentAction implements Action {
 			}
 			
 			request.setAttribute("errorMsgs", errorMsgs);
-			return "user/commentview.jsp";
+			return "/user/commentview.jsp";
 		}
 
 	}

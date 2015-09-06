@@ -92,7 +92,7 @@ public class ChangeSprintAction implements Action{
                     DBManager1.updateSprint(sprint1);
 		}
 		request.setAttribute("errorMsgs", errorMsgs);
-		return "user/sprints.jsp";
+		return "/user/sprints.jsp";
 
 
 	}
