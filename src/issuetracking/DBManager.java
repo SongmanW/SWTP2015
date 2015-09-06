@@ -73,7 +73,9 @@ public class DBManager {
 	 * @return
 	 */
 	public Ticket getTicketById(int i) {
-		return em.find(Ticket.class, i);
+            Ticket toReturn = em.find(Ticket.class, i);
+            em.refresh(toReturn);
+            return toReturn;
 	}
 	
 	/**
@@ -403,10 +405,12 @@ public class DBManager {
 	 * Speichert einen Kommentar in der Datenbank
 	 * @param comment1
 	 */
-public int saveComment(Comment comment1){
-    em.persist(comment1);
-    em.flush();
-    return comment1.getCid();
+        public int saveComment(Comment comment1){
+            comment1.setTicket(em.merge(comment1.getTicket()));
+            em.persist(comment1);
+            em.flush();
+            em.refresh(comment1.getTicket());
+            return comment1.getCid();
 	}
 
 	/**
@@ -438,7 +442,7 @@ public int saveComment(Comment comment1){
 	 */
 	public void updateComment(Comment c){
 	c = em.merge(c);
-        em.persist(c);
+        em.flush();
 	}
 
 	public Comment getCommentById(int comment_id){

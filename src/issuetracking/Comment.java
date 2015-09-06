@@ -45,6 +45,10 @@ public class Comment implements Serializable {
 	public Ticket getTicket() {
 		return ticket;
 	}
+        
+        public void setTicket(Ticket ticket){
+            this.ticket = ticket;
+        }
 
 	public String getAuthor() {
 		return author;
