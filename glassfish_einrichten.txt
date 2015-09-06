@@ -34,6 +34,7 @@ CREATE TABLE components(compid VARCHAR(35), description VARCHAR(3000)) engine=in
 CREATE TABLE tcrelation(tid INT, compid VARCHAR(35)) engine=innodb;
 CREATE TABLE comments(cid INT NOT NULL AUTO_INCREMENT, tid INT, creation_date DATETIME, author VARCHAR(35), message VARCHAR(1000), PRIMARY KEY (cid));
 CREATE TABLE sprints(sprintid INT NOT NULL AUTO_INCREMENT, title VARCHAR(35), start_date DATE, end_date DATE, active BOOL, PRIMARY KEY (sprintid)) engine=innodb;
+CREATE TABLE pictures(pictureid INT, ticketid INT, upload_date DATE, uploader VARCHAR(35), type VARCHAR(5));
 
 GRANT ALL PRIVILEGES ON issuetracking_db.* TO 'glassfishadmin'@'%' IDENTIFIED BY 'chucknorris42';
 
