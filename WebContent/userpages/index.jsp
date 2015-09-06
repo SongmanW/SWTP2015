@@ -11,6 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Tickets</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/application.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/application.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -36,7 +37,9 @@
         </ul>
     </div>
 </nav>
-
+        
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#new-ticket" aria-expanded="false" aria-controls="new-ticket">new Ticket</a>
+        <div class="collapse" id="new-ticket">
 	<h1>New Ticket</h1>
         <form action="user" method="post">
 		<input type="hidden" name="sprintid" value="-1" /><!--${thissprintsid} -->
@@ -70,6 +73,7 @@
 		</c:forEach>
 		<input type="submit" value="add ticket">
 	</form>
+        </div>
 
 	<h1>Open Tickets</h1>
 
