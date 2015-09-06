@@ -222,6 +222,8 @@ public class DBManager {
 			String addGroupQuery = "insert into USERS_GROUPS (GROUPID, USERID) values ('user', '"
 					+ userid + "');";
 			myStmt.executeUpdate(addGroupQuery);
+                        try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			System.out.println("Exception");
 			e.printStackTrace();
@@ -257,6 +259,8 @@ public class DBManager {
 					+ "where USERID='" + u1.getUserid() + "';";
 
 			myStmt.executeUpdate(sql);
+                        try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -284,6 +288,8 @@ public class DBManager {
 			if (myRs.next()) {
 				return true;
 			}
+                        try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -306,6 +312,8 @@ public class DBManager {
 					+ u1.getUserid() + "' ;";
 
 			myStmt.executeUpdate(sql);
+                        try { if( myStmt != null ) myStmt.close(); } catch( Exception ex ) {/* nothing to do*/};
+			try { if( myConn != null ) myConn.close(); } catch( Exception ex ) {/* nothing to do*/};
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
