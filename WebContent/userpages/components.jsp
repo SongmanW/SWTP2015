@@ -17,10 +17,10 @@
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 	User:
-        <a href="user/userpage.jsp">
+        <a href="${pageContext.request.contextPath}/user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
-	<a href="logout.jsp?action=logout"> logout </a>&nbsp;
-	<a href="user/sprints.jsp"> back to
+	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>&nbsp;
+	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to
 		sprints </a>
 
 	<h1>New Component</h1>
@@ -43,7 +43,7 @@
 		<c:forEach items="${components}" var="comp1">
 			<tr>
 				<td><a
-					href=${"user/componentview.jsp?compid=".concat(comp1.compid)}>
+					href="${pageContext.request.contextPath.concat("/user/componentview.jsp?compid=").concat(comp1.compid)}">
 						${comp1.compid} </a></td>
 				<td>${fn:length(comp1.description) gt 25 ? fn:substring(comp1.description, 0, 25).concat("..."):comp1.description}
 				</td>

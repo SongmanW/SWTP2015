@@ -18,8 +18,8 @@
 		User:
 	<a href="user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
-	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="user/sprints.jsp"> back to
+	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>&nbsp;
+	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to
 		sprints </a>
 
 
@@ -100,7 +100,7 @@
 		</select><br> 
 		<span id="estimated_time_change_span" style="display: none;">
 		Estimated time:<input name="estimated_time" value="${t1.estimated_time}" type="text" />hours  ${errorMsgs.estimated_time}</span><br /> 
-		Components <a href="user/components.jsp">(addComponents)</a>:<br>
+		Components <a href="${pageContext.request.contextPath}/user/components.jsp">(addComponents)</a>:<br>
 		<c:forEach items="${compids}" var="compid1">
 			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
 			<br>

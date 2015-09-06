@@ -11,7 +11,7 @@
 <title>User view</title>
 </head>
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
-	<a href="admin/users.jsp"> back to userlist </a>
+	<a href="${pageContext.request.contextPath}/admin/users.jsp"> back to userlist </a>
 	<h1>The user:</h1>
 	UserID=${u1.userid}<br> 
 	Password=${u1.password}<br> 

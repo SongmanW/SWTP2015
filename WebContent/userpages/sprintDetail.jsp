@@ -19,10 +19,10 @@
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 	User:
-        <a href="user/userpage.jsp">
+        <a href="${pageContext.request.contextPath}/user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
-	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="user/sprints.jsp"> back to
+	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>&nbsp;
+	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to
 		sprints </a>
 
 
@@ -67,7 +67,7 @@ ${thissprint.active?
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"user/ticketview.jsp?ticket_id=".concat(ticket1.id)}>
+					href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(ticket1.id)}">
 						${ticket1.title} </a> </td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
@@ -99,7 +99,7 @@ ${thissprint.active?
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"user/ticketview.jsp?ticket_id=".concat(ticket1.id)}>
+					href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(ticket1.id)}">
 						${ticket1.title} </a></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
@@ -132,7 +132,7 @@ ${thissprint.active?
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"user/ticketview.jsp?ticket_id=".concat(ticket1.id)}>
+					href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(ticket1.id)}">
 						${ticket1.title} </a></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
@@ -166,7 +166,7 @@ ${thissprint.active?
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"user/ticketview.jsp?ticket_id=".concat(ticket1.id)}>
+					href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(ticket1.id)}">
 						${ticket1.title} </a></td>
 			</td>
 				<td>${ticket1.type}</td>

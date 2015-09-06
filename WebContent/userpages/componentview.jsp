@@ -11,7 +11,7 @@
 <title>Component View</title>
 </head>
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
-	<a href="user/components.jsp"> back to componentlist </a>
+	<a href="${pageContext.request.contextPath}/user/components.jsp"> back to componentlist </a>
 	<h1>The component:</h1>
 	ComponentID=${c1.compid}<br> 
 	Description=${c1.description}<br> 

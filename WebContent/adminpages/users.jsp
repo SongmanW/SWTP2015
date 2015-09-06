@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css" href="application.css"/>
 </head>
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
-	<a href="login.jsp"> back to login </a>
+	<a href="${pageContext.request.contextPath}/login.jsp"> back to login </a>
 	
  	${regSuccess}
 	<h1>Register</h1>
@@ -38,7 +38,7 @@
 		<c:forEach items="${users}" var="user1">
 			<tr>
 			<td>
-				<a href=${"admin/userview.jsp?user_id=".concat(user1.userid)}>
+				<a href="${pageContext.request.contextPath.concat("/admin/userview.jsp?user_id=").concat(user1.userid)}">
 				${user1.userid}</a>
 			</td>
 			<td>${user1.password}</td>

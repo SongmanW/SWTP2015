@@ -11,7 +11,7 @@
 <title>User Page</title>
 </head>
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
-	<a href="sprints.jsp"> back to sprints </a>
+	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to sprints </a>
 	<h1>Your data:</h1>
 	UserID=${u1.userid}<br> 
 	Password=${u1.password} <br> 

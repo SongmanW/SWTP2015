@@ -17,9 +17,9 @@
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 	User:
-        <a href="user/userpage.jsp">
+        <a href="${pageContext.request.contextPath}/user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
-	<a href="Controller?action=logout"> logout </a>
+	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>
 
 	<h1>New Sprint</h1>
 	<form action="Controller" method="post">
@@ -48,7 +48,7 @@
 		<c:when test="${not empty activesprint}">
 			<h1>
 				Active Sprint: 
-				<a href=${"sprintDetail.jsp?sprintid=".concat(activesprint.getSprintid())}>${activesprint.title}
+				<a href="${pageContext.request.contextPath.concat("/user/sprintDetail.jsp?sprintid=").concat(activesprint.getSprintid())}">${activesprint.title}
 				</a>
 		</c:when>
 		<c:otherwise>
@@ -70,10 +70,10 @@
 		<c:forEach items="${sprints}" var="sprint1">
 			<tr>
 				<td><a
-					href=${"user/sprintDetail.jsp?sprintid=".concat(sprint1.getSprintid())}>
+					href="${pageContext.request.contextPath.concat("/user/sprintDetail.jsp?sprintid=").concat(sprint1.getSprintid())}">
 						${sprint1.title} </a></td>
 				<td><a
-					href=${"user/sprintstickets.jsp?sprintid=".concat(sprint1.getSprintid())}>
+					href="${pageContext.request.contextPath.concat("/user/sprintstickets.jsp?sprintid=").concat(sprint1.getSprintid())}">
 						tickets </a></td>
 				<td>${sprint1.getStartDateAsString()}</td>
 				<td>${sprint1.getEndDateAsString()}</td>
@@ -84,7 +84,7 @@
 	<br>
 	<br>
 	<a     
-					href=${"user/index.jsp?sprintid=-2"}>
+					href="${pageContext.request.contextPath}/user/index.jsp?sprintid=-2">
 						all tickets </a>
 <!-- development -->
 <br>
