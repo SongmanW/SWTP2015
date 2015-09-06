@@ -25,7 +25,7 @@ function showSpan(elem){
 </head>
 
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
-	<a href="Controller?action=preparePage&pageName=login.jsp"> back to login </a>
+	<a href="login.jsp"> back to login </a>
 
 
 <h1>Statistics:</h1>

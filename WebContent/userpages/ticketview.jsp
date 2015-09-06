@@ -56,7 +56,7 @@
 	
 	<h1>Comments:</h1>
 	<c:forEach items="${t1.comments}" var="comment1">
-	        comment from:${comment1.author}  &nbsp;&nbsp;&nbsp; posted at:${comment1.dateAsString} &nbsp;&nbsp;&nbsp;${comment1.author == sessionScope.user ? '<a href="commentview.jsp&comment_id='.concat(comment1.cid).concat('"> bearbeiten </a>') : ''}<br>
+	        comment from:${comment1.author}  &nbsp;&nbsp;&nbsp; posted at:${comment1.dateAsString} &nbsp;&nbsp;&nbsp;${comment1.author == sessionScope.user ? '<a href="commentview.jsp?comment_id='.concat(comment1.cid).concat('"> bearbeiten </a>') : ''}<br>
 			${comment1.message} <br> <br>
 	</c:forEach>
 

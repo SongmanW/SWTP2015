@@ -67,7 +67,7 @@ ${thissprint.active?
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"user/ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+					href=${"user/ticketview.jsp?ticket_id=".concat(ticket1.id)}>
 						${ticket1.title} </a> </td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
@@ -99,7 +99,7 @@ ${thissprint.active?
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"user/ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+					href=${"user/ticketview.jsp?ticket_id=".concat(ticket1.id)}>
 						${ticket1.title} </a></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
@@ -132,7 +132,7 @@ ${thissprint.active?
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"user/ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+					href=${"user/ticketview.jsp?ticket_id=".concat(ticket1.id)}>
 						${ticket1.title} </a></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
@@ -166,7 +166,7 @@ ${thissprint.active?
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"user/ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+					href=${"user/ticketview.jsp?ticket_id=".concat(ticket1.id)}>
 						${ticket1.title} </a></td>
 			</td>
 				<td>${ticket1.type}</td>

@@ -38,7 +38,7 @@
 		<c:forEach items="${users}" var="user1">
 			<tr>
 			<td>
-				<a href=${"admin/userview.jsp&user_id=".concat(user1.userid)}>
+				<a href=${"admin/userview.jsp?user_id=".concat(user1.userid)}>
 				${user1.userid}</a>
 			</td>
 			<td>${user1.password}</td>

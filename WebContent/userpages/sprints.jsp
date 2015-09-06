@@ -48,7 +48,7 @@
 		<c:when test="${not empty activesprint}">
 			<h1>
 				Active Sprint: 
-				<a href=${"sprintDetail.jsp&sprintid=".concat(activesprint.getSprintid())}>${activesprint.title}
+				<a href=${"sprintDetail.jsp?sprintid=".concat(activesprint.getSprintid())}>${activesprint.title}
 				</a>
 		</c:when>
 		<c:otherwise>
@@ -70,10 +70,10 @@
 		<c:forEach items="${sprints}" var="sprint1">
 			<tr>
 				<td><a
-					href=${"user/sprintDetail.jsp&sprintid=".concat(sprint1.getSprintid())}>
+					href=${"user/sprintDetail.jsp?sprintid=".concat(sprint1.getSprintid())}>
 						${sprint1.title} </a></td>
 				<td><a
-					href=${"user/sprintstickets.jsp&sprintid=".concat(sprint1.getSprintid())}>
+					href=${"user/sprintstickets.jsp?sprintid=".concat(sprint1.getSprintid())}>
 						tickets </a></td>
 				<td>${sprint1.getStartDateAsString()}</td>
 				<td>${sprint1.getEndDateAsString()}</td>
@@ -84,7 +84,7 @@
 	<br>
 	<br>
 	<a     
-					href=${"user/index.jsp&sprintid=-2"}>
+					href=${"user/index.jsp?sprintid=-2"}>
 						all tickets </a>
 <!-- development -->
 <br>

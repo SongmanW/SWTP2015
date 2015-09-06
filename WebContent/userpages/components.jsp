@@ -43,7 +43,7 @@
 		<c:forEach items="${components}" var="comp1">
 			<tr>
 				<td><a
-					href=${"user/componentview.jsp&compid=".concat(comp1.compid)}>
+					href=${"user/componentview.jsp?compid=".concat(comp1.compid)}>
 						${comp1.compid} </a></td>
 				<td>${fn:length(comp1.description) gt 25 ? fn:substring(comp1.description, 0, 25).concat("..."):comp1.description}
 				</td>
