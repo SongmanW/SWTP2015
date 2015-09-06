@@ -23,7 +23,6 @@ public class ChangeTicketAction implements Action {
 			HttpServletResponse response) {
                 DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		
-		List<Component> tcomplist = new LinkedList<Component>();
 		Ticket t1 = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
 		Map<String, String> errorMsgs = new HashMap<String, String>();
 
@@ -40,24 +39,23 @@ public class ChangeTicketAction implements Action {
 				e.printStackTrace();
 			}
 
-			Ticket ticket = new Ticket(null
-					, request.getParameter("title"), request.getParameter("description"), date
-					, request.getParameter("author"), request.getParameter("responsible_user"), request.getParameter("type")
-					, request.getParameter("state")
-					);
-                        ticket.setId(Integer.parseInt(request.getParameter("ticket_id")));
-                        ticket.setEstimated_time(request.getParameter("estimated_time"));
-                        
+                        t1.setTitle(request.getParameter("title"));
+                        t1.setDescription(request.getParameter("description"));
+                        t1.setResponsible_user(request.getParameter("responsible_user"));
+                        t1.setType(request.getParameter("type"));
+                        t1.setStatus(request.getParameter("status"));
+                        t1.setCreation_date(date);
+                        t1.setEstimated_time(request.getParameter("estimated_time"));
                         String[] compids = request.getParameterValues("compid");
 			if(compids != null){
                             for(String compid: compids){
-                                ticket.addComponent(DBManager1.getComponentById(compid));
+                                t1.addComponent(DBManager1.getComponentById(compid));
                             }
 			}
                         
-			errorMsgs = ticket.validate(DBManager1);
+			errorMsgs = t1.validate(DBManager1);
 			if (errorMsgs.isEmpty()) {
-				DBManager1.updateTicket(ticket);
+				DBManager1.updateTicket(t1);
 			}
 
 		} else {

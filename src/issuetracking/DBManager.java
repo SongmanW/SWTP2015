@@ -128,17 +128,8 @@ public class DBManager {
 	 * @param tupdate
 	 */
 	public void updateTicket(Ticket tupdate) {
-		Ticket persistanceTicket = em.find(Ticket.class, tupdate.getId());
-                persistanceTicket.setAuthor(tupdate.getAuthor());
-                persistanceTicket.setCreation_date(tupdate.getCreation_date());
-                persistanceTicket.setDescription(tupdate.getDescription());
-                persistanceTicket.setEstimated_time(tupdate.getEstimated_time());
-                persistanceTicket.setResponsible_user(tupdate.getResponsible_user());
-                persistanceTicket.setSprint(tupdate.getSprint());
-                persistanceTicket.setStatus(tupdate.getStatus());
-                persistanceTicket.setTitle(tupdate.getTitle());
-                persistanceTicket.setType(tupdate.getType());
-                em.persist(persistanceTicket);
+            em.merge(tupdate);
+            em.flush();
 	}
 
 	/**
@@ -415,6 +406,7 @@ public class DBManager {
 	 */
 public int saveComment(Comment comment1){
     em.persist(comment1);
+    em.flush();
     return comment1.getCid();
 	}
 

@@ -97,7 +97,7 @@
 			<option value="closed">closed</option>
 			<option value="in progress">in progress</option>
 			<option value="test">test</option>
-		</select><br> 
+		</select>${errorMsgs.state}<br> 
 		<span id="estimated_time_change_span" style="display: none;">
 		Estimated time:<input name="estimated_time" value="${t1.estimated_time}" type="text" />hours  ${errorMsgs.estimated_time}</span><br /> 
 		Components <a href="${pageContext.request.contextPath}/user/components.jsp">(addComponents)</a>:<br>
