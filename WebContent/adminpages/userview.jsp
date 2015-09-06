@@ -17,7 +17,7 @@
 	Password=${u1.password}<br> 
 	
 	<h1>Change the user</h1>
-	<form action="Controller" method="post">
+	<form action="admin" method="post">
 		<input type="hidden" name="user_id" value="${u1.userid}" /> 
 		<input type="hidden" name="action" value="changeUser" /> 
 		Password:<input name="passwordinput" type="text" />${errorMsgs.passwordinput}<br />
@@ -25,7 +25,7 @@
 	</form>
 
 
-	<form action="Controller" method="post">
+	<form action="admin" method="post">
 		<input type="hidden" name="user_id" value="${u1.userid}" /> 
 		<input type="hidden" name="action" value="deleteUser" /> 
 		<input type="submit" value="delete the user">

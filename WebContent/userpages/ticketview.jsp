@@ -16,7 +16,7 @@
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 		User:
-	<a href="user/userpage.jsp">
+	<a href="${pageContext.request.contextPath}/user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
 	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>&nbsp;
 	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to
@@ -61,7 +61,7 @@
 	</c:forEach>
 
 	<h1>New Comment</h1>
-		<form action="Controller" method="post">
+		<form action="user" method="post">
 		<input type="hidden" name="action" value="addComment" /> 
 		<input type="hidden" name="ticket_id" value="${t1.id}" />
 		<input type="hidden" name="date" value="${date2}" /> 
@@ -72,7 +72,7 @@
 
 
 	<h1>Change the ticket</h1>
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="ticket_id" value="${t1.id}" /> 
 		<input type="hidden" name="action" value="changeTicket" /> 
 		Title:<input name="title" type="text" value="${t1.title}">${errorMsgs.title}<br> 
@@ -108,7 +108,7 @@
 		<input type="submit" value="change the ticket">
 	</form>
 
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="ticket_id" value="${t1.id}" /> 
 		<input type="hidden" name="action" value="deleteTicket" /> 
 		<input type="submit" value="delete the ticket">

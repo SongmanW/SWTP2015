@@ -22,7 +22,7 @@
 	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>
 
 	<h1>New Sprint</h1>
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="action" value="addSprint" /> 
 		<input type="hidden" name="sprintid" value="${thissprint.sprintid}" /> 
 		Title:<input name="title" type="text" /> ${errorMsgs.title}<br> 

@@ -24,7 +24,7 @@
 		sprints </a>
 
 	<h1>New Component</h1>
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="action" value="addComponent" /> 
 		Title:<input name="comp_id" type="text" /> ${errorMsgs.title}<br> 
 		Description:<br><textarea name="description" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 

@@ -17,14 +17,14 @@
 	Password=${u1.password} <br> 
 	
 	<h1>Change your password</h1>
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="user_id" value="${u1.userid}" /> 
 		<input type="hidden" name="action" value="changeUser_from_account" /> 
 		Password:<input name="passwordinput" type="text" />${errorMsgs.passwordinput}<br />
 		<input type="submit" value="change your password">
 	</form>
 
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="user_id" value="${u1.userid}" />  
 		<input type="hidden" name="action" value="deleteUser_from_account" /> 
 		<input type="submit" value="delete your account">

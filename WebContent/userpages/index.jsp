@@ -30,7 +30,7 @@
 
 
 	<h1>New Ticket</h1>
-	<form action="Controller" method="post">
+        <form action="user" method="post">
 		<input type="hidden" name="sprintid" value="-1" /><!--${thissprintsid} -->
 		<input type="hidden" name="action" value="addTicket" /> 
 		Title:<input name="title" type="text" /> ${errorMsgs.title}<br> 

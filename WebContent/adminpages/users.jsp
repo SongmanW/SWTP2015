@@ -19,7 +19,7 @@
 	
  	${regSuccess}
 	<h1>Register</h1>
-	<form action="Controller" method="post">
+	<form action="admin" method="post">
 		<input type="hidden" name="action" value="register_from_users"/>
 		Username:<input name="useridinput" type="text"/>${errorMsgsReg.useridinput}<br />
 		Password:<input name="passwordinput" type="text"/>${errorMsgsReg.passwordinput}<br />

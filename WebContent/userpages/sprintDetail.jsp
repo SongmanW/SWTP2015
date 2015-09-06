@@ -34,19 +34,18 @@
 	active =${thissprint.active ? 'yes' : 'no'}  <br>
 	 
 ${thissprint.active?
-	'<form action="Controller" method="post">
+	'<form action="user" method="post">
 		<input type="hidden" name="sprint_id" value="'.concat(thissprint.getSprintid()).concat('" />    
 		<input type="hidden" name="action" value="endSprint" /> 
 		<input type="submit" value="stop this sprint">')
 	:	
-		'<form action="Controller" method="post">
+		'<form action="user" method="post">
 		<input type="hidden" name="sprint_id" value="'.concat(thissprint.getSprintid()).concat('" />    
 		<input type="hidden" name="action" value="startSprint" /> 
 		<input type="submit" value="start this sprint">(stops ').concat(activesprint.title).concat(')</form>')
 }
 
-
-<form action="Controller" method="post"> 		
+		
 		
 <h1>Open Tickets</h1>
 <table>
@@ -181,6 +180,7 @@ ${thissprint.active?
 
 <h1>Change the sprint</h1>
 	
+<form action="user" method="post"> 
 		<input type="hidden" name="action" value="changeSprint" /> 
 		<input type="hidden" name="sprintid" value="${thissprint.sprintid}" />
 		Title:<input name="title" type="text" value="${thissprint.title}"/><br />
@@ -219,7 +219,7 @@ ${thissprint.active?
 	</form>
 	
 
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="sprintid" value="${thissprint.getSprintid()}" />    
 		<input type="hidden" name="action" value="deleteSprint" /> 
 		<input type="submit" value="delete the sprint">

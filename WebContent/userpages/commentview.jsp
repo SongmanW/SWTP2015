@@ -25,14 +25,14 @@
 	Message=${c1.message} <br>
 	
 	<h1>Change the comment</h1>
-	<form action="Controller" method="post"> 
+	<form action="user" method="post"> 
 		<input type="hidden" name="action" value="changeComment" /> 
 		<input type="hidden" name="comment_id" value="${c1.cid}" />
 		Message:<input name="message" type="text" />${errorMsgs.message}<br />
 		<input type="submit" value="change the comment">
 	</form>
 
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="cid" value="${c1.cid}" />  
 		<input type="hidden" name="ticket_id" value="${c1.tid}" />  
 		<input type="hidden" name="action" value="deleteComment" /> 

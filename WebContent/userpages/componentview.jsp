@@ -17,7 +17,7 @@
 	Description=${c1.description}<br> 
 	
 	<h1>Change the component</h1>
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
 		<input type="hidden" name="action" value="changeComponent" /> 
 		Description:<input name="description" type="text" />${errorMsgs.description}<br />
@@ -25,7 +25,7 @@
 	</form>
 
 
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
 		<input type="hidden" name="action" value="deleteComponent" /> 
 		<input type="submit" value="delete the component">
