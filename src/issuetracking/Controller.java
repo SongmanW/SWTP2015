@@ -40,7 +40,10 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 		HttpServletResponse response) throws ServletException, IOException {
-                String requestedPage = USER_JSP_PATH.concat(request.getPathInfo()).replaceAll(request.getQueryString(), "");
+                String requestedPage = USER_JSP_PATH.concat(request.getPathInfo());
+                if(request.getQueryString() != null){
+                    requestedPage.replaceAll(request.getQueryString(), "");
+                }
 		String action = request.getParameter("action");
                 if(action != null){
                     Action aktion = actionFactory.getActionByName(action);
