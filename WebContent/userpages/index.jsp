@@ -38,8 +38,10 @@
     </div>
 </nav>
         
-        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#new-ticket" aria-expanded="false" aria-controls="new-ticket">new Ticket</a>
-        <div class="collapse" id="new-ticket">
+        <a class="btn btn-success" role="button" data-toggle="collapse" href="#new-ticket" aria-expanded="false" aria-controls="new-ticket">
+            <span class="glyphicon glyphicon-plus"></span>new Ticket
+        </a>
+        <div class="collapse well" id="new-ticket">
 	<h1>New Ticket</h1>
         <form action="user" method="post">
 		<input type="hidden" name="sprintid" value="-1" /><!--${thissprintsid} -->
