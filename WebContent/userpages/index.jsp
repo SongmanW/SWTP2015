@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Tickets</title>
-<script src="application.js"></script>
+<script src="${pageContext.request.contextPath}/application.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/application.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
