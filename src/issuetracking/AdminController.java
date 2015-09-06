@@ -75,6 +75,15 @@ public class AdminController extends HttpServlet {
 					.getParameter("user_id"));
 			request.setAttribute("u1", u1);
 		}
+                
+                if(pageName.endsWith("statistics.jsp")){
+			request.setAttribute("tickets", DBManager1.TicketCount());
+			request.setAttribute("sprints", DBManager1.sprintCount());
+			request.setAttribute("closedtickets",DBManager1.closedTicketCount());
+			request.setAttribute("comments", DBManager1.commentCount());
+			request.setAttribute("components", DBManager1.componentCount());
+			request.setAttribute("users",DBManager1.userCount());	
+		}
         }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

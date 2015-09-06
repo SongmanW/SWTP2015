@@ -194,16 +194,6 @@ public class Controller extends HttpServlet {
 			request.setAttribute("nosprinttickets",DBManager1.getTicketsByState("beliebig", -1));
 		
 		}
-		
-		if(pageName.endsWith("statistics.jsp")){
-			request.setAttribute("tickets", DBManager1.TicketCount());
-			request.setAttribute("sprints", DBManager1.sprintCount());
-			request.setAttribute("closedtickets",DBManager1.closedTicketCount());
-			request.setAttribute("comments", DBManager1.commentCount());
-			request.setAttribute("components", DBManager1.componentCount());
-			request.setAttribute("users",DBManager1.userCount());	
-		}
-		
 	}
 
 	public static String setString(String str, int max) {
