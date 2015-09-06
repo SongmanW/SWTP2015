@@ -11,6 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Sprints</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/application.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
@@ -35,7 +36,10 @@
         </ul>
     </div>
 </nav>
-
+<a class="btn btn-success" role="button" data-toggle="collapse" href="#new-sprint" aria-expanded="false" aria-controls="new-sprint">
+            <span class="glyphicon glyphicon-plus"></span>new Sprint
+        </a>
+        <div class="collapse well" id="new-sprint">
 	<h1>New Sprint</h1>
 	<form action="user" method="post">
 		<input type="hidden" name="action" value="addSprint" /> 
@@ -58,6 +62,7 @@
 		</c:forEach>
 		<input type="submit" value="add sprint">	
 		</form>
+        </div>
 
 	<c:choose>
 		<c:when test="${not empty activesprint}">

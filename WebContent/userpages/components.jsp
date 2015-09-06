@@ -11,6 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Components</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/application.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
@@ -35,7 +36,10 @@
         </ul>
     </div>
 </nav>
-
+<a class="btn btn-success" role="button" data-toggle="collapse" href="#new-component" aria-expanded="false" aria-controls="new-component">
+            <span class="glyphicon glyphicon-plus"></span>new Component
+        </a>
+        <div class="collapse well" id="new-component">
 	<h1>New Component</h1>
 	<form action="user" method="post">
 		<input type="hidden" name="action" value="addComponent" /> 
@@ -43,6 +47,7 @@
 		Description:<br><textarea name="description" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
 		<input type="submit" value="add component">
 	</form>
+        </div>
 
 	<h1>Components</h1>
 
