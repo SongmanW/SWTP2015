@@ -29,7 +29,7 @@ public class AddComponentAction implements Action{
 		}
 		
 		request.setAttribute("errorMsgs", errorMsgs);
-		return "user/components.jsp";
+		return "/user/components.jsp";
 	}
 
 }

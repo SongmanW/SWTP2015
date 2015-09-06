@@ -63,7 +63,7 @@ public class AddTicketAction implements Action{
 		}
 		
 		request.setAttribute("errorMsgs", errorMsgs);
-		return "user/index.jsp";
+		return "/user/index.jsp";
 
 	}
 }

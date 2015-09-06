@@ -3,6 +3,7 @@ package issuetracking;
 import java.io.Serializable;
 import java.text.*;
 import java.util.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ public class Ticket implements Serializable {
 	
         @Id
 	protected int id;
-        @ManyToOne
+        @ManyToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "sprintid")
 	protected Sprint sprint;
 	protected String title;
@@ -34,15 +35,14 @@ public class Ticket implements Serializable {
 	protected String type;
 	protected String status;
         
-        @ManyToMany(fetch = FetchType.EAGER)
+        @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
         @JoinTable(name = "tcrelation",
                 joinColumns = {@JoinColumn(name = "tid")},
                 inverseJoinColumns = {@JoinColumn(name = "compid")})
         private List<Component> components;
         
-        @OneToMany(mappedBy="ticket", fetch = FetchType.EAGER)
+        @OneToMany(mappedBy="ticket", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
         private List<Comment> comments;
-
     public List<Comment> getComments() {
         return comments;
     }
@@ -159,6 +159,7 @@ public class Ticket implements Serializable {
 	public void setEstimated_time(String estimated_time) {
             this.estimated_time = estimated_time;
 	}
+	
 	
 	public Map<String, String> validate(DBManager DBManager1) {
 		Map<String, String> errorMsg = new HashMap<String, String>();

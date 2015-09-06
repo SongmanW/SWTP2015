@@ -14,17 +14,17 @@
 <link rel="stylesheet" type="text/css" href="application.css"/>
 </head>
 
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
 	User:
-        <a href="Controller?action=preparePage&pageName=user/userpage.jsp">
+        <a href="${pageContext.request.contextPath}/user/userpage.jsp">
 		${pageContext.request.userPrincipal.name}</a>
-	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="Controller?action=preparePage&pageName=user/sprints.jsp"> back to
+	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>&nbsp;
+	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to
 		sprints </a>
 
 	<h1>New Component</h1>
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="action" value="addComponent" /> 
 		Title:<input name="comp_id" type="text" /> ${errorMsgs.title}<br> 
 		Description:<br><textarea name="description" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
@@ -43,7 +43,7 @@
 		<c:forEach items="${components}" var="comp1">
 			<tr>
 				<td><a
-					href=${"Controller?action=preparePage&pageName=user/componentview.jsp&compid=".concat(comp1.compid)}>
+					href="${pageContext.request.contextPath.concat("/user/componentview.jsp?compid=").concat(comp1.compid)}">
 						${comp1.compid} </a></td>
 				<td>${fn:length(comp1.description) gt 25 ? fn:substring(comp1.description, 0, 25).concat("..."):comp1.description}
 				</td>

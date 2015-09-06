@@ -8,27 +8,35 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Component View</title>
+<title>Kommentaransicht</title>
 </head>
-<body>
-	<a href="Controller?action=preparePage&pageName=user/components.jsp"> back to componentlist </a>
-	<h1>The component:</h1>
-	ComponentID=${c1.compid}<br> 
-	Description=${c1.description}<br> 
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
+	User:
+        <a href="${pageContext.request.contextPath}/user/userpage.jsp">
+		${pageContext.request.userPrincipal.name}</a>
+	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a> &nbsp;
+	<a href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(c1.tid)}"> back to the ticket </a>
+	&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/user/index.jsp"> back to index </a>
+	<h1>The comment:</h1>
+	CommentID=${c1.cid}<br>
+	Ticket= ${c1.tid}<br>
+	Author=${c1.author} <br>
+	Creation date=${c1.creation_date} <br>
+	Message=${c1.message} <br>
 	
-	<h1>Change the component</h1>
-	<form action="Controller" method="post">
-		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
-		<input type="hidden" name="action" value="changeComponent" /> 
-		Description:<input name="description" type="text" />${errorMsgs.description}<br />
-		<input type="submit" value="change the component">
+	<h1>Change the comment</h1>
+	<form action="user" method="post"> 
+		<input type="hidden" name="action" value="changeComment" /> 
+		<input type="hidden" name="comment_id" value="${c1.cid}" />
+		Message:<input name="message" type="text" />${errorMsgs.message}<br />
+		<input type="submit" value="change the comment">
 	</form>
 
-
-	<form action="Controller" method="post">
-		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
-		<input type="hidden" name="action" value="deleteComponent" /> 
-		<input type="submit" value="delete the component">
+	<form action="user" method="post">
+		<input type="hidden" name="cid" value="${c1.cid}" />  
+		<input type="hidden" name="ticket_id" value="${c1.tid}" />  
+		<input type="hidden" name="action" value="deleteComment" /> 
+		<input type="submit" value="delete the comment">
 	</form>
 
 <!-- development -->

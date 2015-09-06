@@ -26,8 +26,8 @@ public class ChangeUserAction implements Action {
 
 		request.setAttribute("errorMsgs", errorMsgs);
 		if ("changeUser_from_account".equals(request.getParameter("action")))
-			return "user/userpage.jsp";
+			return "/user/userpage.jsp";
 		else
-			return "admin/userview.jsp";
+			return "/admin/userview.jsp";
 	}
 }

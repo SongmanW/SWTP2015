@@ -10,58 +10,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Tickets</title>
+<title>Sprint tickets</title>
 <script src="application.js"></script>
 <link rel="stylesheet" type="text/css" href="application.css"/>
 </head>
 
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
-
-
-
-
-	User:
-	<a href="Controller?action=preparePage&pageName=user/userpage.jsp">
-		${pageContext.request.userPrincipal.name}</a> &nbsp;
-	<a href="Controller?action=logout"> logout </a>&nbsp;
-	<a href="Controller?action=preparePage&pageName=user/sprints.jsp"> back to
+		User:
+        <a href="${pageContext.request.contextPath}/user/userpage.jsp">
+		${pageContext.request.userPrincipal.name}</a>
+	<a href="${pageContext.request.contextPath}/user/?action=logout"> logout </a>&nbsp;
+	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to
 		sprints </a>
 
-
-	<h1>New Ticket</h1>
-	<form action="Controller" method="post">
-		<input type="hidden" name="sprintid" value="-1" /><!--${thissprintsid} -->
-		<input type="hidden" name="action" value="addTicket" /> 
-		Title:<input name="title" type="text" /> ${errorMsgs.title}<br> 
-		Description:<br><textarea name="description" cols="65" rows="5" wrap="off" style="overflow-y: auto; overflow-x: auto;;font-size:70%"></textarea> ${errorMsgs.description}<br /> 
-		<input type="hidden" name="date" value="${date1}" /> 
-		<input type="hidden" name="author" value="${sessionScope.user}" /> 
-		Responsible user:
-		<select name="responsible_user">
-			<c:forEach items="${users}" var="user1">
-				<option value="${user1.userid}">${user1.userid}</option>
-			</c:forEach>
-		</select> ${errorMsgs.responsible_user}<br> 
-		Type:<select name="type" onchange="showSpan(this)">
-			<option value="bug">bug</option>
-			<option value="feature">feature</option>
-		</select> ${errorMsgs.type}<br> State:<select name="state">
-			<option value="open">open</option>
-			<option value="closed">closed</option>
-			<option value="in_progress">in progress</option>
-			<option value="test">test</option>
-		</select> ${errorMsgs.state}<br> 
-		<span id="estimated_time_change_span" style="display: none;">
-			Estimated time:<input name="estimated_time" type="text" />${errorMsgs.estimated_time}
-		</span><br />
-		Components <a href="Controller?action=preparePage&pageName=user/components.jsp">(addComponents)</a>:<br>
-		<c:forEach items="${compids}" var="compid1">
-			<input type="checkbox" name="compid" value="${compid1.compid}">${compid1.compid}
-			<br>
-		</c:forEach>
-		<input type="submit" value="add ticket">
-	</form>
 
 	<h1>Open Tickets</h1>
 
@@ -75,18 +37,16 @@
 			<th>Title</th>
 			<th>Type</th>
 			<th>Description</th>
-			<th>SprintID</th>
 		</tr>
 		<c:forEach items="${tickets_open}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"Controller?action=preparePage&pageName=user/ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+					href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(ticket1.id)}">
 						${ticket1.title} </a></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
-				<td>${ticket1.sprintid}</td>
 				
 			</tr>
 		</c:forEach>
@@ -105,18 +65,16 @@
 			<th>Title</th>
 			<th>Type</th>
 			<th>Description</th>
-			<th>SprintID</th>
 		</tr>
 		<c:forEach items="${tickets_inprogress}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"Controller?action=preparePage&pageName=user/ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+					href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(ticket1.id)}">
 						${ticket1.title} </a></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
-				<td>${ticket1.sprintid}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -134,18 +92,16 @@
 			<th>Title</th>
 			<th>Type</th>
 			<th>Description</th>
-			<th>SprintID</th>
 		</tr>
 		<c:forEach items="${tickets_test}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"Controller?action=preparePage&pageName=user/ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+					href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(ticket1.id)}">
 						${ticket1.title} </a></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
-				<td>${ticket1.sprintid}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -163,18 +119,16 @@
 			<th>Title</th>
 			<th>Type</th>
 			<th>Description</th>
-			<th>SprintID</th>
 		</tr>
 		<c:forEach items="${tickets_closed}" var="ticket1">
 			<tr>
 				<td>${ticket1.id}</td>
 				<td><a
-					href=${"Controller?action=preparePage&pageName=user/ticketview.jsp&ticket_id=".concat(ticket1.id)}>
+					href="${pageContext.request.contextPath.concat("/user/ticketview.jsp?ticket_id=").concat(ticket1.id)}">
 						${ticket1.title} </a></td>
 				<td>${ticket1.type}</td>
 				<td>${fn:length(ticket1.description) gt 25 ? fn:substring(ticket1.description, 0, 25).concat("..."):ticket1.description}
 				</td>
-				<td>${ticket1.sprintid}</td>
 			</tr>
 		</c:forEach>
 	</table>

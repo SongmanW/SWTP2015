@@ -8,26 +8,27 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User Page</title>
+<title>Component View</title>
 </head>
-<body>
-	<a href="Controller?action=preparePage&pageName=user/index.jsp"> back to index </a>
-	<h1>Your data:</h1>
-	UserID=${u1.userid}<br> 
-	Password=${u1.password} <br> 
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
+	<a href="${pageContext.request.contextPath}/user/components.jsp"> back to componentlist </a>
+	<h1>The component:</h1>
+	ComponentID=${c1.compid}<br> 
+	Description=${c1.description}<br> 
 	
-	<h1>Change your password</h1>
-	<form action="Controller" method="post">
-		<input type="hidden" name="user_id" value="${u1.userid}" /> 
-		<input type="hidden" name="action" value="changeUser_from_account" /> 
-		Password:<input name="passwordinput" type="text" />${errorMsgs.passwordinput}<br />
-		<input type="submit" value="change your password">
+	<h1>Change the component</h1>
+	<form action="user" method="post">
+		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
+		<input type="hidden" name="action" value="changeComponent" /> 
+		Description:<input name="description" type="text" />${errorMsgs.description}<br />
+		<input type="submit" value="change the component">
 	</form>
 
-	<form action="Controller" method="post">
-		<input type="hidden" name="user_id" value="${u1.userid}" />  
-		<input type="hidden" name="action" value="deleteUser_from_account" /> 
-		<input type="submit" value="delete your account">
+
+	<form action="user" method="post">
+		<input type="hidden" name="comp_id" value="${c1.compid}" /> 
+		<input type="hidden" name="action" value="deleteComponent" /> 
+		<input type="submit" value="delete the component">
 	</form>
 
 <!-- development -->

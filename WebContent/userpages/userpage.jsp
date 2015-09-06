@@ -8,35 +8,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Kommentaransicht</title>
+<title>User Page</title>
 </head>
-<body>
-	User:
-        <a href="Controller?action=preparePage&pageName=user/userpage.jsp">
-		${pageContext.request.userPrincipal.name}</a>
-	<a href="Controller?action=logout"> logout </a> &nbsp;
-	<a href=${"Controller?action=preparePage&pageName=user/ticketview.jsp&ticket_id=".concat(c1.tid)}> back to the ticket </a>
-	&nbsp;&nbsp;<a href="Controller?action=preparePage&pageName=user/index.jsp"> back to index </a>
-	<h1>The comment:</h1>
-	CommentID=${c1.cid}<br>
-	Ticket= ${c1.tid}<br>
-	Author=${c1.author} <br>
-	Creation date=${c1.creation_date} <br>
-	Message=${c1.message} <br>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
+	<a href="${pageContext.request.contextPath}/user/sprints.jsp"> back to sprints </a>
+	<h1>Your data:</h1>
+	UserID=${u1.userid}<br> 
+	Password=${u1.password} <br> 
 	
-	<h1>Change the comment</h1>
-	<form action="Controller" method="post"> 
-		<input type="hidden" name="action" value="changeComment" /> 
-		<input type="hidden" name="comment_id" value="${c1.cid}" />
-		Message:<input name="message" type="text" />${errorMsgs.message}<br />
-		<input type="submit" value="change the comment">
+	<h1>Change your password</h1>
+	<form action="user" method="post">
+		<input type="hidden" name="user_id" value="${u1.userid}" /> 
+		<input type="hidden" name="action" value="changeUser_from_account" /> 
+		Password:<input name="passwordinput" type="text" />${errorMsgs.passwordinput}<br />
+		<input type="submit" value="change your password">
 	</form>
 
-	<form action="Controller" method="post">
-		<input type="hidden" name="cid" value="${c1.cid}" />  
-		<input type="hidden" name="ticket_id" value="${c1.tid}" />  
-		<input type="hidden" name="action" value="deleteComment" /> 
-		<input type="submit" value="delete the comment">
+	<form action="user" method="post">
+		<input type="hidden" name="user_id" value="${u1.userid}" />  
+		<input type="hidden" name="action" value="deleteUser_from_account" /> 
+		<input type="submit" value="delete your account">
 	</form>
 
 <!-- development -->

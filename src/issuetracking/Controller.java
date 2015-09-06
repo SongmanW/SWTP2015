@@ -11,16 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.ActionFactory;
+import action.UserActionFactory;
 import javax.ejb.EJB;
 
 /**
  * Servlet implementation class Controller
  */
-@WebServlet("/Controller")
+@WebServlet
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+        private static final String USER_JSP_PATH = "/userpages";
 	@EJB
         private DBManager DBManager1;
+        private ActionFactory actionFactory = UserActionFactory.getInstance();
         
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -36,20 +40,29 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 		HttpServletResponse response) throws ServletException, IOException {
+                String requestedPage = "/user/index.jsp";
+                if(request.getPathInfo()!= null)
+                    requestedPage = USER_JSP_PATH.concat(request.getPathInfo());
+                if(request.getQueryString() != null){
+                    requestedPage = requestedPage.replaceAll(request.getQueryString(), "");
+                }
 		String action = request.getParameter("action");
-		Action aktion = Action.actionFactory(action);
+                if(action != null){
+                    Action aktion = actionFactory.getActionByName(action);
 
-		if (aktion != null) {
-                    request.setAttribute("dao", DBManager1);
-			String result = aktion.execute(request, response);
-			if (result != null) {
-				preparePage(result, request, response);
-				request.getRequestDispatcher(result).forward(request, response);
-			}
-		} else
-		request.getRequestDispatcher("help.jsp").forward(request, response);
+                    if (aktion != null) {
+                        request.setAttribute("dao", DBManager1);
+                        String result = aktion.execute(request, response);
+                        if (result != null) {
+                            requestedPage = result;
+                        }
+                    } else
+                        requestedPage = "help.jsp";
+                }
+                requestedPage = requestedPage.replaceFirst(request.getServletPath() + "/", USER_JSP_PATH + "/");
+                preparePage(requestedPage, request, response);
+                request.getRequestDispatcher(requestedPage).forward(request, response);
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -60,7 +73,14 @@ public class Controller extends HttpServlet {
 		doGet(request, response);
 	}
 
-	
+	/**
+	 * Bereitet die Parameter für die entsprechende Seite vor
+	 * @param pageName Name der aufgerufenen Seite
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	public void preparePage(String pageName, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
@@ -111,6 +131,7 @@ public class Controller extends HttpServlet {
 			request.setAttribute("nosprinttickets_test", DBManager1.getTicketsByState("test",-1));//,Integer.parseInt(request.getParameter("sprintid"))));
 			
 			request.setAttribute("thissprint",DBManager1.getSprintById(Integer.parseInt(request.getParameter("sprintid"))));
+			request.setAttribute("activesprint", DBManager1.getActiveSprint());
 			
 			Date dNow = new Date();
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
@@ -138,26 +159,19 @@ public class Controller extends HttpServlet {
 					Integer.parseInt(request.getParameter("ticket_id"))));
 			request.setAttribute("compids", DBManager1.getComponents());
 
+			request.setAttribute("ticket_pictures", DBManager1.getPicturesByTicket(Integer.parseInt(request.getParameter("ticket_id"))));
+			
 			SimpleDateFormat ft2 = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
 			String date2 = ft2.format(dNow);
 			request.setAttribute("date2", date2);		
 		}
 
-		if(pageName.endsWith("users.jsp")){
-			request.setAttribute("users", DBManager1.getUsers());
-		}
-
-		if (pageName.endsWith("userview.jsp")) {
-			User u1 = DBManager1.getUserByUserid(request
-					.getParameter("user_id"));
-			request.setAttribute("u1", u1);
-		}
 		if (pageName.endsWith("userpage.jsp")) {
 			User u1 = DBManager1.getUserByUserid(request.getParameter(request.getUserPrincipal().getName().toString()));
 			request.setAttribute("u1", u1);
 		}
 		if (pageName.endsWith("login.jsp")) {
-
+			
 		}
 		
 		if(pageName.endsWith("components.jsp")){
@@ -174,12 +188,12 @@ public class Controller extends HttpServlet {
 			request.setAttribute("c1", comment1);
 		}
 	
-		if(pageName.endsWith("sprints.jsp")){	
+		if(pageName.endsWith("sprints.jsp")){
+			request.setAttribute("activesprint", DBManager1.getActiveSprint());
 			request.setAttribute("sprints", DBManager1.getSprints());
 			request.setAttribute("nosprinttickets",DBManager1.getTicketsByState("beliebig", -1));
 		
 		}
-		
 	}
 
 	public static String setString(String str, int max) {

@@ -36,7 +36,7 @@ public class AddCommentAction implements Action{
 		}
 		
 		request.setAttribute("errorMsgs", errorMsgs);
-		return "user/ticketview.jsp";
+		return "/user/ticketview.jsp";
 	}
 
 }

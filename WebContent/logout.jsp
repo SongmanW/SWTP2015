@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 
     You was logged out. If you want to relogin proceed to the <a href="login.jsp">Login Page</a>.
 

@@ -4,6 +4,8 @@
     <jta-data-source>jdbc/issuetracking/Datasource</jta-data-source>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="eclipselink.logging.logger" value="org.eclipse.persistence.logging.DefaultSessionLog"/>
+      <property name="eclipselink.logging.level" value="FINE" />
     </properties>
   </persistence-unit>
 </persistence>

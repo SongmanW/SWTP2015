@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
-<body>
+<body BACKGROUND="${pageContext.request.contextPath}/triangular.png">
 	${sessionScope.test}
 	${regSuccess}
 	<h1>Login</h1> 
@@ -20,14 +20,15 @@
 	</form>
 	
 	<h1>Register</h1>
-	<form action="Controller" method="post">
+	<form action="user" method="post">
 		<input type="hidden" name="action" value="register"/>
 		Username:<input name="useridinput" type="text"/>${errorMsgsReg.useridinput}<br />
 		Password:<input name="passwordinput" type="text"/>${errorMsgsReg.passwordinput}<br />
 		<input type="submit" value="register"> 
 	</form><br />
 	
-	<a href="Controller?action=preparePage&pageName=users.jsp"> Edit Users (Adminpage)</a>
+	<a href="${pageContext.request.contextPath}/admin/users.jsp"> Edit Users (Adminpage)</a>
+	<a href="${pageContext.request.contextPath}/admin/statistics.jsp"> Statistics</a>
 <!-- development -->
 <br>
 <br>

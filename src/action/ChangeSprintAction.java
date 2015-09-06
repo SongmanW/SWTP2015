@@ -32,8 +32,8 @@ public class ChangeSprintAction implements Action{
 		
 		
 		
-		//alten sprint aus db l�schen
-		//neuen sprint in db einf�llen
+		//alten sprint aus db löschen
+		//neuen sprint in db einfüllen
 
 		//neuen sprint erschaffen
 		DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -66,7 +66,7 @@ public class ChangeSprintAction implements Action{
                 sprint1.setEnd_date(date2);
                 sprint1.setActive(false);
                 
-                			//alle neu ausgew�hlten Tickets hinzuf�gen
+			//alle neu ausgewählten Tickets hinzufügen
 			if(request.getParameterValues("tickids")!=null){
 			for(String tickid: request.getParameterValues("tickids")){
 				Ticket temptick = DBManager1.getTicketById(Integer.parseInt(tickid));
@@ -92,7 +92,7 @@ public class ChangeSprintAction implements Action{
                     DBManager1.updateSprint(sprint1);
 		}
 		request.setAttribute("errorMsgs", errorMsgs);
-		return "user/sprints.jsp";
+		return "/user/sprints.jsp";
 
 
 	}

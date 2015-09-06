@@ -12,13 +12,11 @@ public class EndSprintAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
                 DBManager DBManager1 = (DBManager) request.getAttribute("dao");
 		Sprint sprint = DBManager1.getSprintById(Integer.parseInt(request.getParameter("sprint_id")));
+                sprint.setActive(false);
 		
-		if(DBManager1.getActiveSprint() == null){
-			sprint.setActive(false);
-			DBManager1.updateSprint(sprint);
-		}
-		
-		return "user/sprints.jsp";
+		DBManager1.updateSprint(sprint);
+	
+		return "/user/sprints.jsp";
 	}
 
 }
