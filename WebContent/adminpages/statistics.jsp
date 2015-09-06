@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Statistik</title>
 <script src="application.js"></script>
-<link rel="stylesheet" type="text/css" href="application.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/application.css"/>
 </head>
 
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>

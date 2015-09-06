@@ -12,7 +12,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User overview</title>
-<link rel="stylesheet" type="text/css" href="application.css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/application.css"/>
 </head>
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 	<a href="${pageContext.request.contextPath}/login.jsp"> back to login </a>

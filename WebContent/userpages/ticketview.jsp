@@ -10,8 +10,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Ticket view</title>
-<script src="script/ticketview.js"></script>
-<script src="application.js"></script>
+<script src="${pageContext.request.contextPath}/script/ticketview.js"></script>
+<script src="${pageContext.request.contextPath}/application.js"></script>
 </head>
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
 

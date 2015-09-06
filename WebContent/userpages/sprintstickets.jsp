@@ -11,8 +11,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Sprint tickets</title>
-<script src="application.js"></script>
-<link rel="stylesheet" type="text/css" href="application.css"/>
+<script src="${pageContext.request.contextPath}/application.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/application.css"/>
 </head>
 
 <body BACKGROUND="${pageContext.request.contextPath}/triangular.png"/>
