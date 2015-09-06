@@ -9,7 +9,6 @@ import action.Action;
 import action.ActionFactory;
 import action.AdminActionFactory;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,12 +20,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author erfier
  */
 public class AdminController extends HttpServlet {
-    
-    @EJB
-    DBManager DBManager1;
+
     private static final String ADMIN_JSP_PATH = "/adminpages";
+    @EJB
+            DBManager DBManager1;
 
     private ActionFactory actionFactory = AdminActionFactory.getInstance();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,8 +39,8 @@ public class AdminController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String requestedPage = ADMIN_JSP_PATH.concat(request.getPathInfo()).replaceAll(request.getQueryString(), "");
-	String action = request.getParameter("action");
-        if(action != null){
+        String action = request.getParameter("action");
+        if (action != null) {
             Action aktion = actionFactory.getActionByName(action);
 
             if (aktion != null) {
@@ -49,42 +49,44 @@ public class AdminController extends HttpServlet {
                 if (result != null) {
                     requestedPage = result;
                 }
-            } else
+            } else {
                 requestedPage = "help.jsp";
+            }
         }
         preparePage(requestedPage, request, response);
         request.getRequestDispatcher(requestedPage).forward(request, response);
     }
-    
-    	/**
-	 * Bereitet die Parameter für die entsprechende Seite vor
-	 * @param pageName Name der aufgerufenen Seite
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	public void preparePage(String pageName, HttpServletRequest request,
-			HttpServletResponse response){
-            	if(pageName.endsWith("users.jsp")){
-			request.setAttribute("users", DBManager1.getUsers());
-		} 
 
-		if (pageName.endsWith("userview.jsp")) {
-			User u1 = DBManager1.getUserByUserid(request
-					.getParameter("user_id"));
-			request.setAttribute("u1", u1);
-		}
-                
-                if(pageName.endsWith("statistics.jsp")){
-			request.setAttribute("tickets", DBManager1.TicketCount());
-			request.setAttribute("sprints", DBManager1.sprintCount());
-			request.setAttribute("closedtickets",DBManager1.closedTicketCount());
-			request.setAttribute("comments", DBManager1.commentCount());
-			request.setAttribute("components", DBManager1.componentCount());
-			request.setAttribute("users",DBManager1.userCount());	
-		}
+    /**
+     * Bereitet die Parameter für die entsprechende Seite vor
+     *
+     * @param pageName Name der aufgerufenen Seite
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void preparePage(String pageName, HttpServletRequest request,
+            HttpServletResponse response) {
+        if (pageName.endsWith("users.jsp")) {
+            request.setAttribute("users", DBManager1.getUsers());
         }
+
+        if (pageName.endsWith("userview.jsp")) {
+            User u1 = DBManager1.getUserByUserid(request
+                    .getParameter("user_id"));
+            request.setAttribute("u1", u1);
+        }
+
+        if (pageName.endsWith("statistics.jsp")) {
+            request.setAttribute("tickets", DBManager1.TicketCount());
+            request.setAttribute("sprints", DBManager1.sprintCount());
+            request.setAttribute("closedtickets", DBManager1.closedTicketCount());
+            request.setAttribute("comments", DBManager1.commentCount());
+            request.setAttribute("components", DBManager1.componentCount());
+            request.setAttribute("users", DBManager1.userCount());
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

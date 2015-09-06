@@ -11,11 +11,11 @@ package action;
  */
 public class UserActionFactory implements ActionFactory {
 
-    private UserActionFactory() {
-    }
-
     public static UserActionFactory getInstance() {
         return UserActionFactoryHolder.INSTANCE;
+    }
+
+    private UserActionFactory() {
     }
 
     @Override
