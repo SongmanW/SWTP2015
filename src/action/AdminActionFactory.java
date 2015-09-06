@@ -21,42 +21,12 @@ public class AdminActionFactory implements ActionFactory {
     @Override
     public Action getActionByName(String actionName) {
         switch (actionName) {
-            case "addTicket":
-                return new AddTicketAction();
-            case "deleteTicket":
-                return new DeleteTicketAction();
-            case "changeTicket":
-                return new ChangeTicketAction();
-            case "logout":
-                return new LogoutAction();
-            case "register_from_users":
+            case "register":
                 return new RegisterAction();
-            case "deleteUser_from_account":
+            case "deleteUser":
                 return new DeleteUserAction();
-            case "changeUser_from_account":
+            case "changeUser":
                 return new ChangeUserAction();
-            case "addComponent":
-                return new AddComponentAction();
-            case "changeComponent":
-                return new ChangeComponentAction();
-            case "deleteComponent":
-                return new DeleteComponentAction();
-            case "addComment":
-                return new AddCommentAction();
-            case "deleteComment":
-                return new DeleteCommentAction();
-            case "changeComment":
-                return new ChangeCommentAction();
-            case "addSprint":
-                return new AddSprintAction();
-            case "deleteSprint":
-                return new DeleteSprintAction();
-            case "changeSprint":
-                return new ChangeSprintAction();
-            case "startSprint":
-                return new StartSprintAction();
-            case "endSprint":
-                return new EndSprintAction();
             default:
                 throw new IllegalArgumentException("Invalid Action: " + actionName);
         }
