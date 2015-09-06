@@ -40,9 +40,11 @@ public class Controller extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 		HttpServletResponse response) throws ServletException, IOException {
-                String requestedPage = USER_JSP_PATH.concat(request.getPathInfo());
+                String requestedPage = "/user/index.jsp";
+                if(request.getPathInfo()!= null)
+                    requestedPage = USER_JSP_PATH.concat(request.getPathInfo());
                 if(request.getQueryString() != null){
-                    requestedPage.replaceAll(request.getQueryString(), "");
+                    requestedPage = requestedPage.replaceAll(request.getQueryString(), "");
                 }
 		String action = request.getParameter("action");
                 if(action != null){
@@ -57,6 +59,7 @@ public class Controller extends HttpServlet {
                     } else
                         requestedPage = "help.jsp";
                 }
+                requestedPage = requestedPage.replaceFirst(request.getServletPath() + "/", USER_JSP_PATH + "/");
                 preparePage(requestedPage, request, response);
                 request.getRequestDispatcher(requestedPage).forward(request, response);
 	}
