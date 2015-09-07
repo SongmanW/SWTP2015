@@ -28,6 +28,7 @@
 	</form><br />
 	
 	<a href="${pageContext.request.contextPath}/admin/users.jsp"> Edit Users (Adminpage)</a>
+	<a href="${pageContext.request.contextPath}/admin/settings.jsp"> Settings (Adminpage)</a>
 	<a href="${pageContext.request.contextPath}/admin/statistics.jsp"> Statistics</a>
 <!-- development -->
 <br>

@@ -120,7 +120,7 @@ public class PictureFile {
      * Deletes the picture from the file system
      */
     public void delete() {
-        new File(DBManager.getFilesPath() + File.separator + this.pictureId + "." + this.type).delete();
+        new File(DBManager1.getFilesPath() + File.separator + this.pictureId + "." + this.type).delete();
     }
 
 }

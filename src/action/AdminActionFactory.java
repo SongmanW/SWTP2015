@@ -27,6 +27,8 @@ public class AdminActionFactory implements ActionFactory {
                 return new DeleteUserAction();
             case "changeUser":
                 return new ChangeUserAction();
+			case "changefilespath":
+            	return new ChangeFilespathAction();
             default:
                 throw new IllegalArgumentException("Invalid Action: " + actionName);
         }

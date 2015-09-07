@@ -47,7 +47,7 @@ public class ImageServlet extends HttpServlet {
         }
         ServletOutputStream out;
         out = response.getOutputStream();
-        FileInputStream fin = new FileInputStream(DBManager.getFilesPath() + File.separator + p.getPictureId() + "." + p.getType());
+        FileInputStream fin = new FileInputStream(DBManager1.getFilesPath() + File.separator + p.getPictureId() + "." + p.getType());
 
         BufferedInputStream bin = new BufferedInputStream(fin);
         BufferedOutputStream bout = new BufferedOutputStream(out);
