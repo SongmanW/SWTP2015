@@ -29,7 +29,7 @@ public class UserActionFactory implements ActionFactory {
                 return new ChangeTicketAction();
             case "logout":
                 return new LogoutAction();
-            case "register_from_users":
+            case "register":
                 return new RegisterAction();
             case "deleteUser_from_account":
                 return new DeleteUserAction();

@@ -21,7 +21,7 @@ public class AdminActionFactory implements ActionFactory {
     @Override
     public Action getActionByName(String actionName) {
         switch (actionName) {
-            case "register":
+            case "register_from_users":
                 return new RegisterAction();
             case "deleteUser":
                 return new DeleteUserAction();
