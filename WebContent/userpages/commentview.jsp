@@ -30,7 +30,7 @@
     </nav>
     <h1>The comment:</h1>
     CommentID=${c1.cid}<br>
-    Ticket= ${c1.ticket.title}<br>
+    Ticket= <a href="${pageContext.request.contextPath}/user/ticketview.jsp?ticket_id=${c1.ticket.id}">${c1.ticket.title}</a><br>
     Author=${c1.author} <br>
     Creation date=${c1.creation_date} <br>
     Message=${c1.message} <br>
@@ -45,7 +45,6 @@
 
     <form action="user" method="post">
         <input type="hidden" name="cid" value="${c1.cid}" />  
-        <input type="hidden" name="ticket_id" value="${c1.ticket.id}" />  
         <input type="hidden" name="action" value="deleteComment" /> 
         <input type="submit" value="delete the comment">
     </form>
