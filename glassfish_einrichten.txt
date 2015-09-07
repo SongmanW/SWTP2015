@@ -1,5 +1,7 @@
 ## Glassfish einrichten
 
+CREATE DATABASE issuetracking_db;
+
 ### Tabellen anlegen
 Tabellen
 - USERS
@@ -12,18 +14,18 @@ Tabellen
 - sprints
 anlegen.
 
-create table `issuetracking_db`.GROUPS
+create table GROUPS
 (
 	GROUPID VARCHAR(50) not null primary key
 );
 
-create table `issuetracking_db`.USERS_GROUPS
+create table USERS_GROUPS
 (
 	GROUPID VARCHAR(20) not null,
 	USERID VARCHAR(255) not null
 );
 
-create table `issuetracking_db`.USERS
+create table USERS
 (
 	USERID VARCHAR(255) not null primary key,
 	PASSWORD VARCHAR(255) not null
@@ -60,6 +62,10 @@ user2: use
 Hinweis: aus bisher unerklärlichen Gründen wird der Hash bei den dem Passwort "user" falsch gebildet. Dieses funktioniert somit nicht.
 
 ### JDBC Connection Pool anlegen
+
+MySQL Treiber in lib verzeichnis der Domaine legen.
+ - normalerweise domain1 und im glassfish Installationsordner zu finden
+ - http://dev.mysql.com/downloads/connector/j/#downloads
 
 Admin Console -> Resources -> JDBC Connection Pools -> new
 
@@ -136,15 +142,15 @@ INSERT INTO tickets VALUES (118, -1, "test45", "description1", "2015-05-24", "us
 INSERT INTO tickets VALUES (119, -1, "test46", "description1", "2015-05-24", "user1", "user1", "feature", "open", "20h");
 INSERT INTO tickets VALUES (120, -1, "test47", "description1", "2015-05-24", "user1", "user1", "feature", "open", "3h");
 
-INSERT INTO components VALUES ("comp24", "componentNr24");
-INSERT INTO components VALUES ("comp26", "description of comp26");
-INSERT INTO components VALUES ("comp27", "description of comp27");
+INSERT INTO components VALUES (100, "comp24", "componentNr24");
+INSERT INTO components VALUES (101, "comp26", "description of comp26");
+INSERT INTO components VALUES (102, "comp27", "description of comp27");
 
-INSERT INTO tcrelation VALUES (101, "comp24");
-INSERT INTO tcrelation VALUES (102, "comp24");
-INSERT INTO tcrelation VALUES (103, "comp24");
-INSERT INTO tcrelation VALUES (101, "comp26");
-INSERT INTO tcrelation VALUES (104, "comp26");
+INSERT INTO tcrelation VALUES (101, 100);
+INSERT INTO tcrelation VALUES (102, 100);
+INSERT INTO tcrelation VALUES (103, 100);
+INSERT INTO tcrelation VALUES (101, 101);
+INSERT INTO tcrelation VALUES (104, 101);
 
 INSERT INTO comments VALUES (1, 101, "2014-01-01 01:00:00","user1", "Kommentartext1" );
 INSERT INTO comments VALUES (2, 101, "2014-01-01 02:00:00","user1", "Kommentartext2" );
