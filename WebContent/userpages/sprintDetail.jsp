@@ -46,17 +46,16 @@
     end date=${thissprint.getEndDateAsString()} <br>
     active =${thissprint.active ? 'yes' : 'no'}  <br>
 
+    <form action="user" method="post">
+        <input type="hidden" name="sprint_id" value="${thissprint.getSprintid()}" />
     ${thissprint.active?
-      '<form action="user" method="post">
-      <input type="hidden" name="sprint_id" value="'.concat(thissprint.getSprintid()).concat('" />    
-      <input type="hidden" name="action" value="endSprint" /> 
-      <input type="submit" value="stop this sprint">')
+      '<input type="hidden" name="action" value="endSprint" /> 
+      <input type="submit" value="stop this sprint">'
       :	
-      '<form action="user" method="post">
-      <input type="hidden" name="sprint_id" value="'.concat(thissprint.getSprintid()).concat('" />    
-      <input type="hidden" name="action" value="startSprint" /> 
-      <input type="submit" value="start this sprint">(stops ').concat(activesprint.title).concat(')</form>')
+      '<input type="hidden" name="action" value="startSprint" /> 
+      <input type="submit" value="start this sprint" />(stops '.concat(activesprint.title).concat(')')
     }
+    </form>
 
 
 
