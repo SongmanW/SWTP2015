@@ -10,7 +10,24 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <title>Ticket view</title>
-        <script src="${pageContext.request.contextPath}/script/ticketview.js"></script>
+        <script>
+        window.onload = function(){
+	//prepare "Type"-inputfield and display
+	if('${t1.type}' == "feature"){
+		setchecked('type_selection',"feature");
+	    document.getElementById('estimated_time_display_span').style.display = "inline";
+	    document.getElementById('estimated_time_change_span').style.display = "inline"}
+	else  {document.getElementById('estimated_time_display_span').style.display = "none";
+	document.getElementById('estimated_time_change_span').style.display = "none";}
+	if('${t1.type}' == "bug"){
+		setchecked('type_selection',"bug");;
+	}
+	//prepare "Responsible User"-inputfield
+	setchecked('responsible_user_selection',"${t1.responsible_user}");
+	//prepare "State"-inputfield
+	setchecked('state_selection',"${t1.status}");
+        };
+        </script>
         <script src="${pageContext.request.contextPath}/application.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/application.css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -117,15 +134,26 @@
         </select> ${errorMsgs.type}<br /> 
         State:
         <select name="status"  id="state_selection">
-            <option value="open">open</option>
-            <option value="closed">closed</option>
-            <option value="in_progress">in progress</option>
-            <option value="test">test</option>
+            <c:forTokens items = "open,closed,in_progress,test" delims="," var="statusName">
+                <c:choose>
+                    <c:when test="${statusName == t1.status}">
+                        <option value="${statusName}" selected>${statusName}</option>
+                    </c:when>
+                    <c:otherwise>
+                        <option value="${statusName}">${statusName}</option>
+                    </c:otherwise>
+                </c:choose>
+            </c:forTokens>
         </select>${errorMsgs.state}<br> 
         <span id="estimated_time_change_span" style="display: none;">
             Estimated time:<input name="estimated_time" value="${t1.estimated_time}" type="text" />hours  ${errorMsgs.estimated_time}</span><br /> 
         Components <a href="${pageContext.request.contextPath}/user/components.jsp">(addComponents)</a>:<br>
         <c:forEach items="${compids}" var="compid1">
+            <c:choose>
+                <c:when test="${t1.components.contains(compid1)}">
+                    <input type="checkbox" name="compid" value="${compid1.compid}" checked>${compid1.name}
+                </c:when>
+            </c:choose>
             <input type="checkbox" name="compid" value="${compid1.compid}">${compid1.name}
             <br>
         </c:forEach>
