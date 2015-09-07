@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -21,7 +20,7 @@ import javax.servlet.http.Part;
 /**
  * Servlet for uploading pictures
  */
-@WebServlet("/Uploader")
+@WebServlet("/uploader")
 @MultipartConfig
 public class Uploader extends HttpServlet {
 
@@ -59,8 +58,7 @@ public class Uploader extends HttpServlet {
             } else {
                 PictureFile p1 = new PictureFile(DBManager1.getNextPictureId(), Integer.parseInt(request.getParameter("ticket_id")), new Date(), request.getParameter("author"), fileType);
                 DBManager1.savePicture(p1);
-                preparePage("ticketview.jsp", request, response);
-                request.getRequestDispatcher("ticketview.jsp").forward(request, response);
+                request.getRequestDispatcher("/user/ticketview.jsp").forward(request, response);
                 try {
                     out = new FileOutputStream(new File(path + File.separator + fileName + "." + p1.getType()));
                     filecontent = filePart.getInputStream();
@@ -103,28 +101,6 @@ public class Uploader extends HttpServlet {
         doGet(request, response);
     }
 
-    public void preparePage(String pageName, HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
-
-        Ticket t2 = DBManager1.getTicketById(Integer.parseInt(request.getParameter("ticket_id")));
-        request.setAttribute("t1", t2);
-        request.setAttribute("users", DBManager1.getUsers());
-        Date dNow = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-        String date1 = ft.format(dNow);
-        request.setAttribute("date1", date1);
-        request.setAttribute("ticket_compids", DBManager1.getComponentsByTicket(
-                Integer.parseInt(request.getParameter("ticket_id"))));
-        request.setAttribute("compids", DBManager1.getComponents());
-        request.setAttribute("ticket_pictures", DBManager1.getPicturesByTicket(Integer.parseInt(request.getParameter("ticket_id"))));
-        request.setAttribute("ticket_comments", DBManager1.getTicketById(
-                Integer.parseInt(request.getParameter("ticket_id"))).getComments());
-        SimpleDateFormat ft2 = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
-        String date2 = ft2.format(dNow);
-        request.setAttribute("date2", date2);
-
-    }
-
     private String getFileType(final Part part) {
         String s = null;
         String type = null;
@@ -134,6 +110,7 @@ public class Uploader extends HttpServlet {
                 type = s.substring(s.lastIndexOf('.') + 1);
             }
         }
+        type = type.toLowerCase();
         switch (type) {
             case "jpg":
             case "jpeg":
@@ -144,9 +121,4 @@ public class Uploader extends HttpServlet {
         }
         return null;
     }
-
-    ;
-
-	
-
 }

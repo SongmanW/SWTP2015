@@ -54,14 +54,14 @@
 
     <h1>Pictures:</h1><br>
     <c:forEach items = "${ticket_pictures}" var="pic">
-        <img alt="uploaded ${pic.uploadDateAsString} by ${pic.uploader}" src="image?file=${pic.pictureId}"><br>
+        <img alt="uploaded ${pic.uploadDateAsString} by ${pic.uploader}" src="${pageContext.request.contextPath}/image?file=${pic.pictureId}"><br>
         uploaded ${pic.uploadDateAsString} by ${pic.uploader}<br>
     </c:forEach>
 
     Attach picture: <br>
-    <form method="POST" action="Uploader" enctype="multipart/form-data" >
+    <form method="POST" action="${pageContext.request.contextPath}/uploader" enctype="multipart/form-data" >
         <input type="hidden" name = "ticket_id" value = "${t1.id}" /> 
-        <input type="hidden" name="author" value="${sessionScope.user}" /> 
+        <input type="hidden" name="author" value="${pageContext.request.userPrincipal.name}" /> 
         <input type="file" name="file" id="file" /> <br/>
         <input type="submit" value="Upload" name="upload" id="upload" />
     </form>
