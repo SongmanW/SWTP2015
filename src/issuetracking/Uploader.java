@@ -41,7 +41,7 @@ public class Uploader extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final String path = DBManager.getFilesPath();
+        final String path = DBManager1.getFilesPath();
         final Part filePart = request.getPart("file");
         final String fileType = getFileType(filePart);
         final String fileName = DBManager1.getNextPictureId() + "";

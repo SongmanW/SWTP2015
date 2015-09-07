@@ -36,7 +36,8 @@ CREATE TABLE components(compid INT NOT NULL AUTO_INCREMENT,name VARCHAR(35), des
 CREATE TABLE tcrelation(tid INT, compid INT, FOREIGN KEY (tid) REFERENCES tickets(id), FOREIGN KEY (compid) REFERENCES components(compid)) engine=innodb;
 CREATE TABLE comments(cid INT NOT NULL AUTO_INCREMENT, tid INT, creation_date DATETIME, author VARCHAR(35), message VARCHAR(1000), PRIMARY KEY (cid));
 CREATE TABLE sprints(sprintid INT NOT NULL AUTO_INCREMENT, title VARCHAR(35), start_date DATE, end_date DATE, active BOOL, PRIMARY KEY (sprintid)) engine=innodb;
-CREATE TABLE pictures(pictureid INT, ticketid INT, upload_date DATE, uploader VARCHAR(35), type VARCHAR(5));
+CREATE TABLE pictures(pictureid INT, ticketid INT, upload_date DATETIME, uploader VARCHAR(35), type VARCHAR(5));
+CREATE TABLE settings(setting VARCHAR(35) UNIQUE, value VARCHAR(100));
 
 GRANT ALL PRIVILEGES ON issuetracking_db.* TO 'glassfishadmin'@'%' IDENTIFIED BY 'chucknorris42';
 
