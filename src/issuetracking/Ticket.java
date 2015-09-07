@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -27,6 +29,7 @@ public class Ticket implements Serializable {
     public static final String FEATURE = "feature";
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sprintid")
@@ -40,7 +43,7 @@ public class Ticket implements Serializable {
     protected String type;
     protected String status;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tcrelation",
             joinColumns = {
                 @JoinColumn(name = "tid")},
