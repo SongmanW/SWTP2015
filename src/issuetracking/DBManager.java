@@ -796,7 +796,7 @@ public class DBManager {
             Statement myStmt = myConn.createStatement();
             // 3. execute sql query
             ResultSet result = myStmt
-                    .executeQuery("select COUNT(*) from users");
+                    .executeQuery("select COUNT(*) from USERS");
             // 4. Process results
             result.next();
             count = result.getInt(1);
