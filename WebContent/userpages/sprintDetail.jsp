@@ -59,6 +59,7 @@
 
 
 
+    <form action="user" method="post"> 
     <h1>Open Tickets</h1>
     <table>
         <col width="30">
@@ -192,7 +193,6 @@
 
     <h1>Change the sprint</h1>
 
-    <form action="user" method="post"> 
         <input type="hidden" name="action" value="changeSprint" /> 
         <input type="hidden" name="sprintid" value="${thissprint.sprintid}" />
         Title:<input name="title" type="text" value="${thissprint.title}"/><br />
