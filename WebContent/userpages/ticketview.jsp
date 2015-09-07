@@ -12,6 +12,7 @@
         <title>Ticket view</title>
         <script src="${pageContext.request.contextPath}/script/ticketview.js"></script>
         <script src="${pageContext.request.contextPath}/application.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/application.css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -67,10 +68,21 @@
     </form>
 
     <h1>Comments:</h1>
+    <table>
+        <tr>
+            <th>Autor</th><th>Geschrieben am</th><th>Nachricht</th><th>aktionen</th>
+        </tr>
     <c:forEach items="${t1.comments}" var="comment1">
-        comment from:${comment1.author}  &nbsp;&nbsp;&nbsp; posted at:${comment1.dateAsString} &nbsp;&nbsp;&nbsp;${comment1.author == sessionScope.user ? '<a href="commentview.jsp?comment_id='.concat(comment1.cid).concat('"> bearbeiten </a>') : ''}<br>
-        ${comment1.message} <br> <br>
+        <tr>
+            <td>${comment1.author}</td>
+            <td>${comment1.dateAsString}</td>
+            <td>${comment1.message}</td>
+            <td>
+                <c:if test="${comment1.author == pageContext.request.userPrincipal.name}"><a href="${pageContext.request.contextPath}/user/commentview.jsp?comment_id=${comment1.cid}"> bearbeiten </a></c:if>
+            </td>
+        </tr>
     </c:forEach>
+    </table>
 
     <h1>New Comment</h1>
     <form action="user" method="post">

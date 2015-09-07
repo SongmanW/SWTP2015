@@ -30,7 +30,7 @@
     </nav>
     <h1>The comment:</h1>
     CommentID=${c1.cid}<br>
-    Ticket= ${c1.tid}<br>
+    Ticket= ${c1.ticket.title}<br>
     Author=${c1.author} <br>
     Creation date=${c1.creation_date} <br>
     Message=${c1.message} <br>
@@ -45,7 +45,7 @@
 
     <form action="user" method="post">
         <input type="hidden" name="cid" value="${c1.cid}" />  
-        <input type="hidden" name="ticket_id" value="${c1.tid}" />  
+        <input type="hidden" name="ticket_id" value="${c1.ticket.id}" />  
         <input type="hidden" name="action" value="deleteComment" /> 
         <input type="submit" value="delete the comment">
     </form>
