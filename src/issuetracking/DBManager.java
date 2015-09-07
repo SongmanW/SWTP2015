@@ -572,7 +572,6 @@ public class DBManager {
      */
     public Sprint getSprintById(int sprintid) {
         Sprint toReturn = em.find(Sprint.class, sprintid);
-        em.refresh(toReturn);
         return toReturn;
     }
 
