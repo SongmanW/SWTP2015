@@ -98,7 +98,7 @@ public class Controller extends HttpServlet {
             request.setAttribute("users", DBManager1.getUsers());
             request.setAttribute("tickets_open", DBManager1.getTicketsByState("open", -2));//,Integer.parseInt(request.getParameter("sprintid"))));
             request.setAttribute("tickets_closed", DBManager1.getTicketsByState("closed", -2));//,Integer.parseInt(request.getParameter("sprintid"))));
-            request.setAttribute("tickets_inprogress", DBManager1.getTicketsByState("in progress", -2));//,Integer.parseInt(request.getParameter("sprintid"))));
+            request.setAttribute("tickets_inprogress", DBManager1.getTicketsByState("in_progress", -2));//,Integer.parseInt(request.getParameter("sprintid"))));
             request.setAttribute("tickets_test", DBManager1.getTicketsByState("test", -2));//,Integer.parseInt(request.getParameter("sprintid"))));
             request.setAttribute("thissprintsid", "-2");
 

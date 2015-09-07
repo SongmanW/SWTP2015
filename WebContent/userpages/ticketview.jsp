@@ -107,7 +107,7 @@
         <select name="status"  id="state_selection">
             <option value="open">open</option>
             <option value="closed">closed</option>
-            <option value="in progress">in progress</option>
+            <option value="in_progress">in progress</option>
             <option value="test">test</option>
         </select>${errorMsgs.state}<br> 
         <span id="estimated_time_change_span" style="display: none;">
