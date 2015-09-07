@@ -151,4 +151,26 @@ public class Sprint implements Serializable {
     public String toString() {
         return ("" + this.sprintid + ", " + this.title + ", " + this.start_date.toString() + ", " + this.end_date.toString() + ", " + this.active);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + this.sprintid;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Sprint other = (Sprint) obj;
+        if (this.sprintid != other.sprintid) {
+            return false;
+        }
+        return true;
+    }
 }

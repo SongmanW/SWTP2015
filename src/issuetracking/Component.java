@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -16,6 +19,7 @@ import javax.persistence.Table;
 public class Component {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer compid;
     protected String name;
     protected String description;
@@ -88,5 +92,27 @@ public class Component {
 
     List<Ticket> getTickets() {
         return tickets;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.compid);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Component other = (Component) obj;
+        if (!Objects.equals(this.compid, other.compid)) {
+            return false;
+        }
+        return true;
     }
 }

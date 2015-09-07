@@ -227,4 +227,26 @@ public class Ticket implements Serializable {
         return components;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ticket other = (Ticket) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,6 +20,7 @@ import javax.persistence.Temporal;
 public class Comment implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int cid;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tid")
@@ -99,6 +102,28 @@ public class Comment implements Serializable {
 
     public String toString() {
         return ("" + this.cid + ", " + this.ticket + ", " + this.creation_date.toString() + ", " + this.author + ", " + this.message);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + this.cid;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Comment other = (Comment) obj;
+        if (this.cid != other.cid) {
+            return false;
+        }
+        return true;
     }
 
 }
