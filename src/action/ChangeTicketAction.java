@@ -6,8 +6,10 @@ import issuetracking.Ticket;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,12 +44,15 @@ public class ChangeTicketAction implements Action {
             t1.setCreation_date(date);
             t1.setEstimated_time(request.getParameter("estimated_time"));
             String[] compids = request.getParameterValues("compid");
+            List<Component> selectedComponents = new ArrayList<>();
             if (compids != null) {
                 for (String sCompid : compids) {
                     Integer iCompid = Integer.parseInt(sCompid);
                     Component comp1 = DBManager1.getComponentById(iCompid);
-                    t1.addComponent(comp1);
+                    selectedComponents.add(comp1);
                 }
+                t1.getComponents().clear();
+                t1.getComponents().addAll(selectedComponents);
             }
 
             errorMsgs = t1.validate(DBManager1);
