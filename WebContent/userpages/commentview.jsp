@@ -45,6 +45,7 @@
 
     <form action="user" method="post">
         <input type="hidden" name="cid" value="${c1.cid}" />  
+        <input type="hidden" name="ticket_id" value="${c1.ticket.id}" />
         <input type="hidden" name="action" value="deleteComment" /> 
         <input type="submit" value="delete the comment">
     </form>
