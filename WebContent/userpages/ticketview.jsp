@@ -153,8 +153,10 @@
                 <c:when test="${t1.components.contains(compid1)}">
                     <input type="checkbox" name="compid" value="${compid1.compid}" checked>${compid1.name}
                 </c:when>
+                <c:otherwise>
+                    <input type="checkbox" name="compid" value="${compid1.compid}">${compid1.name}
+                </c:otherwise>
             </c:choose>
-            <input type="checkbox" name="compid" value="${compid1.compid}">${compid1.name}
             <br>
         </c:forEach>
         <input type="submit" value="change the ticket">
