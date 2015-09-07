@@ -1,5 +1,6 @@
 package issuetracking;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -43,10 +44,42 @@ public class DBManager {
     /**
      * @return the folder that contains the uploaded files
      */
-    public static String getFilesPath() {
-        String path = "C:\\Users\\Simon\\Desktop\\test";
-        //TODO
-        return path;
+    public String getFilesPath() {
+        String path = null;
+		try {
+			// Holen
+			// 1. get conn
+			Connection myConn = getConnection();
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. execute sql query
+			ResultSet myRs = myStmt
+					.executeQuery("select * from settings where setting = 'filespath';");
+			// 4. Process results
+			while (myRs.next()) {
+				path = myRs.getString("value").trim();
+			}
+			try {
+				if (myStmt != null)
+					myStmt.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+			try {
+				if (myConn != null)
+					myConn.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+		} catch (Exception e) {
+		}
+		if(path != null){
+			if(path.charAt(path.length() - 1) == '/'){
+				path = path.substring(0, path.length() - 1);
+			}
+			path = path.replace('/', File.separatorChar);
+		}
+		return path;
     }
 
     /**
@@ -54,9 +87,39 @@ public class DBManager {
      *
      * @param path the path to the folder
      */
-    public static void setFilesPath(String path) {
-        //TODO
+    public void setFilesPath(String path) {
+        String s = path.replace('\\', '/');
+		try {
+			// Einfuegen
+			// 1. get conn
+			Connection myConn = getConnection();
+			// 2. create statement
+			Statement myStmt = myConn.createStatement();
+			// 3. Execute SQL query
+			String sql = "delete from settings"
+					+ " where setting = 'filespath';";
+			myStmt.executeUpdate(sql);
+			sql = "insert into settings"
+					+ " (setting ,value)"
+					+ " values( 'filespath', '" + s + "');";
+			myStmt.executeUpdate(sql);
+			try {
+				if (myStmt != null)
+					myStmt.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+			try {
+				if (myConn != null)
+					myConn.close();
+			} catch (Exception ex) {/* nothing to do */
+			}
+			;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
+    
     @Resource(mappedName = "jdbc/issuetracking/Datasource")
     private DataSource ds;
     @PersistenceContext(unitName = "SWTP2015PU")
@@ -1005,7 +1068,7 @@ public class DBManager {
                     + p.getPictureId() + "' ;";
 
             myStmt.executeUpdate(sql);
-            p.delete();
+            p.delete(this);
             try {
                 if (myStmt != null) {
                     myStmt.close();
@@ -1042,7 +1105,7 @@ public class DBManager {
             while (pics.size() > 0) {
                 p = pics.get(0);
                 pics.remove(0);
-                p.delete();
+                p.delete(this);
             }
             try {
                 if (myStmt != null) {

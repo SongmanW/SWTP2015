@@ -64,7 +64,7 @@ public class Controller extends HttpServlet {
                     requestedPage = result;
                 }
             } else {
-                requestedPage = "help.jsp";
+                requestedPage = "/user/index.jsp";
             }
         }
         requestedPage = requestedPage.replaceFirst(request.getServletPath() + "/", USER_JSP_PATH + "/");

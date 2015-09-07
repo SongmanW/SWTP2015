@@ -12,7 +12,7 @@ public class ChangeFilespathAction implements Action {
         DBManager DBManager1 = (DBManager) request.getAttribute("dao");
         String path = request.getParameter("path");
 		DBManager1.setFilesPath(path);
-		return "login.jsp";
+		return "/user/index.jsp";
     }
 
 }

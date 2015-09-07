@@ -58,7 +58,7 @@ public class UserActionFactory implements ActionFactory {
             case "endSprint":
                 return new EndSprintAction();
             default:
-                throw new IllegalArgumentException("Invalid Action: " + actionName);
+                return null;
         }
     }
 

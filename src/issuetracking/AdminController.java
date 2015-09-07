@@ -38,7 +38,13 @@ public class AdminController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String requestedPage = ADMIN_JSP_PATH.concat(request.getPathInfo()).replaceAll(request.getQueryString(), "");
+        String requestedPage = "/admin/users.jsp";
+        if (request.getPathInfo() != null) {
+            requestedPage = ADMIN_JSP_PATH.concat(request.getPathInfo());
+        }
+        if (request.getQueryString() != null) {
+            requestedPage = requestedPage.replaceAll(request.getQueryString(), "");
+        }
         String action = request.getParameter("action");
         if (action != null) {
             Action aktion = actionFactory.getActionByName(action);
@@ -53,6 +59,7 @@ public class AdminController extends HttpServlet {
                 requestedPage = "help.jsp";
             }
         }
+        requestedPage = requestedPage.replaceFirst(request.getServletPath() + "/", ADMIN_JSP_PATH + "/");
         preparePage(requestedPage, request, response);
         request.getRequestDispatcher(requestedPage).forward(request, response);
     }
