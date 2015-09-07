@@ -571,7 +571,9 @@ public class DBManager {
      * @return
      */
     public Sprint getSprintById(int sprintid) {
-        return em.find(Sprint.class, sprintid);
+        Sprint toReturn = em.find(Sprint.class, sprintid);
+        em.refresh(toReturn);
+        return toReturn;
     }
 
     /**
@@ -581,6 +583,8 @@ public class DBManager {
      */
     public void saveSprint(Sprint sprint1) {
         em.persist(sprint1);
+        em.flush();
+        em.refresh(sprint1);
     }
 
     /**

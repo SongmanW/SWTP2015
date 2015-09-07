@@ -7,8 +7,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -20,6 +23,7 @@ import javax.persistence.Temporal;
 public class Sprint implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int sprintid;
     String title;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -28,7 +32,7 @@ public class Sprint implements Serializable {
     protected Date end_date;
     boolean active;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "sprintid")
     List<Ticket> tickets;
 
